@@ -7,13 +7,13 @@ void	token_parse_exec(char *input)
 	tokens = tokenize_input(input);
 	if (parse_input(tokens))
 		return (free_token_list(&tokens));
-	while (tokens)
-	{
-		printf("Token --> : `%s'\n", tokens->value);
-		tokens = tokens->next;
-	}
+	// while (tokens)
+	// {
+	// 	printf("Token --> : `%s'\n", tokens->value);
+	// 	tokens = tokens->next;
+	// }
 	// Abstract_segment_tree(tokens);
-	// execute_input(tokens);
+	execute_input(tokens);
 	//free_token_list(&tokens);
 }
 void	read_eval_print_loop(void)

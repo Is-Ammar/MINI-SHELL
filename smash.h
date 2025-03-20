@@ -2,6 +2,7 @@
 #ifndef SMASH_H
 # define SMASH_H
 
+#include "execution/execution.h"
 # include <stdio.h> 
 # include <stdlib.h>
 # include <unistd.h>
