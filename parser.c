@@ -86,6 +86,8 @@ int	check_brackets(t_dll *tokens)
 	count = 0;
 	while (curr)
 	{
+		if (count < 0)
+			break ;
 		if (curr->value[0] == '(')
 			count++;
 		else if (curr->value[0] == ')')
