@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/21 21:52:25 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/21 23:17:48 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_dll t_dll;
 //------------------------------Execution--------------------//
 int	    is_builtin( char *cmd);
 void 	execute_builtin(t_dll *tokens, t_env **env);
-void	execute_input(t_dll *tokens, char **environ);
+void	execute_input(t_dll *tokens, t_env **environ);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/21 21:54:11 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/21 23:21:50 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,24 @@ void execute_builtin(t_dll *tokens, t_env **env)
     //  execute_builtin_exit(tokens->value);
 }
 
-void execute_input(t_dll *tokens, char **environ)
+void execute_input(t_dll *tokens, t_env **env)
 {
-	t_env *env = NULL;
-
     if (!tokens)
         return;
     
     if (!tokens->value)
         return;
-    create_env(&env , environ);
-    // while(env)
+    
+    // t_env *tmp = *env;
+    // while(tmp)
     // {
-    //     printf("----name:%s\n",env->env_name);
-    //     printf("----value:%s\n\n\n",env->env_value);
-    //     env = env->next;
+    //     printf("----name:%s\n",tmp->env_name);
+    //     printf("----value:%s\n\n\n",tmp->env_value);
+    //     tmp = tmp->next;
     // }
+    // printf("-------------------------------------------------------------------------------------------------------------------\n\n\n\n\n\n\n\n\n\n\n\n\n");
     if (is_builtin(tokens->value))
-        execute_builtin(tokens, &env);
+        execute_builtin(tokens, env);
     // else
     //  execute_external_command(tokens, env);
 }

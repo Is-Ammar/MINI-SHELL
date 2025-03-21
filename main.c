@@ -1,6 +1,6 @@
 #include "smash.h" 
 
-void	token_parse_exec(char *input,char **env)
+void	token_parse_exec(char *input,t_env **env)
 {
 	t_dll	*tokens;
 
@@ -16,7 +16,7 @@ void	token_parse_exec(char *input,char **env)
 	execute_input(tokens, env);
 	//free_token_list(&tokens);
 }
-void	read_eval_print_loop(char **env)
+void	read_eval_print_loop(t_env **env)
 {
 	char	*input;
 	
@@ -31,7 +31,7 @@ void	read_eval_print_loop(char **env)
 			return ;
 		}
 		add_history(input);
-		token_parse_exec(input,env);
+		token_parse_exec(input, env);
 		free(input);
 	}
 }
@@ -39,8 +39,12 @@ void	read_eval_print_loop(char **env)
 int	main(int ac, char **av, char **env)
 {
 	(void)av;
+	t_env *env_var;
+
 	if (ac != 1)
 		return (1);
-	read_eval_print_loop(env);
+	env_var =  NULL;
+	create_env(&env_var , env);
+	read_eval_print_loop(&env_var);
 	return (0);
 }
