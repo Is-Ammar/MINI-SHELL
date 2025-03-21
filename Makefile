@@ -3,7 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 SRC = 	main.c basic_operations.c navigation_access.c token_helpers.c tokenizer.c \
-		parser.c error_handler.c execution/execution.c execution/utils.c execution/builtin/builtin.c execution/builtin/env_variable_settings.c
+		parser.c error_handler.c execution/execution.c execution/utils.c execution/builtin/builtin.c execution/builtin/env_variable_settings.c \
+		execution/builtin/create_env.c execution/builtin/pwd.c
 
 OBJ = ${SRC:%.c=%.o}
 
