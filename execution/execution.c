@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/21 23:21:50 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:07:02 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void execute_builtin(t_dll *tokens, t_env **env)
     //  execute_builtin_export(tokens->value);
     // else if (ft_strcmp(tokens->value, "unset") == 0)
     //  execute_builtin_unset(tokens->value);
-    // else if (ft_strcmp(tokens->value, "env") == 0)
-    //  execute_builtin_env(tokens->value);
+    else if (ft_strcmp(tokens->value, "env") == 0)
+     execute_builtin_env(tokens,*env);
     // else if (ft_strcmp(tokens->value, "exit") == 0)
     //  execute_builtin_exit(tokens->value);
 }

@@ -1,23 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_env.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
+/*   Updated: 2025/03/22 22:05:36 by iammar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../execution.h"
 
-size_t	ft_strlcpy(char *dst, char *src, size_t len)
-{
-	size_t	i;
-	size_t	src_len;
-
-	src_len = ft_strlen(src);
-	if (len == 0)
-		return (src_len);
-	i = 0;
-	while (src[i] && i < len - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (src_len);
-}
 void create_env(t_env **env, char **environ)
 {
     int i;

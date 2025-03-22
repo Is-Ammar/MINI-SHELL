@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/21 23:17:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:08:28 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ void	execute_input(t_dll *tokens, t_env **environ);
 
 void 	execute_builtin_cd(t_dll *tokens, t_env **env);
 void	execute_builtin_pwd(t_env *env);
+void	execute_builtin_env(t_dll *tokens, t_env *env);
 
 //-----------------------Utils-------------------------------//
 int	    ft_strcmp(char *s1, char *s2);
 void	ft_putstr_fd(char const *s, int fd);
 char	*ft_strdup(const char *str);
+size_t	ft_strlcpy(char *dst, char *src, size_t len);
 
 
 //---------------------Env-settings-------------------------//

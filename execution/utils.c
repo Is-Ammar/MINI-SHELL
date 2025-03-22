@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/21 23:00:18 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:05:42 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,31 @@ char	*ft_strdup(const char *str)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+void	ft_putstr_fd(char const *s, int fd)
+{
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
+}
+
+size_t	ft_strlcpy(char *dst, char *src, size_t len)
+{
+	size_t	i;
+	size_t	src_len;
+
+	src_len = ft_strlen(src);
+	if (len == 0)
+		return (src_len);
+	i = 0;
+	while (src[i] && i < len - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (src_len);
 }
