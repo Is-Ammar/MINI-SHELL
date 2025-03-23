@@ -1,4 +1,4 @@
-#include "smash.h" 
+#include "parsing/smash.h" 
 
 void	token_parse_exec(char *input,t_env **env)
 {

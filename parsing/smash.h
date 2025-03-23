@@ -7,7 +7,7 @@
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "execution/execution.h"
+# include "../execution/execution.h"
 
 #define RESET   "\033[0m"       // Reset all attributes
 #define RED     "\033[31m"      // Red text

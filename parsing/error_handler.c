@@ -1,4 +1,4 @@
-#include "smash.h"
+# include "smash.h"
 
 void	Error(char *val, t_error_type error)
 {

@@ -54,3 +54,4 @@ dkms.conf
 env.c
 pwd.c
 ll
+.vscode
