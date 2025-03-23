@@ -2,17 +2,19 @@
 #ifndef SMASH_H
 # define SMASH_H
 
-#include "execution/execution.h"
 # include <stdio.h> 
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include "execution/execution.h"
 
 #define RESET   "\033[0m"       // Reset all attributes
 #define RED     "\033[31m"      // Red text
 
 # define METACHARS	"( )\t<|&>'\"$"
+# define LEFT	1
+# define RIGHT	2
 
 typedef	enum e_error_type
 {
@@ -47,7 +49,7 @@ typedef struct s_dll
     t_token_type 	token_type;
 	t_quote_type	quote_type;
 	int				expandable;
-	int				herdoc_delim;
+	int				direction;
 	//Token parsing & execution
 	int			precedence;
 	int			exec_order;

@@ -11,7 +11,7 @@ t_dll	*create_token_list(void)
 	head->token_type = WHITESPACE;
 	head->quote_type = NONE;
 	head->expandable = 0;
-	head->herdoc_delim = 0;
+	head->direction = 0;
 	head->precedence = 0;
 	head->exec_order = 0;
 	head->prev = NULL;
