@@ -24,9 +24,8 @@ void	read_eval_print_loop(t_env **env)
 	while (1337)
 	{
 		input = readline(RED "minishell:~$ " RESET);
-		if (!input || !ft_strncmp(input, "exit", 4))
+		if (!input)
 		{
-			printf("exit\n");
 			free(input);
 			return ;
 		}
