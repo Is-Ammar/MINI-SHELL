@@ -6,11 +6,11 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/23 18:03:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:41:02 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "smash.h"
+#include "parsing.h"
 
 void	check_for_merge(t_dll *tokens)
 {

@@ -6,11 +6,11 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/23 18:03:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:40:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "smash.h"
+# include "parsing.h"
 
 void	Error(char *val, t_error_type error)
 {
