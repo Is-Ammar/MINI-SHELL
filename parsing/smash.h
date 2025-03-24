@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   smash.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
+/*   Updated: 2025/03/24 21:35:32 by habdella         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef SMASH_H
 # define SMASH_H
@@ -86,6 +97,8 @@ int		parse_input(t_dll *tokens);
 void	check_for_merge(t_dll *tokens);
 int		check_quotes(t_dll *tokens);
 void	merge_quotes(t_dll *tokens);
+void	remove_spaces(t_dll *tokens);
+int		check_logic(t_dll *tokens);
 // ------------------------------------------------------------------ //
 
 #endif
