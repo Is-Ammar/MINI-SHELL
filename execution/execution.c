@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/24 20:22:31 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/25 02:54:25 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,15 @@ void	execute_builtin(t_dll *tokens, t_env **env)
 {
 	if (!tokens || !tokens->value)
 		return ;
+	// added a function to remove quotes and expand env variables
+	remove_quotes_expand(tokens);
+	//--------------------------------------------------------
 	if (ft_strcmp(tokens->value, "cd") == 0)
 		execute_builtin_cd(tokens, env);
 	else if (ft_strcmp(tokens->value, "pwd") == 0)
 		execute_builtin_pwd(*env);
-	// else if (ft_strcmp(tokens->value, "echo") == 0)
-	//  execute_builtin_echo(tokens->value);
+	else if (ft_strcmp(tokens->value, "echo") == 0)
+		execute_builtin_echo(tokens);
 	// else if (ft_strcmp(tokens->value, "export") == 0)
 	//  execute_builtin_export(tokens->value);
 	// else if (ft_strcmp(tokens->value, "unset") == 0)

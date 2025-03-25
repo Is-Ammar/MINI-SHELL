@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handler.c                                    :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/24 23:28:25 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/25 02:57:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "parsing.h"
+#include "../execution.h"
 
-void	Error(char *val, t_error_type error)
+void	execute_builtin_echo(t_dll *tokens)
 {
-    if (error == EQUOTES)
-        printf("minishell: unexpected EOF while looking for matching `%c'\n", *val);
-    else if (error == EBRACKET)
-        printf("minishell: unexpected EOF while looking for matching `)'\n");
-    else if (error == ESYNTAX)
-        printf("minishell: syntax error near unexpected token `%s'\n", val);
+	t_dll   *curr;
+	int		flag;
+
+	if (!tokens->next || (tokens->next && tokens->next->token_type != WORD))
+	{
+		printf("\n");
+		return ;
+	}
+	flag = 0;
+	curr = tokens->next;
+	if (!ft_strcmp(curr->value, "-n"))
+	{
+		flag = 1;
+		curr = curr->next;
+	}
+	while (curr && curr->token_type == WORD)
+	{
+		printf("%s", curr->value);
+		curr = curr->next;
+		if (curr && curr->token_type == WORD)
+			printf(" ");
+	}
+	if (!flag)
+		printf("\n");
 }

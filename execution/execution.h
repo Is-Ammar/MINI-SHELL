@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/24 21:39:24 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/25 02:47:46 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void					execute_builtin_cd(t_dll *tokens, t_env **env);
 void					execute_builtin_pwd(t_env *env);
 void					execute_builtin_env(t_dll *tokens, t_env *env);
 void 					execute_builtin_exit(t_dll *tokens);
+void					execute_builtin_echo(t_dll *tokens);
 
 //-----------------------Utils-------------------------------//
 int						ft_strcmp(char *s1, char *s2);

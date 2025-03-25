@@ -6,24 +6,19 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/24 21:40:55 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/25 01:02:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_dll	*get_next_token(t_dll *current_token)
+t_quote_type	get_quote_type(char *val)
 {
-	if (!current_token || !current_token->next)
-		return (NULL);
-	return (current_token->next);
-}
-
-t_dll	*get_previous_token(t_dll *current_token)
-{
-	if (!current_token || !current_token->prev)
-		return (NULL);
-	return (current_token->prev);
+	if (val[0] == '\'')
+		return (SQUOTE);
+	if (val[0] == '"')
+		return (DQUOTE);
+	return (NONE);
 }
 
 char	*ft_merge(char *first_val, char *second_val)

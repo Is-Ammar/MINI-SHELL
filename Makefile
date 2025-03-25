@@ -5,7 +5,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 # -------------------------------- habdella -------------------------------- #
 
 PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/token_helpers.c \
-			parsing/tokenizer.c parsing/parser.c parsing/error_handler.c 
+			parsing/tokenizer.c parsing/parse_checkers.c parsing/parse_modifiers.c \
+			parsing/error_handler.c 
 
 # -------------------------------------------------------------------------- #
 
@@ -13,7 +14,8 @@ PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/token
 
 EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/builtin/env_variable_settings.c execution/builtin/create_env.c \
-			execution/builtin/pwd.c execution/builtin/env.c execution/builtin/exit.c
+			execution/builtin/pwd.c execution/builtin/env.c execution/builtin/exit.c \
+			execution/builtin/echo.c
 
 # -------------------------------------------------------------------------- #
 PARS_OBJ = ${PARS_SRC:%.c=%.o}
