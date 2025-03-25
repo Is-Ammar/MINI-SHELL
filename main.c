@@ -6,7 +6,7 @@ void	token_parse_exec(char *input, t_env **env)
 
 	tokens = tokenize_input(input);
 	if (parse_input(tokens))
-		return (free_token_list(&tokens));
+		return ; //free_token_list(&tokens)
 	// while (tokens)
 	// {
 	// 	printf("Token --> : `%s'\n", tokens->value);

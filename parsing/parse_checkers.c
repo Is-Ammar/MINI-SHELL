@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_checkers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/25 20:24:49 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/25 21:17:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	parse_input(t_dll *tokens)
 	if (check_brackets(tokens))
 		return (1);
 	remove_spaces(tokens);
-	if (!find_token(tokens, SYMBOL))
+	if (find_token(tokens, SYMBOL) == NULL)
 	{
 		if (check_logic(tokens))
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/25 01:02:13 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:16:25 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,16 @@ void	merge_tokens(t_dll *first_token, t_dll *second_token)
 
 t_dll	*find_token(t_dll *head, t_token_type token_type)
 {
+	t_dll	*curr;
+
 	if (!head)
 		return (NULL);
-	while (head)
+	curr = head;
+	while (curr)
 	{
-		if (head->token_type == token_type)
-			return (head);
-		head = head->next;
+		if (curr->token_type == token_type)
+			return (curr);
+		curr = curr->next;
 	}
 	return (NULL);
 }
