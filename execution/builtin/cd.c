@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/23 19:59:47 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/25 20:09:10 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,24 @@ char	*get_directory(t_env **env, char *dir_type, char *cwd)
 	{
 		dir = get_env_var(*env, "HOME");
 		if (!dir)
+		{
 			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
-		return (dir);
+			return (NULL);
+		}
+		return (ft_strdup(dir));
 	}
 	else if (ft_strcmp(dir_type, "OLDPWD") == 0)
 	{
 		dir = get_env_var(*env, "OLDPWD");
 		if (!dir)
-			return (cwd);
+		{
+			if (!cwd)
+				return (NULL);
+			return (ft_strdup(cwd));
+		}
 		ft_putstr_fd(dir, 1);
 		ft_putstr_fd("\n", 1);
-		return (dir);
+		return (ft_strdup(dir));
 	}
 	return (NULL);
 }
@@ -45,13 +52,18 @@ char	*resolve_directory(t_dll *arg_token, t_env **env, char *cwd)
 	{
 		if (!get_env_var(*env, "OLDPWD"))
 		{
-			ft_putstr_fd(cwd, 1);
-			ft_putstr_fd("\n", 1);
-			return (cwd);
+			if (cwd)
+			{
+				ft_putstr_fd(cwd, 1);
+				ft_putstr_fd("\n", 1);
+				return (ft_strdup(cwd));
+			}
+			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
+			return (NULL);
 		}
 		return (get_directory(env, "OLDPWD", cwd));
 	}
-	return (arg_token->value);
+	return (ft_strdup(arg_token->value));
 }
 
 int	parse_cd_args(t_dll *arg_token, t_env **env, char **dir, char **cwd)
@@ -62,51 +74,58 @@ int	parse_cd_args(t_dll *arg_token, t_env **env, char **dir, char **cwd)
 	if (arg_token && arg_token->next && arg_token->next->token_type == WORD)
 	{
 		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+		free(*dir);
+		*dir = NULL;
 		return (1);
 	}
 	return (0);
 }
 
-void	update_pwd_vars(t_env **env, char **cwd)
+void	update_pwd_vars(t_env **env, char *cwd)
 {
 	char	*new_cwd;
 
-	set_env_var(env, "OLDPWD", *cwd);
-	free(*cwd);
+	if (cwd)
+		set_env_var(env, "OLDPWD", cwd);
+	
 	new_cwd = getcwd(NULL, 0);
 	if (!new_cwd)
 	{
 		perror("Minishell: cd: ");
-		return ;
+		return;
 	}
 	set_env_var(env, "PWD", new_cwd);
 	free(new_cwd);
-	*cwd = NULL;
 }
+
 void	execute_builtin_cd(t_dll *tokens, t_env **env)
 {
 	char	*dir;
 	t_dll	*arg_token;
 	char	*cwd;
 
+	dir = NULL;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
 		perror("cd: ");
-		return ;
+		return;
 	}
 	arg_token = tokens->next;
 	if (parse_cd_args(arg_token, env, &dir, &cwd))
 	{
 		free(cwd);
-		return ;
+		return;
 	}
 	if (chdir(dir) != 0)
 	{
 		ft_putstr_fd("Minishell: cd: ", 2);
 		perror(dir);
+		free(dir);
 		free(cwd);
-		return ;
+		return;
 	}
-	update_pwd_vars(env, &cwd);
+	update_pwd_vars(env, cwd);
+	free(cwd);
+	free(dir);
 }
