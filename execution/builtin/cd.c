@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/25 20:09:10 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/25 20:54:59 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	update_pwd_vars(t_env **env, char *cwd)
 
 	if (cwd)
 		set_env_var(env, "OLDPWD", cwd);
-	
 	new_cwd = getcwd(NULL, 0);
 	if (!new_cwd)
 	{
@@ -95,7 +94,6 @@ void	update_pwd_vars(t_env **env, char *cwd)
 		return;
 	}
 	set_env_var(env, "PWD", new_cwd);
-	free(new_cwd);
 }
 
 void	execute_builtin_cd(t_dll *tokens, t_env **env)
@@ -126,6 +124,4 @@ void	execute_builtin_cd(t_dll *tokens, t_env **env)
 		return;
 	}
 	update_pwd_vars(env, cwd);
-	free(cwd);
-	free(dir);
 }
