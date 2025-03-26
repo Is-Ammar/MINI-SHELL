@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/25 02:53:57 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:09:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,19 @@ void			Error(char *val, t_error_type error);
 // ----------------------------------------------------------------- //
 // -------------------- Everything about Parsing -------------------- //
 /* ///////////////// main parsing function \\\\\\\\\\\\\\\\\\\\\\\\\ */ 
-int		parse_input(t_dll *tokens);
+int		parse_input(t_dll **tokens);
 /* ////////////////// checkers \\\\\\\\\\\\\\\\\\\\\ */ 
 int		check_quotes(t_dll *tokens);
 int		check_brackets(t_dll *tokens);
 // int		check_subshell(t_dll *tokens);
 int		check_logic(t_dll *tokens);
 /* ///////////////// modifiers \\\\\\\\\\\\\\\\\\\\\ */ 
-void	operators_merge(t_dll *tokens);
-void	merge_quotes(t_dll *tokens);
-void	remove_spaces(t_dll *tokens);
+void	operators_merge(t_dll **tokens);
+void	merge_quotes(t_dll **tokens);
+void	remove_spaces(t_dll **tokens);
 // void	expand(char *value);
 // void	expand_vars(t_dll *token, t_env **env);
-void	remove_quotes_expand(t_dll *tokens/*, t_env **env*/);
+void	remove_quotes_expand(t_dll **tokens/*, t_env **env*/);
 // ------------------------------------------------------------------ //
 
 #endif

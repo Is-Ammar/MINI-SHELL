@@ -6,20 +6,20 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/25 02:55:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:25:30 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	operators_merge(t_dll *tokens)
+void	operators_merge(t_dll **tokens)
 {
 	t_dll	*curr;
 	t_dll	*Next;
 
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return ;
-	curr = tokens;
+	curr = *tokens;
 	while (curr && curr->next)
 	{
 		Next = curr->next;
@@ -39,14 +39,14 @@ void	operators_merge(t_dll *tokens)
 		curr->quote_type = get_quote_type(curr->value);
 }
 
-void	merge_quotes(t_dll *tokens)
+void	merge_quotes(t_dll **tokens)
 {
 	t_dll	*curr;
 	t_dll	*Next;
 
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return ;
-	curr = tokens;
+	curr = *tokens;
 	while (curr && curr->next)
 	{
 		Next = curr->next;
@@ -62,13 +62,13 @@ void	merge_quotes(t_dll *tokens)
 	}
 }
 
-void	remove_spaces(t_dll *tokens)
+void	remove_spaces(t_dll **tokens)
 {
 	t_dll	*curr;
 
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return ;
-	curr = tokens;
+	curr = *tokens;
 	while (curr)
 	{
 		if (curr->value[0] == '<')
@@ -76,7 +76,7 @@ void	remove_spaces(t_dll *tokens)
 		else if (curr->value[0] == '>')
 			curr->direction = RIGHT;
 		if (curr->token_type == WHITESPACE)
-			remove_token(&tokens, curr);
+			remove_token(tokens, curr);
 		curr = curr->next;
 	}	
 }
@@ -114,23 +114,24 @@ void	remove_spaces(t_dll *tokens)
 // 	}
 // }
 
-void	remove_quotes_expand(t_dll *tokens/*, t_env **env*/)
+void	remove_quotes_expand(t_dll **tokens/*, t_env **env*/)
 {
 	t_dll	*curr;
 	char	*temp;
 
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return ;
 	//expand_vars(tokens, env);
-	curr = tokens;
+	curr = *tokens;
 	temp = NULL;
 	while (curr && curr->token_type != OPERATOR)
 	{
-		if (curr->quote_type == SQUOTE || curr->quote_type == DQUOTE)
+		if (ft_strchr(curr->value, '\'') || ft_strchr(curr->value, '"'))
 		{
 			temp = curr->value;
 			curr->value = ft_strdup_quotes(curr->value);
 			free(temp);
+			curr->quote_type = NONE;
 		}
 		curr = curr->next;
 	}

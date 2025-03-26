@@ -6,14 +6,18 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/25 21:20:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:56:41 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	is_builtin(char *cmd)
+int	is_builtin(t_dll **tokens)
 {
+	char	*cmd;
+
+	remove_quotes_expand(tokens);
+	cmd = (*tokens)->value;
 	if (!cmd)
 		return (0);
 	return (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "echo") == 0
@@ -26,9 +30,6 @@ void	execute_builtin(t_dll *tokens, t_env **env)
 {
 	if (!tokens || !tokens->value)
 		return ;
-	// added a function to remove quotes and expand env variables
-	remove_quotes_expand(tokens);
-	//--------------------------------------------------------
 	if (ft_strcmp(tokens->value, "cd") == 0)
 		execute_builtin_cd(tokens, env);
 	else if (ft_strcmp(tokens->value, "pwd") == 0)
@@ -45,11 +46,11 @@ void	execute_builtin(t_dll *tokens, t_env **env)
 	 execute_builtin_exit(tokens);
 }
 
-void	execute_input(t_dll *tokens, t_env **env)
+void	execute_input(t_dll **tokens, t_env **env)
 {
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return ;
-	if (!tokens->value)
+	if (!(*tokens)->value)
 		return ;
 	// t_env *tmp = *env;
 	// while(tmp)
@@ -59,8 +60,8 @@ void	execute_input(t_dll *tokens, t_env **env)
 	//     tmp = tmp->next;
 	// }
 	// printf("-\n\n\n\n\n\n\n\n\n\n\n\n\n");
-	if (is_builtin(tokens->value))
-		execute_builtin(tokens, env);
+	if (is_builtin(tokens))
+		execute_builtin(*tokens, env);
 	// else
 	//  execute_external_command(tokens, env);
 }

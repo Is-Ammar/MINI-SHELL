@@ -31,8 +31,8 @@ all: ${NAME}
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
 
-${NAME}: ${PARS_OBJ} ${EXEC_OBJ}
-	${CC} ${CFLAGS} ${PARS_OBJ} ${EXEC_OBJ} main.c -lreadline -o $@
+${NAME}: ${PARS_OBJ} ${EXEC_OBJ} main.o
+	${CC} ${CFLAGS} ${PARS_OBJ} ${EXEC_OBJ} main.o -lreadline -o $@
 
 clean:
 	${RM} ${PARS_OBJ} ${EXEC_OBJ}
@@ -44,4 +44,4 @@ re: fclean all
 
 .PHONY: all clean fclean re
 
-.SECONDARY: ${PARS_OBJ} ${EXEC_OBJ}
+.SECONDARY: ${PARS_OBJ} ${EXEC_OBJ} main.o
