@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 01:58:14 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:26:40 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_directory(t_env **env, char *dir_type, char *cwd)
 			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 			return (NULL);
 		}
-		return (ft_strdup(dir));
+		return (dir);
 	}
 	else if (ft_strcmp(dir_type, "OLDPWD") == 0)
 	{
@@ -37,7 +37,7 @@ char	*get_directory(t_env **env, char *dir_type, char *cwd)
 		}
 		ft_putstr_fd(dir, 1);
 		ft_putstr_fd("\n", 1);
-		return (ft_strdup(dir));
+		return (dir);
 	}
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 02:08:52 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:19:45 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_env_var(t_env *env_list, char *name)
 	while (current)
 	{
 		if (ft_strcmp(current->env_name, name) == 0)
-			return (current->env_value);
+			return (ft_strdup(current->env_value));
 		current = current->next;
 	}
 	return (NULL);
