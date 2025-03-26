@@ -13,9 +13,9 @@ PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/token
 # --------------------------------- iammar --------------------------------- #
 
 EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
-			execution/builtin/env_variable_settings.c execution/builtin/create_env.c \
+			execution/env/env_variable_settings.c execution/env/create_env.c \
 			execution/builtin/pwd.c execution/builtin/env.c execution/builtin/exit.c \
-			execution/builtin/echo.c
+			execution/builtin/echo.c execution/builtin/export.c
 
 # -------------------------------------------------------------------------- #
 PARS_OBJ = ${PARS_SRC:%.c=%.o}

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 15:34:21 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:28:24 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_env
 {
 	char				*env_name;
 	char				*env_value;
+	int 				exported;
 	struct s_env		*next;
 }						t_env;
 
@@ -38,6 +39,7 @@ void					execute_builtin_pwd(t_env *env);
 void					execute_builtin_env(t_dll *tokens, t_env *env);
 void 					execute_builtin_exit(t_dll *tokens);
 void					execute_builtin_echo(t_dll *tokens);
+int					execute_builtin_export(t_dll *tokens, t_env **env);
 
 //-----------------------Utils-------------------------------//
 int						ft_strcmp(char *s1, char *s2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 01:40:50 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:32:45 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	execute_builtin(t_dll *tokens, t_env **env)
 		execute_builtin_pwd(*env);
 	else if (ft_strcmp(tokens->value, "echo") == 0)
 		execute_builtin_echo(tokens);
-	// else if (ft_strcmp(tokens->value, "export") == 0)
-	//  execute_builtin_export(tokens->value);
+	else if (ft_strcmp(tokens->value, "export") == 0)
+	 execute_builtin_export(tokens, env);
 	// else if (ft_strcmp(tokens->value, "unset") == 0)
 	//  execute_builtin_unset(tokens->value);
 	else if (ft_strcmp(tokens->value, "env") == 0)

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/22 22:05:36 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:30:13 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,3 +46,25 @@ void	create_env(t_env **env, char **environ)
 		i++;
 	}
 }
+
+// int mark_env_var_exported(t_env **env, char *name)
+// {
+//     t_env *current;
+    
+//     if (!env || !name || !*name)
+//         return (1);
+
+//     current = *env;
+//     while (current)
+//     {
+//         if (ft_strcmp(current->env_name, name) == 0)
+//         {
+            
+//             current->exported = 1;
+//             return (0);
+//         }
+//         current = current->next;
+//     }
+//     /////////////////////
+	
+// }
