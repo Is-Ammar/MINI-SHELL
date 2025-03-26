@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/26 00:04:39 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:50:18 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		check_logic(t_dll *tokens)
 			return (Error(Next->value, ESYNTAX), 1);
 		curr = curr->next;
 	}
-	if (curr->token_type == REDIRECTION)
+	if (curr->token_type == REDIRECTION || curr->token_type != WORD)
 		return (Error("newline", ESYNTAX), 1);
 	return (0);
 }

@@ -6,19 +6,19 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/26 00:47:53 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:55:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing/parsing.h" 
 
-void	token_parse_exec(char *input, t_env **env)
+int	parsing(t_dll **tokens, char *input)
 {
-	t_dll	*tokens;
 	
-	tokens = tokenize_input(input);
-	if (parse_input(&tokens))
-		return /*(free_token_list(&tokens))*/;
+	*tokens = tokenize_input(input);
+	if (parse_input(tokens))
+		return 1;
+	return (0);
 	// t_dll	*curr;
 	// curr = tokens;
 	// while (curr)
@@ -27,11 +27,11 @@ void	token_parse_exec(char *input, t_env **env)
 	// 	curr = curr->next;
 	// }
 	// Abstract_segment_tree(tokens);
-	execute_input(&tokens, env);
 	//free_token_list(&tokens);
 }
 void	read_eval_print_loop(t_env **env)
 {
+	t_dll	*tokens;
 	char	*input;
 	
 	input = NULL;
@@ -43,8 +43,10 @@ void	read_eval_print_loop(t_env **env)
 			free(input);
 			return ;
 		}
+		if (parsing(&tokens, input))
+			continue ;
 		add_history(input);
-		token_parse_exec(input, env);
+		execution(&tokens, env);
 		free(input);
 	}
 }

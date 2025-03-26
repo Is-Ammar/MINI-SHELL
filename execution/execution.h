@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 00:57:21 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:39:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_dll	t_dll;
 //------------------------------Execution--------------------//
 int						is_builtin(t_dll **tokens);
 void					execute_builtin(t_dll *tokens, t_env **env);
-void					execute_input(t_dll **tokens, t_env **environ);
+void					execution(t_dll **tokens, t_env **environ);
 
 //------------------------buitlin-----------------------------//
 

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/25 01:28:25 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:42:55 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void execute_builtin_env(t_dll *tokens, t_env *env)
 
 	if (!tokens || !env)
 		return;
-	if (tokens->next)
+	if (tokens->next && tokens->next->token_type == WORD)
 	{
 		printf("env: '%s': No such file or directory\n", tokens->next->value);
 		return;

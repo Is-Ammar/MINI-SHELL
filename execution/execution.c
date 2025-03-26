@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 00:56:41 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/26 01:40:50 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execute_builtin(t_dll *tokens, t_env **env)
 	 execute_builtin_exit(tokens);
 }
 
-void	execute_input(t_dll **tokens, t_env **env)
+void	execution(t_dll **tokens, t_env **env)
 {
 	if (!tokens || !*tokens)
 		return ;

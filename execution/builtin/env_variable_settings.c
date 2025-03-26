@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/21 22:59:42 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/26 02:08:52 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ void	free_env_list(t_env *env_list)
 		free(current->env_value);
 		free(current);
 		current = current->next;
-		;
 	}
 }
