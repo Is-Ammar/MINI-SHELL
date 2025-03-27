@@ -6,12 +6,12 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:52:15 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:51:39 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
-//HANDLE EXIT CODES !!!!!// 
+
 char *get_directory(t_shell *shell, char *dir_type, char *cwd)
 {
     char *dir;
@@ -91,6 +91,7 @@ void update_pwd_vars(t_shell *shell, char *cwd)
     if (!new_cwd)
     {
         perror("Minishell: cd: ");
+        shell->exit_code = 1;
         return;
     }
     set_env_var(&shell->env_list, "PWD", new_cwd);
@@ -106,13 +107,15 @@ void execute_builtin_cd(t_shell *shell)
     cwd = getcwd(NULL, 0);
     if (!cwd)
     {
-        perror("cd: ");
+        perror("Minishell: cd: ");
+        shell->exit_code = 1;
         return;
     }
     arg_token = shell->tokens->next;
     if (parse_cd_args(arg_token, shell, &dir, &cwd))
     {
         free(cwd);
+        shell->exit_code = 1;
         return;
     }
     if (chdir(dir) != 0)
@@ -121,7 +124,9 @@ void execute_builtin_cd(t_shell *shell)
         perror(dir);
         free(dir);
         free(cwd);
+        shell->exit_code = 1;
         return;
     }
     update_pwd_vars(shell, cwd);
+    shell->exit_code = 0;
 }

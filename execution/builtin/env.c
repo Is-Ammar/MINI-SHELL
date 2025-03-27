@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:36:42 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:32:35 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void execute_builtin_env(t_shell *shell)
     if (shell->tokens->next && shell->tokens->next->token_type == WORD)
     {
         printf("env: '%s': No such file or directory\n", shell->tokens->next->value);
+        shell->exit_code = 1;
         return;
     }
     tmp = shell->env_list;
@@ -32,4 +33,5 @@ void execute_builtin_env(t_shell *shell)
         printf("\n");
         tmp = tmp->next;
     }
+    shell->exit_code = 0;
 }

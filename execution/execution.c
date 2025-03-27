@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:55:16 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:55:40 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void execute_builtin(t_shell *shell)
     if (ft_strcmp(shell->tokens->value, "cd") == 0)
         execute_builtin_cd(shell);
     else if (ft_strcmp(shell->tokens->value, "pwd") == 0)
-        execute_builtin_pwd(shell->env_list);
+        execute_builtin_pwd(shell);
     else if (ft_strcmp(shell->tokens->value, "echo") == 0)
         execute_builtin_echo(shell);
     else if (ft_strcmp(shell->tokens->value, "export") == 0)
         execute_builtin_export(shell);
-    // else if (ft_strcmp(shell->tokens->value, "unset") == 0)
-    //  execute_builtin_unset(shell);
+    else if (ft_strcmp(shell->tokens->value, "unset") == 0)
+     execute_builtin_unset(shell);
     else if (ft_strcmp(shell->tokens->value, "env") == 0)
         execute_builtin_env(shell);
     else if (ft_strcmp(shell->tokens->value, "exit") == 0)

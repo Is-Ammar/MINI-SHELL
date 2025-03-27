@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 22:52:21 by iammar           ###   ########.fr       */
+/*   Created: 2025/03/27 20:56:08 by iammar            #+#    #+#             */
+/*   Updated: 2025/03/27 21:11:05 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
-//not finished yet
-void execute_builtin_pwd(t_shell *shell)
+
+void execute_builtin_unset(t_shell *shell)
 {
-    char *cwd;
+    t_dll *current;
     
-    cwd = ft_strdup(get_env_var(shell->env_list, "PWD"));
-    if (!cwd || access(cwd, F_OK) == -1)
+    if (!shell->tokens->next)
     {
-        cwd = getcwd(NULL, 0);
-        if (!cwd)
-        {
-            perror("pwd");
-            shell->exit_code = 1;
-            exit(1);
-        }
+        shell->exit_code = 0;
+        return;
     }
-    printf("%s\n", cwd);
-    free(cwd);
+    
+    current = shell->tokens->next;
+    while (current)
+    {
+        if (is_valid_identifier(current->value))
+            unset_env_var(shell, current);
+        else
+        {
+            ft_putstr_fd("unset: '", 2);
+            ft_putstr_fd(current->value, 2);
+            ft_putstr_fd("': not a valid identifier\n", 2);
+            shell->exit_code = 1;
+        }
+        current = current->next;
+    }
+    
     shell->exit_code = 0;
 }

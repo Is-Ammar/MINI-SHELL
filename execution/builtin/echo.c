@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 17:35:31 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:31:17 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,5 @@ void execute_builtin_echo(t_shell *shell)
     }
     if (!flag)
         printf("\n");
+    shell->exit_code = 0;
 }

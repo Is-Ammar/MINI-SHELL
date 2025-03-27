@@ -6,32 +6,11 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:56:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 21:13:55 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
-
-int	is_valid_identifier(const char *str)
-{
-	int	i;
-	 
-	if (!str || !*str)
-		return (0);
-		
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
-		
-	i = 1;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	
-	return (1);
-}
 
 void execute_builtin_export(t_shell *shell)
 {

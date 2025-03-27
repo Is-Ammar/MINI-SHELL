@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:51:09 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 21:11:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,33 @@ void	create_env(t_env **env, char **environ)
 		}
 		i++;
 	}
+}
+
+void unset_env_var(t_shell *shell, t_dll *token)
+{
+    t_env *env;
+    t_env *prev;
+
+    env = shell->env_list;
+    prev = NULL;
+
+    while (env)
+    {
+        if (ft_strcmp(env->env_name, token->value) == 0)
+        {
+            if (prev)
+                prev->next = env->next;
+            else
+                shell->env_list = env->next;
+            
+            free(env->env_name);
+            free(env->env_value);
+            free(env);
+            return;
+        }
+        prev = env;
+        env = env->next;
+    }
 }
 
 // int mark_env_var_exported(t_env **env, char *name)

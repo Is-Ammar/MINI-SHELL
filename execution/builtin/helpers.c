@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:18:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:08:09 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 21:14:03 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,26 @@ double	ft_atoi(char *str)
 		result = result * 10 + (*str++ - '0');
 	}
 	return (sign * result);
+}
+
+
+int	is_valid_identifier(const char *str)
+{
+	int	i;
+	 
+	if (!str || !*str)
+		return (0);
+		
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+		
+	i = 1;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	
+	return (1);
 }

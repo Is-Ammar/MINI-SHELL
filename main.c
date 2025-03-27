@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 17:17:58 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 21:48:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int parsing(t_shell *shell, char *input)
 {
-    shell->tokens = tokenize_input(input);
-    if (parse_input(&shell->tokens))
+	shell->tokens = tokenize_input(input);
+	if (parse_input(&shell->tokens))
         return 1;
     return (0);
     // t_dll   *curr;
@@ -38,14 +38,20 @@ void read_eval_print_loop(t_shell *shell)
     {
         input = readline(RED "minishell:~$ " RESET);
         if (!input)
-        {
-            free(input);
             return;
-        }
-        if (parsing(shell, input))
+		if (!*input)
+		{
+			shell->exit_code = 0;
+			continue;
+		}
+		if (parsing(shell, input))
+        {
+			shell->exit_code = 2;
             continue;
+        }
         add_history(input);
         execution(shell);
+        printf("exit code------->%d\n",shell->exit_code);
         free(input);
     }
 }
@@ -57,10 +63,9 @@ int main(int ac, char **av, char **env)
 
     if (ac != 1)
         return (1);
-    shell.env_list = NULL;
-    shell.tokens = NULL;
-    shell.exit_code = 0;
+    shell = (struct s_shell){0};
     create_env(&shell.env_list, env);
     read_eval_print_loop(&shell);
+    // free_shell(shell);
     return (0);
 }
