@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/26 00:09:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/27 01:26:12 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,13 @@ typedef enum e_quote_type
 
 typedef struct s_dll
 {
-	// Token data
 	char			*value;
     t_token_type 	token_type;
 	t_quote_type	quote_type;
 	int				expandable;
 	int				direction;
-	//Token parsing & execution
-	int			precedence;
-	int			exec_order;
-	// Token positioning
+	int				precedence;
+	int				exec_order;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }  	t_dll;
@@ -105,9 +102,14 @@ int		check_logic(t_dll *tokens);
 void	operators_merge(t_dll **tokens);
 void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
-// void	expand(char *value);
-// void	expand_vars(t_dll *token, t_env **env);
+// void	expand(char *value, t_env *env);
+// void	expand_vars(t_dll *token, t_env *env);
 void	remove_quotes_expand(t_dll **tokens/*, t_env **env*/);
+/* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
+int		ft_stristr(char *big, char *little);
+char	*remove_str(char *token, char *remove);
+char	*ft_strdup_expand(char *token/*, t_env *env*/, int start, int end);
+
 // ------------------------------------------------------------------ //
 
 #endif

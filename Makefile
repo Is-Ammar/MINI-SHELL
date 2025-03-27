@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/token_helpers.c \
 			parsing/tokenizer.c parsing/parse_checkers.c parsing/parse_modifiers.c \
-			parsing/error_handler.c 
+			parsing/parse_helpers.c parsing/error_handler.c 
 
 # -------------------------------------------------------------------------- #
 
