@@ -3,38 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/26 21:52:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:35:31 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution.h"
+#include "../../smash.h"
 
-void	execute_builtin_echo(t_dll *tokens)
+void execute_builtin_echo(t_shell *shell)
 {
-	t_dll   *curr;
-	int		flag;
+    t_dll   *curr;
+    int     flag;
 
-	if (!tokens->next || (tokens->next && tokens->next->token_type != WORD))
-	{
-		printf("\n");
-		return ;
-	}
-	(1)&& (flag = 0, curr = tokens->next);
-	if (!ft_strcmp(curr->value, "-n"))
-	{
-		flag = 1;
-		curr = curr->next;
-	}
-	while (curr && curr->token_type == WORD)
-	{
-		printf("%s", curr->value);
-		curr = curr->next;
-		if (curr && curr->token_type == WORD)
-			printf(" ");
-	}
-	if (!flag)
-		printf("\n");
+    if (!shell->tokens->next || (shell->tokens->next && shell->tokens->next->token_type != WORD))
+    {
+        printf("\n");
+        return;
+    }
+    (1) && (flag = 0, curr = shell->tokens->next);
+    if (!ft_strcmp(curr->value, "-n"))
+    {
+        flag = 1;
+        curr = curr->next;
+    }
+    while (curr && curr->token_type == WORD)
+    {
+        printf("%s", curr->value);
+        curr = curr->next;
+        if (curr && curr->token_type == WORD)
+            printf(" ");
+    }
+    if (!flag)
+        printf("\n");
 }

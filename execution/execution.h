@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 21:34:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:00:47 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,29 @@ typedef struct s_env
 	struct s_env		*next;
 }						t_env;
 
-typedef struct s_dll	t_dll;
+typedef struct s_shell	t_shell;
 //------------------------------Execution--------------------//
-int						is_builtin(t_dll **tokens);
-void					execute_builtin(t_dll *tokens, t_env **env);
-void					execution(t_dll **tokens, t_env **environ);
+int						is_builtin(t_shell *shell);
+void					execute_builtin(t_shell *shell);
+void					execution(t_shell *shell);
 
 //------------------------buitlin-----------------------------//
 
-void					execute_builtin_cd(t_dll *tokens, t_env **env);
+void					execute_builtin_cd(t_shell *shell);
 void					execute_builtin_pwd(t_env *env);
-void					execute_builtin_env(t_dll *tokens, t_env *env);
-void 					execute_builtin_exit(t_dll *tokens);
-void					execute_builtin_echo(t_dll *tokens);
-int						execute_builtin_export(t_dll *tokens, t_env **env);
+void					execute_builtin_env(t_shell *shell);
+void 					execute_builtin_exit(t_shell *shell);
+void					execute_builtin_echo(t_shell *shell);
+void						execute_builtin_export(t_shell *shell);
 
 //-----------------------Utils-------------------------------//
 int						ft_strcmp(char *s1, char *s2);
 void					ft_putstr_fd(char const *s, int fd);
 char					*ft_strdup(const char *str);
 size_t					ft_strlcpy(char *dst, char *src, size_t len);
+double					ft_atoi(char *str);
+int						ft_isalpha(int c);
+int						ft_isalnum(int c);
 
 //---------------------Env-settings-------------------------//
 void					free_env_list(t_env *env_list);

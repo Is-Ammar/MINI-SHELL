@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 01:26:12 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:53:04 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_dll
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }  	t_dll;
+
+typedef struct s_shell	t_shell;
 // -------------------- Everything about tokens -------------------- //
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */ 
 t_dll	*create_token_list(void);

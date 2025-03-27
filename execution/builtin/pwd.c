@@ -6,11 +6,11 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/25 21:03:16 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:50:52 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution.h"
+#include "../../smash.h"
 
 void execute_builtin_pwd(t_env *env)
 {

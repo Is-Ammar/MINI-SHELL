@@ -3,63 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/26 01:55:14 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:17:58 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing/parsing.h" 
+#include "smash.h" 
 
-int	parsing(t_dll **tokens, char *input)
+int parsing(t_shell *shell, char *input)
 {
-	
-	*tokens = tokenize_input(input);
-	if (parse_input(tokens))
-		return 1;
-	return (0);
-	// t_dll	*curr;
-	// curr = tokens;
-	// while (curr)
-	// {
-	// 	printf("Token --> : `%s'\n", curr->value);
-	// 	curr = curr->next;
-	// }
-	// Abstract_segment_tree(tokens);
-	//free_token_list(&tokens);
-}
-void	read_eval_print_loop(t_env **env)
-{
-	t_dll	*tokens;
-	char	*input;
-	
-	input = NULL;
-	while (1337)
-	{
-		input = readline(RED "minishell:~$ " RESET);
-		if (!input)
-		{
-			free(input);
-			return ;
-		}
-		if (parsing(&tokens, input))
-			continue ;
-		add_history(input);
-		execution(&tokens, env);
-		free(input);
-	}
+    shell->tokens = tokenize_input(input);
+    if (parse_input(&shell->tokens))
+        return 1;
+    return (0);
+    // t_dll   *curr;
+    // curr = tokens;
+    // while (curr)
+    // {
+    //     printf("Token --> : `%s'\n", curr->value);
+    //     curr = curr->next;
+    // }
+    // Abstract_segment_tree(tokens);
+    //free_token_list(&tokens);
 }
 
-int	main(int ac, char **av, char **env)
+void read_eval_print_loop(t_shell *shell)
 {
-	(void)av;
-	t_env *env_var;
+    char    *input;
+    
+    input = NULL;
+    while (1337)
+    {
+        input = readline(RED "minishell:~$ " RESET);
+        if (!input)
+        {
+            free(input);
+            return;
+        }
+        if (parsing(shell, input))
+            continue;
+        add_history(input);
+        execution(shell);
+        free(input);
+    }
+}
 
-	if (ac != 1)
-		return (1);
-	env_var =  NULL;
-	create_env(&env_var , env);
-	read_eval_print_loop(&env_var);
-	return (0);
+int main(int ac, char **av, char **env)
+{
+    (void)av;
+    t_shell shell;
+
+    if (ac != 1)
+        return (1);
+    shell.env_list = NULL;
+    shell.tokens = NULL;
+    shell.exit_code = 0;
+    create_env(&shell.env_list, env);
+    read_eval_print_loop(&shell);
+    return (0);
 }

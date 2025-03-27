@@ -6,11 +6,11 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 15:19:45 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:51:16 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution.h"
+#include "../../smash.h"
 
 t_env	*create_env_var(const char *name, const char *value)
 {

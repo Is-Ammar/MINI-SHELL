@@ -6,11 +6,11 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/26 21:30:13 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:51:09 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution.h"
+#include "../../smash.h"
 
 void	create_env(t_env **env, char **environ)
 {
