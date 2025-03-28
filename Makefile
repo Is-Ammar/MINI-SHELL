@@ -36,7 +36,7 @@ ${NAME}: ${PARS_OBJ} ${EXEC_OBJ} main.o
 	${CC} ${CFLAGS} ${PARS_OBJ} ${EXEC_OBJ} main.o -lreadline -o $@
 
 clean:
-	${RM} ${PARS_OBJ} ${EXEC_OBJ}
+	${RM} ${PARS_OBJ} ${EXEC_OBJ} main.o
 
 fclean: clean
 	${RM} ${NAME}

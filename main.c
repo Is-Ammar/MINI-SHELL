@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 21:48:32 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/28 23:27:19 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void read_eval_print_loop(t_shell *shell)
     input = NULL;
     while (1337)
     {
-        input = readline(RED "minishell:~$ " RESET);
+        input = readline(BLUE "minishell:~$ " RESET);
         if (!input)
             return;
 		if (!*input)
@@ -51,7 +51,7 @@ void read_eval_print_loop(t_shell *shell)
         }
         add_history(input);
         execution(shell);
-        printf("exit code------->%d\n",shell->exit_code);
+        printf("exit code: %d\n",shell->exit_code);
         free(input);
     }
 }

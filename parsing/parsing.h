@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 17:53:04 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/28 23:28:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 #define RESET   "\033[0m"       // Reset all attributes
 #define RED     "\033[31m"      // Red text
+#define BLUE	"\033[0;36m"	// Cyan text
 
 # define FALSE	0
 # define TRUE	1
@@ -69,6 +70,7 @@ typedef struct s_dll
 }  	t_dll;
 
 typedef struct s_shell	t_shell;
+
 // -------------------- Everything about tokens -------------------- //
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */ 
 t_dll	*create_token_list(void);

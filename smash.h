@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   smash.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 21:39:36 by iammar           ###   ########.fr       */
+/*   Updated: 2025/03/28 23:05:19 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,5 @@ typedef struct s_shell
     t_dll   *tokens;
     int     exit_code;
 }   t_shell;
-
-
-
 
 #endif
