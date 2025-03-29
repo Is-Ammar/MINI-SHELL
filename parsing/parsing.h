@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/28 23:28:54 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/29 21:42:16 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_dll
 	t_quote_type	quote_type;
 	int				expandable;
 	int				direction;
-	int				precedence;
+	int				bracket;
 	int				exec_order;
 	struct s_dll	*prev;
 	struct s_dll	*next;

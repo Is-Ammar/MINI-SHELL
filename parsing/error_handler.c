@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/28 23:24:27 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/29 21:24:38 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	Error(char *val, t_error_type error)
     if (error == EQUOTES)
         ft_printf(RED"minishell: unexpected EOF while looking for matching `%c'\n"RESET, *val);
     else if (error == EBRACKET)
-        ft_printf(RED"minishell: syntax error near unexpected token `bracket'\n"RESET);
+        ft_printf(RED"minishell: syntax error near unexpected token `)'\n"RESET);
     else if (error == ESYNTAX)
         ft_printf(RED"minishell: syntax error near unexpected token `%s'\n"RESET, val);
 }
