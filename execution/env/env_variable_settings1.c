@@ -74,6 +74,26 @@ void unset_env_var(t_shell *shell, t_dll *token)
     }
 }
 
+
+char *get_current_dir_safe(t_shell *shell)
+{
+    char *cwd;
+    char *pwd;
+    
+    cwd = getcwd(NULL, 0);
+    if (!cwd)
+    {
+        if (errno == ENOENT)
+        {
+            pwd = get_env_var(shell->env_list, "PWD");
+            if (pwd)
+                return ft_strdup(pwd);
+        }
+        return NULL;
+    }
+    return cwd;
+}
+
 // int mark_env_var_exported(t_env **env, char *name)
 // {
 //     t_env *current;

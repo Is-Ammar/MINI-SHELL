@@ -81,20 +81,33 @@ int parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
     return (0);
 }
 
-void update_pwd_vars(t_shell *shell, char *cwd)
+void update_pwd_vars(t_shell *shell, char *old_cwd)
 {
     char *new_cwd;
+    char *pwd;
 
-    if (cwd)
-        set_env_var(&shell->env_list, "OLDPWD", cwd);
+    if (old_cwd)
+        set_env_var(&shell->env_list, "OLDPWD", old_cwd);
+    
     new_cwd = getcwd(NULL, 0);
     if (!new_cwd)
     {
-        perror("Minishell: cd: ");
-        shell->exit_code = 1;
+        if (errno == ENOENT)
+        {
+            pwd = get_env_var(shell->env_list, "PWD");
+            if (pwd)
+                set_env_var(&shell->env_list, "PWD", pwd);
+        }
+        else
+        {
+            perror("Minishell: cd: ");
+            shell->exit_code = 1;
+        }
         return;
     }
+    
     set_env_var(&shell->env_list, "PWD", new_cwd);
+    free(new_cwd);
 }
 
 void execute_builtin_cd(t_shell *shell)
@@ -104,7 +117,7 @@ void execute_builtin_cd(t_shell *shell)
     char *cwd;
 
     dir = NULL;
-    cwd = getcwd(NULL, 0);
+    cwd = get_current_dir_safe(shell);
     if (!cwd)
     {
         perror("Minishell: cd: ");
@@ -128,5 +141,7 @@ void execute_builtin_cd(t_shell *shell)
         return;
     }
     update_pwd_vars(shell, cwd);
+    free(cwd);
+    free(dir);
     shell->exit_code = 0;
 }

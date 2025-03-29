@@ -19,11 +19,10 @@ void execute_builtin_pwd(t_shell *shell)
     cwd = ft_strdup(get_env_var(shell->env_list, "PWD"));
     if (!cwd || access(cwd, F_OK) == -1)
     {
-        cwd = getcwd(NULL, 0);
+        cwd = get_current_dir_safe(shell);
         if (!cwd)
         {
-            perror("pwd");
-            shell->exit_code = 1;
+            shell->exit_code = 1;// addd error message////////////
             exit(1);
         }
     }

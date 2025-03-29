@@ -89,7 +89,6 @@ void	free_env_list(t_env *env_list)
 	{
 		free(current->env_name);
 		free(current->env_value);
-		free(current);
 		current = current->next;
 	}
 }

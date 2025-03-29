@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <errno.h> 
 
 typedef struct s_env
 {
@@ -52,6 +53,7 @@ double					ft_atoi(char *str);
 int						ft_isalpha(int c);
 int						ft_isalnum(int c);
 int						is_valid_identifier(const char *str);
+char 					*get_current_dir_safe(t_shell *shell);
 
 //---------------------Env-settings-------------------------//
 void					free_env_list(t_env *env_list);
