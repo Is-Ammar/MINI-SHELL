@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/29 22:19:17 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/30 22:23:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,23 @@ int	check_brackets(t_dll *tokens)
 	return (0);
 }
 
+int	additional_check_logic(t_dll *curr)
+{
+	if (curr->token_type == REDIRECTION)
+		return (Error("newline", ESYNTAX), 1);
+	if (curr->token_type != SYMBOL && curr->token_type != WORD)
+		return (Error(curr->value, ESYNTAX), 1);
+	return (0);
+}
+
 int		check_logic(t_dll *tokens)
 {
 	t_dll	*curr;
 	t_dll	*Next;
 
-	if (!tokens)
-		return (1);
 	(1) && (curr = tokens, Next = curr->next);
-	if (curr->token_type != WORD && curr->token_type != REDIRECTION)
+	if (curr->token_type != WORD && curr->token_type != REDIRECTION 
+		&& curr->token_type != SYMBOL)
 		return (Error(curr->value, ESYNTAX), 1);
 	if (curr->direction == LEFT && Next && Next->direction == RIGHT)
 		return (Error("newline", ESYNTAX), 1);
@@ -85,15 +93,15 @@ int		check_logic(t_dll *tokens)
 	while (curr && curr->next)
 	{
 		Next = curr->next;
-		if (curr->token_type == REDIRECTION && Next->token_type != WORD)
+		if (curr->token_type == REDIRECTION 
+			&& Next->token_type != WORD && Next->token_type != SYMBOL)
 			return (Error(Next->value, ESYNTAX), 1);
-		if (curr->token_type != WORD
-			&&(Next->token_type != WORD && Next->token_type != REDIRECTION))
+		if (curr->token_type != WORD && curr->token_type != SYMBOL && Next->token_type != WORD
+			&& Next->token_type != SYMBOL && Next->token_type != REDIRECTION)
 			return (Error(Next->value, ESYNTAX), 1);
 		curr = curr->next;
 	}
-	if (curr->token_type == REDIRECTION || curr->token_type != WORD)
-		return (Error("newline", ESYNTAX), 1);
+	additional_check_logic(curr);
 	return (0);
 }
 
@@ -117,6 +125,8 @@ int	check_subshell(t_dll *tokens)
 			return (Error(Next->value, ESYNTAX), 1);
 		if (curr->bracket == LEFT && Next->token_type == WORD)
 			return (Error(Next->value, ESYNTAX), 1);
+		if (curr->token_type == REDIRECTION && Next->bracket == LEFT)
+			return (Error(Next->value, EBRACKET), 1);
 		curr = curr->next;
 	}
 	return (0);
@@ -131,12 +141,12 @@ int	parse_input(t_dll **tokens)
 	if (check_brackets(*tokens))
 		return (1);
 	remove_spaces(tokens);
-	// if (find_token(*tokens, SYMBOL) != NULL)
-	// {
-	// 	if (check_subshell(*tokens))
-	// 		return (1);
-	// }
 	if (check_logic(*tokens))
 		return (1);
+	if (find_token(*tokens, SYMBOL) != NULL)
+	{
+		if (check_subshell(*tokens))
+			return (1);
+	}
 	return (0);
 }
