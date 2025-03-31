@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 01:27:02 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:36:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,35 @@ char	*remove_str(char *token, char *remove)
 	return (p);
 }
 
-char	*ft_strdup_expand(char *token/*, t_env *env*/, int start, int end)
+char	*replace_str(char *token, char *name, char *env_value, int len)
+{
+	char	*p;
+	int		new_len;
+	int		(i), (j), (k);
+
+	new_len = ft_strlen(token) + ft_strlen(env_value) - len;
+	p = malloc(new_len + 1);
+	if (!p)
+		return (NULL);
+	(1) && (i = 0, j = 0, k = 0);
+	while (token[i])
+	{
+		if (ft_stristr(token, name) == i)
+		{
+			while (env_value[k])
+				p[j++] = env_value[k++];
+			i += ft_strlen(name);
+		}
+		if (ft_strlen(token) == i)
+			break ;
+		p[j++] = token[i];
+		i++;
+	}
+	p[j] = '\0';
+	return (p);
+}
+
+char	*ft_strdup_expand(char *token, t_env *env, int start, int end)
 {
 	char	*name;
 	char	*env_value;
@@ -76,12 +104,12 @@ char	*ft_strdup_expand(char *token/*, t_env *env*/, int start, int end)
 		return (NULL);
 	len = end - start + 2;
 	name = ft_strduplen(&token[start], len);
-	env_value = NULL;//get_env_var(env, &name[1]);
+	env_value = get_env_var(env, &name[1]);
 	if (!env_value)
 	{
 		p = remove_str(token, name);
 		return (p);
 	}
-	// p = replace_str(token, env_value);
-	return (p);	
+	p = replace_str(token, name, env_value, --len);
+	return (p);
 }

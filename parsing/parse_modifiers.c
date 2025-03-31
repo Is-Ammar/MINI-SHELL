@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/27 01:15:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:47:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,60 +81,68 @@ void	remove_spaces(t_dll **tokens)
 	}	
 }
 
-// char	*expand(char *value, t_env **env)
-// {
-// 	char	*new_val;
-// 	char	*temp;
-// 	int		i;
-// 	int		j;
+char	*expand(char *value, t_env *env)
+{
+	char	*new_val;
+	char	*temp;
+	int		i;
+	int		j;
 
-// 	(1) && (new_val = NULL, i = 0, j = 0);
-// 	while (value[i])
-// 	{
-// 		while (value[i] && value[i] != '$')
-// 			i++;
-// 		j = i;
-// 		i++;
-// 		while (value[i] && !ft_strchr("\"'", value[i]) && value[i] != '$')
-// 			i++;
-// 		if (ft_strchr("\"$", value[i]))
-// 		{
-// 			temp = new_val;
-// 			new_val = ft_strdup_expand(value, env, j, --i);
-// 			free(temp);
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
+	(1) && (new_val = NULL, i = 0, j = 0);
+	while (value[i] && ft_strchr(value, '$'))
+	{
+		while (value[i] && value[i] != '$')
+			i++;
+		j = i;
+		i++;
+		while (value[i] && !ft_strchr("\"'", value[i]) && value[i] != '$')
+			i++;
+		if (ft_strchr("\"$", value[i]))
+		{
+			temp = new_val;
+			new_val = ft_strdup_expand(value, env, j, --i);
+			value = ft_strdup(new_val);
+			ft_printf("%s\n", value);
+			if (new_val)
+				free(temp);
+			i = 0;
+		}
+		i++;
+	}
+	return (new_val);
+}
 
-// void	expand_vars(t_dll *tokens, t_env *env)
-// {
-// 	t_dll	*curr;
-// 	char	*temp;
-
-// 	curr = tokens;
-// 	temp = NULL;
-// 	while (curr)
-// 	{
-// 		if (curr->expandable == TRUE)
-// 		{
-// 			temp = curr->value;
-// 			curr->value = expand(curr->value, env);
-// 			free(temp);
-// 		}
-// 		curr = curr->next;
-// 	}
-// }
-
-void	remove_quotes_expand(t_dll **tokens/*, t_env **env*/)
+void	expand_vars(t_dll **tokens, t_env *env)
 {
 	t_dll	*curr;
 	char	*temp;
 
 	if (!tokens || !*tokens)
 		return ;
-	// expand_vars(tokens, *env);
+	curr = *tokens;
+	temp = NULL;
+	while (curr)
+	{
+		if (curr->expandable == TRUE)
+		{
+			temp = curr->value;
+			curr->value = expand(curr->value, env);
+			if (temp)
+				free(temp);
+		}
+		curr = curr->next;
+	}
+}
+
+void	remove_quotes_expand(t_dll **tokens, t_env **env)
+{
+	t_dll	*curr;
+	char	*temp;
+
+	if (!tokens || !*tokens)
+		return ;
+	(void)env;
+	expand_vars(tokens, *env);
 	curr = *tokens;
 	temp = NULL;
 	while (curr && curr->token_type != OPERATOR)

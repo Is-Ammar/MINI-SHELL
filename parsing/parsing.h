@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/29 21:42:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:42:38 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum e_quote_type
 typedef struct s_dll
 {
 	char			*value;
-    t_token_type 	token_type;
+	t_token_type 	token_type;
 	t_quote_type	quote_type;
 	int				expandable;
 	int				direction;
@@ -70,6 +70,7 @@ typedef struct s_dll
 }  	t_dll;
 
 typedef struct s_shell	t_shell;
+typedef	struct s_env	t_env;
 
 // -------------------- Everything about tokens -------------------- //
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */ 
@@ -93,6 +94,7 @@ char			*ft_strduplen(char *input, int len);
 char			*ft_strdup_quotes(char	*token);
 char			*ft_strchr(const char *s, int c);
 void			Error(char *val, t_error_type error);
+int				ft_printf(const char *format, ...);
 // ----------------------------------------------------------------- //
 // -------------------- Everything about Parsing -------------------- //
 /* ///////////////// main parsing function \\\\\\\\\\\\\\\\\\\\\\\\\ */ 
@@ -106,13 +108,13 @@ int		check_logic(t_dll *tokens);
 void	operators_merge(t_dll **tokens);
 void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
-// void	expand(char *value, t_env *env);
-// void	expand_vars(t_dll *token, t_env *env);
-void	remove_quotes_expand(t_dll **tokens/*, t_env **env*/);
+char	*expand(char *value, t_env *env);
+void	expand_vars(t_dll **token, t_env *env);
+void	remove_quotes_expand(t_dll **tokens, t_env **env);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 int		ft_stristr(char *big, char *little);
 char	*remove_str(char *token, char *remove);
-char	*ft_strdup_expand(char *token/*, t_env *env*/, int start, int end);
+char	*ft_strdup_expand(char *token, t_env *env, int start, int end);
 
 // ------------------------------------------------------------------ //
 
