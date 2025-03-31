@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/30 22:23:05 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/30 23:59:20 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ int		check_logic(t_dll *tokens)
 			return (Error(Next->value, ESYNTAX), 1);
 		curr = curr->next;
 	}
-	additional_check_logic(curr);
-	return (0);
+	return (additional_check_logic(curr));
 }
 
 int	check_subshell(t_dll *tokens)
