@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/31 10:42:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:12:59 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_shell	t_shell;
 typedef	struct s_env	t_env;
 
 // -------------------- Everything about tokens -------------------- //
+
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */ 
 t_dll	*create_token_list(void);
 void	add_token(t_dll **head, char *val, t_token_type token_type);
@@ -96,13 +97,15 @@ char			*ft_strchr(const char *s, int c);
 void			Error(char *val, t_error_type error);
 int				ft_printf(const char *format, ...);
 // ----------------------------------------------------------------- //
+
 // -------------------- Everything about Parsing -------------------- //
+
 /* ///////////////// main parsing function \\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 int		parse_input(t_dll **tokens);
 /* ////////////////// checkers \\\\\\\\\\\\\\\\\\\\\ */ 
 int		check_quotes(t_dll *tokens);
 int		check_brackets(t_dll *tokens);
-// int		check_subshell(t_dll *tokens);
+int		check_subshell(t_dll *tokens);
 int		check_logic(t_dll *tokens);
 /* ///////////////// modifiers \\\\\\\\\\\\\\\\\\\\\ */ 
 void	operators_merge(t_dll **tokens);

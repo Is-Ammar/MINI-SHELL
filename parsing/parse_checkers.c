@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/30 23:59:20 by habdella         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:14:50 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int		check_logic(t_dll *tokens)
 	t_dll	*curr;
 	t_dll	*Next;
 
+	if (!tokens)
+		return (0);
 	(1) && (curr = tokens, Next = curr->next);
 	if (curr->token_type != WORD && curr->token_type != REDIRECTION 
 		&& curr->token_type != SYMBOL)
@@ -123,6 +125,8 @@ int	check_subshell(t_dll *tokens)
 			&& Next->token_type != REDIRECTION && Next->token_type != SYMBOL)
 			return (Error(Next->value, ESYNTAX), 1);
 		if (curr->bracket == LEFT && Next->token_type == WORD)
+			return (Error(Next->value, ESYNTAX), 1);
+		if (curr->token_type != WORD && curr->token_type != SYMBOL && Next->bracket == LEFT)
 			return (Error(Next->value, ESYNTAX), 1);
 		if (curr->token_type == REDIRECTION && Next->bracket == LEFT)
 			return (Error(Next->value, EBRACKET), 1);
