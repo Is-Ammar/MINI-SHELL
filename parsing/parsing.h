@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/31 14:12:59 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:00:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <readline/readline.h>
 # include "../execution/execution.h"
 
-#define RESET   "\033[0m"       // Reset all attributes
-#define RED     "\033[31m"      // Red text
-#define BLUE	"\033[0;36m"	// Cyan text
+#define RESET   "\001\033[0m\002"		// Reset all attributes
+#define RED     "\033[31m"				// Red text
+#define CYAN	"\001\033[0;36m\002"	// Cyan text
 
 # define FALSE	0
 # define TRUE	1
@@ -88,7 +88,7 @@ t_dll	*tokenize_input(char *input);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 t_token_type	get_token_type(char *val);
 t_quote_type	get_quote_type(char *val);
-char			*get_val(char *input);
+char			*get_token_val(char *input);
 int				ft_strlen(const char *s);
 int				ft_strlen_quotes(const char *s);
 char			*ft_strduplen(char *input, int len);
@@ -112,13 +112,13 @@ void	operators_merge(t_dll **tokens);
 void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
 char	*expand(char *value, t_env *env);
-void	expand_vars(t_dll **token, t_env *env);
+void	expand_vars(t_dll *token, t_env *env);
 void	remove_quotes_expand(t_dll **tokens, t_env **env);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 int		ft_stristr(char *big, char *little);
 char	*remove_str(char *token, char *remove);
 char	*ft_strdup_expand(char *token, t_env *env, int start, int end);
-
+char	*ft_strjoin(const char *s1, const char *s2);
 // ------------------------------------------------------------------ //
 
 #endif

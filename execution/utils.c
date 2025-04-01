@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 17:51:53 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:59:15 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,27 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	return (s1[i] - s2[i]);
 }
-char	*ft_strdup(const char *str)
-{
-	int		i;
-	char	*dup;
 
-	if (*str == '\0')
+char	*ft_strdup(const char *s)
+{
+	char	*p;
+	int		i;
+	int		len;
+
+	if (!s)
 		return (NULL);
-	dup = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
-	if (dup == NULL)
-	{
+	len = ft_strlen(s);
+	p = malloc(len + 1);
+	if (!p)
 		return (NULL);
-	}
 	i = 0;
-	while (str[i] != '\0')
+	while (i < len)
 	{
-		dup[i] = str[i];
+		p[i] = s[i];
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	p[i] = '\0';
+	return (p);
 }
 
 void	ft_putstr_fd(char const *s, int fd)

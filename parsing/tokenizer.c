@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/25 01:02:21 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:34:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char    *handle_quotes_bracket(char *input, int type)
 	return (token);
 }
 
-char	*get_val(char *input)
+char	*get_token_val(char *input)
 {
 	int		len;
 	char	*token;
@@ -91,7 +91,7 @@ t_dll	*tokenize_input(char *input)
 	head = create_token_list();
 	while (*input)
 	{
-		token_val = get_val(input);
+		token_val = get_token_val(input);
 		if (!token_val)
 			return (NULL);
 		token_type = get_token_type(token_val);

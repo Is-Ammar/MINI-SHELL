@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/31 09:08:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:24:19 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ int parsing(t_shell *shell, char *input)
 {
 	shell->tokens = tokenize_input(input);
 	if (parse_input(&shell->tokens))
-        return 1;
-    return (0);
+        return (1);
+    // remove_quotes_expand(&shell->tokens, &shell->env_list);
     // t_dll   *curr;
-    // curr = tokens;
+    // curr = shell->tokens;
     // while (curr)
     // {
     //     printf("Token --> : `%s'\n", curr->value);
     //     curr = curr->next;
     // }
+    return (0);
     // Abstract_segment_tree(tokens);
     //free_token_list(&tokens);
 }
@@ -36,7 +37,7 @@ void read_eval_print_loop(t_shell *shell)
     input = NULL;
     while (1337)
     {
-        input = readline(BLUE "minishell:~$ " RESET);
+        input = readline(CYAN"minishell:~$ "RESET);
         if (!input)
             return;
 		if (!*input)

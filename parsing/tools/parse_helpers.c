@@ -6,11 +6,40 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 13:45:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:54:53 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*p;
+
+	if (!s1 && !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	p = malloc(len + 1);
+	if (!p)
+		return (NULL);
+	i = 0;
+	while (s1 && s1[i])
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2 && s2[j])
+	{
+		p[i++] = s2[j];
+		j++;
+	}
+	p[i] = '\0';
+	return (p);
+}
 
 int	ft_stristr(char *big, char *little)
 {
@@ -68,20 +97,21 @@ char	*remove_str(char *token, char *remove)
 char	*replace_str(char *token, char *name, char *env_value, int len)
 {
 	char	*p;
-	int		new_len;
-	int		(i), (j), (k);
+	int		l;
+	int		i;
+	int		j;
 
-	new_len = ft_strlen(token) + ft_strlen(env_value) - len;
-	p = malloc(new_len + 1);
+	l = ft_strlen(token) + ft_strlen(env_value) - len;
+	p = malloc(l + 1);
 	if (!p)
 		return (NULL);
-	(1) && (i = 0, j = 0, k = 0);
+	(1) && (i = 0, j = 0, l = 0);
 	while (token[i])
 	{
 		if (ft_stristr(token, name) == i)
 		{
-			while (env_value[k])
-				p[j++] = env_value[k++];
+			while (env_value[l])
+				p[j++] = env_value[l++];
 			i += ft_strlen(name);
 		}
 		if (ft_strlen(token) == i)

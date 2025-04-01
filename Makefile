@@ -4,9 +4,9 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 # -------------------------------- habdella -------------------------------- #
 
-PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/token_helpers.c \
-			parsing/tokenizer.c parsing/parse_checkers.c parsing/parse_modifiers.c \
-			parsing/parse_helpers.c parsing/error_handler.c 
+PARS_SRC = 	parsing/navigation_access.c parsing/basic_operations.c  parsing/tokenizer.c \
+			parsing/tools/token_helpers.c parsing/parse_checkers.c parsing/parse_modifiers.c \
+			parsing/tools/parse_helpers.c parsing/error_handler.c 
 
 # -------------------------------------------------------------------------- #
 
