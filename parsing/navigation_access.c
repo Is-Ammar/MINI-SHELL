@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/25 21:16:25 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:49:21 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,20 @@ t_dll	*find_token(t_dll *head, t_token_type token_type)
 		curr = curr->next;
 	}
 	return (NULL);
+}
+
+int	is_heredoc(t_dll *head)
+{
+	t_dll	*curr;
+
+	if (!head)
+		return (0);
+	curr = head;
+	while (curr)
+	{
+		if (curr->heredoc == TRUE)
+			return (1);
+		curr = curr->next;
+	}
+	return (0);
 }

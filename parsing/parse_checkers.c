@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/03/31 14:14:50 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:51:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,7 @@ int	parse_input(t_dll **tokens)
 		if (check_subshell(*tokens))
 			return (1);
 	}
+	// if (is_heredoc(*tokens))
+	// 	handle_heredoc(tokens);
 	return (0);
 }

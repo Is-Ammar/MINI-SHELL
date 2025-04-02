@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 14:54:53 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/02 08:15:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,5 @@ char	*ft_strdup_expand(char *token, t_env *env, int start, int end)
 		return (p);
 	}
 	p = replace_str(token, name, env_value, --len);
-	return (p);
+	return (env_value);
 }

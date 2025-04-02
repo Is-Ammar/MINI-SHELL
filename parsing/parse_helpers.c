@@ -6,11 +6,11 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 13:45:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/02 09:49:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parsing.h"
+# include "../parsing.h"
 
 int	ft_stristr(char *big, char *little)
 {

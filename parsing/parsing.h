@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 15:00:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:50:12 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <readline/readline.h>
 # include "../execution/execution.h"
 
-#define RESET   "\001\033[0m\002"		// Reset all attributes
 #define RED     "\033[31m"				// Red text
+#define RESET   "\001\033[0m\002"		// Reset all attributes
 #define CYAN	"\001\033[0;36m\002"	// Cyan text
 
 # define FALSE	0
@@ -46,7 +46,6 @@ typedef enum e_token_type
 	OPERATOR,
 	SYMBOL,
 	WHITESPACE,
-	INVALID
 }	t_token_type;
 
 typedef enum e_quote_type
@@ -64,6 +63,7 @@ typedef struct s_dll
 	int				expandable;
 	int				direction;
 	int				bracket;
+	int				heredoc;
 	int				exec_order;
 	struct s_dll	*prev;
 	struct s_dll	*next;
@@ -80,6 +80,7 @@ void	add_token(t_dll **head, char *val, t_token_type token_type);
 void	remove_token(t_dll **head, t_dll *token);
 void	free_token_list(t_dll **head);
 /* ///////////////// token navigation \\\\\\\\\\\\\\\\\\\\\ */
+int		is_heredoc(t_dll *head);
 t_dll	*find_token(t_dll *head, t_token_type token_type);
 /* ///////////////// token & parsing modification \\\\\\\\\\\\\\\\\\\ */
 char	*ft_merge(char *first_val, char *second_val);

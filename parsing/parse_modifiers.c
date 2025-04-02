@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 15:19:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:52:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	operators_merge(t_dll **tokens)
 			{
 				merge_tokens(curr, Next);
 				curr->token_type = get_token_type(curr->value);
+				if (!ft_strcmp(curr->value, "<<"))
+					curr->heredoc = TRUE;
 			}
 		}
 		curr->quote_type = get_quote_type(curr->value);
@@ -81,52 +83,6 @@ void	remove_spaces(t_dll **tokens)
 	}	
 }
 
-char	*get_val(char *value, int *index, t_env *env)
-{
-	char	*temp_val;
-	int		i;
-	int		start;
-
-	i = *index;
-	start = i;
-	i = i + 1;
-	while (value[i] && !ft_strchr("'\"$", value[i]))
-		i++;
-	temp_val = ft_strdup_expand(value, env, start, i - 1);
-	*index = *index + i;
-	return (temp_val);
-}
-
-char	*expand(char *value, t_env *env)
-{
-	char	*new_val;
-	char	*temp_val;
-	// char	*temp;
-	int		(i), (j);
-	int		flag;
-
-	(1) && (new_val = NULL, i = 0);
-	while (value[i])
-	{
-		flag = 0;
-		j = i;
-		while (value[i] && value[i] != '$')
-		{
-			if (value[i] == '\'')
-				flag = 1;
-			i++;
-		}
-		if (!flag)
-			temp_val = get_val(value, &i, env);
-		else
-			temp_val = ft_strduplen(&value[j], i);
-		ft_printf("%s\n", temp_val);
-		new_val = ft_strjoin(new_val, temp_val);
-		i++;
-	}
-	return (new_val);
-}
-
 void	expand_vars(t_dll *tokens, t_env *env)
 {
 	t_dll	*curr;
@@ -157,7 +113,7 @@ void	remove_quotes_expand(t_dll **tokens, t_env **env)
 	if (!tokens || !*tokens)
 		return ;
 	(void)env;
-	expand_vars(*tokens, *env);
+	// expand_vars(*tokens, *env);
 	curr = *tokens;
 	temp = NULL;
 	while (curr && curr->token_type != OPERATOR)
