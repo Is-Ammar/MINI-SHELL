@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/02 10:50:12 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:20:02 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define FALSE	0
 # define TRUE	1
-# define METACHARS	"( )\t<|&>'\"$"
+# define METACHARS	"( )\t\n<|&>'\"$"
 # define LEFT	1
 # define RIGHT	2
 
@@ -112,13 +112,11 @@ int		check_logic(t_dll *tokens);
 void	operators_merge(t_dll **tokens);
 void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
-char	*expand(char *value, t_env *env);
+char	*expanding(char *value, t_env *env);
 void	expand_vars(t_dll *token, t_env *env);
 void	remove_quotes_expand(t_dll **tokens, t_env **env);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
-int		ft_stristr(char *big, char *little);
-char	*remove_str(char *token, char *remove);
-char	*ft_strdup_expand(char *token, t_env *env, int start, int end);
+char	*ft_strdup_expand(char *token, t_env *env);
 char	*ft_strjoin(const char *s1, const char *s2);
 // ------------------------------------------------------------------ //
 

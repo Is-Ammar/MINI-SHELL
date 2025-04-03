@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/02 10:52:54 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:21:55 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	remove_spaces(t_dll **tokens)
 	curr = *tokens;
 	while (curr)
 	{
+		if (ft_strchr(curr->value, '$'))
+			curr->expandable = TRUE;
 		if (curr->value[0] == '<')
 			curr->direction = LEFT;
 		else if (curr->value[0] == '>')
@@ -97,7 +99,7 @@ void	expand_vars(t_dll *tokens, t_env *env)
 		if (curr->expandable == TRUE)
 		{
 			temp = curr->value;
-			curr->value = expand(curr->value, env);
+			curr->value = expanding(curr->value, env);
 			if (temp)
 				free(temp);
 		}
@@ -112,8 +114,7 @@ void	remove_quotes_expand(t_dll **tokens, t_env **env)
 
 	if (!tokens || !*tokens)
 		return ;
-	(void)env;
-	// expand_vars(*tokens, *env);
+	expand_vars(*tokens, *env);
 	curr = *tokens;
 	temp = NULL;
 	while (curr && curr->token_type != OPERATOR)

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/02 10:51:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:34:48 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		check_logic(t_dll *tokens)
 		&& curr->token_type != SYMBOL)
 		return (Error(curr->value, ESYNTAX), 1);
 	if (curr->direction == LEFT && Next && Next->direction == RIGHT)
-		return (Error("newline", ESYNTAX), 1);
+		return (Error(curr->value, ESYNTAX), 1);
 	if (curr->token_type == REDIRECTION && !Next)
 		return (Error("newline", ESYNTAX), 1);
 	while (curr && curr->next)

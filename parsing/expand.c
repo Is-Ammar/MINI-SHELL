@@ -6,109 +6,87 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/02 10:54:48 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:21:27 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "parsing.h"
 
-char	*get_val(char *value, int *index, t_env *env)
+char	*dollar_sign(char *value, int *i, t_env *env)
 {
-	char	*temp_val;
-	int		i;
-	int		start;
+	int 	len;
+	int 	start;
+	char	*p;
 
-	i = *index;
-	start = i;
-	i = i + 1;
-	while (value[i] && !ft_strchr("'\"$", value[i]))
-		i++;
-	temp_val = ft_strdup_expand(value, env, start, i - 1);
-	*index = *index + i;
-	return (temp_val);
+	start = *i + 1;
+	len = start;
+	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
+		len++;
+	*i = len;
+	p = ft_strduplen(&value[start], len - start);
+	return (ft_strdup_expand(p, env));
+}
+
+char	*double_quote(char *value, int *i, t_env *env)
+{
+	int len;
+	int flag;
+	int start;
+
+	start = *i + 1;
+	len = start;
+	flag = 0;
+	while (value[len] && !ft_strchr("\"$", value[len]))
+		len++;
+	*i = len + 1;
+	if (value[len] == '"')
+		return (ft_strduplen(&value[start], len - start));
+	while (value[len] && !ft_strchr("\"$", value[len]))
+		len++;
+	if (value[len] == '"')
+		*i = len + 1;
+	else
+		*i = len;
+	return (ft_strdup_expand(&value[start], env));
+}
+
+char	*single_quote(char *value, int *i)
+{
+	int	len;
+	int	start;
+
+	start = *i + 1;
+	len = start;
+	while (value[len] && value[len] != '\'')
+		len++;
+	*i = len + 1;
+	return (ft_strduplen(&value[start], len - start));	
 }
 
 char	*expanding(char *value, t_env *env)
 {
 	char	*new_val;
-	char	*temp_val;
-	// char	*temp;
-	int		(i), (j);
-	int		flag;
+	char	*temp;
+	int		i;
+	int		j;
 
-	(1) && (new_val = NULL, i = 0);
+	(1) && (new_val = ft_strdup(""), i = 0);
 	while (value[i])
 	{
-		flag = 0;
 		j = i;
 		while (value[i] && !ft_strchr("\"$'", value[i]))
-		{
-			if (value[i] == '\'')
-				flag = 1;
 			i++;
-		}
-		if (!flag)
-			temp_val = get_val(value, &i, env);
-		else
-			temp_val = ft_strduplen(&value[j], i);
-		// ft_printf("%s\n", temp_val);
-		new_val = ft_strjoin(new_val, temp_val);
-		i++;
+		temp = new_val;
+		if (j != i)
+			new_val = ft_strjoin(new_val, ft_strduplen(&value[j], i - j));
+		if (value[i] == '\'')
+			new_val = ft_strjoin(new_val, single_quote(value, &i));
+		else if (value[i] == '"')
+			new_val = ft_strjoin(new_val, double_quote(value, &i, env));
+		else if (value[i] == '$')
+			new_val = ft_strjoin(new_val, dollar_sign(value, &i, env));
+		if (temp)
+			free(temp);
 	}
 	return (new_val);
-}
-
-// char	*handle_expand_quote(char *token, int i)
-// {
-// 	int	j;
-
-//     if ()
-// 	if (ft_strchr("\"'", token[i]) && token[i + 1] && token[i + 1] != '$')
-// 	{
-// 		if (token[i] == )
-// 	}
-// 	while (token[i])
-// 	{
-// 		if (ft_strchr("\"'", token[i]) && token[i + 1] == '$')
-// 		{
-// 			if (token[i] == )
-// 		}
-// 	}
-// }
-
-char	*expand(char *token, t_env *env)
-{
-	char	*p;
-	// char	*tmp;
-	int 	i;
-	int 	j;
-
-	(void)env;
-	p = malloc(1024);
-	if (!p)
-		return (p);
-	(1) && (i = 0, j = 0);
-	while (token[i])
-	{
-		while (token[i] && token[i] != '$')
-		{
-			p[j++] = token[i];
-			i++;
-		}
-		if (token[i - 1] && (token[i - 1] == '"' || token[i - 1] == '\''))
-		{
-			// tmp = token;
-			// token = handle_expand_quote(token, i);
-			// free(tmp);
-		}
-		if (ft_strchr(token, '$') && token[i] == '$')
-		{
-			// tmp = token;
-			// token = handle_without_quote(token, i);
-			// free(tmp);
-		}
-		i++;
-	}
-    p = ft_strdup(token);
-	return (p);
 }
