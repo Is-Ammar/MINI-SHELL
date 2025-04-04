@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 08:39:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:13:45 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int parsing(t_shell *shell, char *input)
 	if (parse_input(&shell->tokens))
         return (1);
     // remove_quotes_expand(&shell->tokens, &shell->env_list);
-    // t_dll   *curr;
-    // curr = shell->tokens;
-    // while (curr)
-    // {
-    //     printf("Token --> : `%s'\n", curr->value);
-    //     curr = curr->next;
-    // }
+    t_dll   *curr;
+    curr = shell->tokens;
+    while (curr)
+    {
+        printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
+        curr = curr->next;
+    }
     return (0);
     // Abstract_segment_tree(tokens);
     //free_token_list(&tokens);

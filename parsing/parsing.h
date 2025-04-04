@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 13:52:18 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:14:16 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef	enum e_error_type
 	ESYNTAX,
 	ECOMMAND
 }	t_error_type;
+
+typedef enum e_operator
+{
+	AND = 1,
+	OR = 2,
+}	t_operator;
 
 typedef enum e_token_type
 {
