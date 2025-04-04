@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/03 14:22:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:39:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void read_eval_print_loop(t_shell *shell)
         }
         add_history(input);
         execution(shell);
-        printf("exit code: %d\n",shell->exit_code);
         free(input);
     }
 }

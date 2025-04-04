@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/03 14:20:02 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:25:57 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ int		check_logic(t_dll *tokens);
 void	operators_merge(t_dll **tokens);
 void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
-char	*expanding(char *value, t_env *env);
-void	expand_vars(t_dll *token, t_env *env);
-void	remove_quotes_expand(t_dll **tokens, t_env **env);
+char	*expanding(char *value, t_env *env, int e_code);
+void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 char	*ft_strdup_expand(char *token, t_env *env);
 char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_itoa(int n);
 // ------------------------------------------------------------------ //
 
 #endif

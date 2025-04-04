@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 14:34:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 09:09:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char    *handle_quotes_bracket(char *input, int type)
 		while (input[len] && input[len] != '"')
 			len++;
 	len++;
-	token = ft_strduplen(input, len);
+	token = ft_strduplen(input, len + 1);
 	return (token);
 }
 

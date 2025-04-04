@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/03 14:21:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:28:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,53 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	p[i] = '\0';
 	return (p);
+}
+
+static void	helper(long nb, char *p)
+{
+	int		i;
+	int		j;
+	char	arr[11];
+
+	i = 0;
+	j = 0;
+	if (nb == 0)
+		p[j++] = '0';
+	if (nb < 0)
+	{
+		p[j++] = '-';
+		nb *= -1;
+	}
+	while (nb > 0)
+	{
+		arr[i++] = (nb % 10) + 48;
+		nb /= 10;
+	}
+	while (i >= 0)
+		p[j++] = arr[--i];
+	p[--j] = '\0';
+}
+
+char	*ft_itoa(int n)
+{
+	long	nb;
+	char	*itoa;
+	int		size;
+
+	nb = n;
+	size = 0;
+	if (n < 0)
+		n = -n;
+	while (n)
+	{
+		size++;
+		n /= 10;
+	}
+	itoa = malloc(size + 2);
+	if (!itoa)
+		return (NULL);
+	helper(nb, itoa);
+	return (itoa);
 }
 
 char	*ft_strdup_expand(char *value, t_env *env)

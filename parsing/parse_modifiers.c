@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/03 14:21:55 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:27:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,46 +85,23 @@ void	remove_spaces(t_dll **tokens)
 	}	
 }
 
-void	expand_vars(t_dll *tokens, t_env *env)
-{
-	t_dll	*curr;
-	char	*temp;
-
-	if (!tokens)
-		return ;
-	curr = tokens;
-	temp = NULL;
-	while (curr)
-	{
-		if (curr->expandable == TRUE)
-		{
-			temp = curr->value;
-			curr->value = expanding(curr->value, env);
-			if (temp)
-				free(temp);
-		}
-		curr = curr->next;
-	}
-}
-
-void	remove_quotes_expand(t_dll **tokens, t_env **env)
+void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code)
 {
 	t_dll	*curr;
 	char	*temp;
 
 	if (!tokens || !*tokens)
 		return ;
-	expand_vars(*tokens, *env);
 	curr = *tokens;
 	temp = NULL;
-	while (curr && curr->token_type != OPERATOR)
+	while (curr)
 	{
-		if (ft_strchr(curr->value, '\'') || ft_strchr(curr->value, '"'))
+		if (curr->expandable == TRUE)
 		{
 			temp = curr->value;
-			curr->value = ft_strdup_quotes(curr->value);
-			free(temp);
-			curr->quote_type = NONE;
+			curr->value = expanding(curr->value, *env, e_code);
+			if (temp)
+				free(temp);
 		}
 		curr = curr->next;
 	}
