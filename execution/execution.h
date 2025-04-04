@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/04 09:13:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 09:17:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ typedef struct s_env
 	struct s_env		*next;
 }						t_env;
 
+typedef struct s_shell	t_shell;
+typedef struct s_dll	t_dll;
+
 typedef	struct s_ast
 {
 	t_dll 			*token;
@@ -34,9 +37,6 @@ typedef	struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-
-typedef struct s_shell	t_shell;
-typedef struct s_dll	t_dll;
 //------------------------------Execution--------------------//
 int						is_builtin(t_shell *shell);
 void					execute_builtin(t_shell *shell);
