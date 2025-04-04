@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 08:27:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:09:28 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ void	operators_merge(t_dll **tokens)
 			{
 				merge_tokens(curr, Next);
 				curr->token_type = get_token_type(curr->value);
-				if (!ft_strcmp(curr->value, "<<"))
-					curr->heredoc = TRUE;
 			}
 		}
-		curr->quote_type = get_quote_type(curr->value);
 		curr = curr->next;
 	}
 	if (curr)
@@ -56,10 +53,32 @@ void	merge_quotes(t_dll **tokens)
 		{
 			merge_tokens(curr, Next);
 			curr->token_type = get_token_type(curr->value);
-			if (ft_strchr(curr->value, '$') && curr->quote_type != SQUOTE)
-				curr->expandable = TRUE;
 			continue ;
 		}
+		curr->quote_type = get_quote_type(curr->value);
+		curr = curr->next;
+	}
+}
+
+void	identify_tokens(t_dll *tokens)
+{
+	t_dll	*curr;
+
+	if (!tokens)
+		return ;
+	curr = tokens;
+	while (curr)
+	{
+		if (ft_strchr(curr->value, '*'))
+			curr->wildcard = TRUE;
+		if (ft_strchr(curr->value, '$'))
+			curr->expandable = TRUE;
+		if (!ft_strcmp(curr->value, "<<"))
+			curr->heredoc = TRUE;
+		if (curr->value[0] == '<')
+			curr->direction = LEFT;
+		else if (curr->value[0] == '>')
+			curr->direction = RIGHT;
 		curr = curr->next;
 	}
 }
@@ -73,12 +92,6 @@ void	remove_spaces(t_dll **tokens)
 	curr = *tokens;
 	while (curr)
 	{
-		if (ft_strchr(curr->value, '$'))
-			curr->expandable = TRUE;
-		if (curr->value[0] == '<')
-			curr->direction = LEFT;
-		else if (curr->value[0] == '>')
-			curr->direction = RIGHT;
 		if (curr->token_type == WHITESPACE)
 			remove_token(tokens, curr);
 		curr = curr->next;
@@ -94,7 +107,7 @@ void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code)
 		return ;
 	curr = *tokens;
 	temp = NULL;
-	while (curr)
+	while (curr && curr->token_type != OPERATOR)
 	{
 		if (curr->expandable == TRUE)
 		{
@@ -103,6 +116,13 @@ void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code)
 			if (temp)
 				free(temp);
 		}
+		// if (curr->wildcard == TRUE)
+		// {
+		// 	temp = curr->value;
+		// 	curr->value = wildcard(curr->value, *env, e_code);
+		// 	if (temp)
+		// 		free(temp);
+		// }
 		curr = curr->next;
 	}
 }

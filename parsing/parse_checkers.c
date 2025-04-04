@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/03 18:40:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:55:31 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int	parse_input(t_dll **tokens)
 	if (check_brackets(*tokens))
 		return (1);
 	remove_spaces(tokens);
+	identify_tokens(*tokens);
 	if (check_logic(*tokens))
 		return (1);
 	if (find_token(*tokens, SYMBOL) != NULL)

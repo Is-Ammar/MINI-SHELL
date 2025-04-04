@@ -14,7 +14,8 @@ t_dll	*create_token_list(void)
 	head->direction = 0;
 	head->bracket = 0;
 	head->heredoc = 0;
-	head->exec_order = 0;
+	head->wildcard = 0;
+	head->operator = 0;
 	head->prev = NULL;
 	head->next = NULL;
 	return (head);
