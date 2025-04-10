@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 14:14:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/05 09:12:34 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h> 
 # include <stdlib.h>
 # include <unistd.h>
+# include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../execution/execution.h"
@@ -83,11 +84,11 @@ typedef	struct s_env	t_env;
 
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */ 
 t_dll	*create_token_list(void);
-void	add_token(t_dll **head, char *val, t_token_type token_type);
-void	remove_token(t_dll **head, t_dll *token);
 void	free_token_list(t_dll **head);
+void	remove_token(t_dll **head, t_dll *token);
+void	add_mid_token(t_dll **head, t_dll *token, char *val);
+void	add_token(t_dll **head, char *val, t_token_type token_type);
 /* ///////////////// token navigation \\\\\\\\\\\\\\\\\\\\\ */
-int		is_heredoc(t_dll *head);
 t_dll	*find_token(t_dll *head, t_token_type token_type);
 /* ///////////////// token & parsing modification \\\\\\\\\\\\\\\\\\\ */
 char	*ft_merge(char *first_val, char *second_val);
@@ -120,8 +121,9 @@ void	operators_merge(t_dll **tokens);
 void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
 void	identify_tokens(t_dll *tokens);
-char	*expanding(char *value, t_env *env, int e_code);
-void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code);
+char	*expand_env_vars(char *value, t_env *env, int e_code);
+int		expansion(t_dll **tokens, t_env **env, int e_code);
+int		wildcard(t_dll **tokens, t_dll *curr);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 char	*ft_strdup_expand(char *token, t_env *env);
 char	*ft_strjoin(const char *s1, const char *s2);

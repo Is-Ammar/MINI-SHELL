@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/03 14:23:35 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:20:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void execute_builtin_echo(t_shell *shell)
     t_dll   *curr;
     int     flag;
 
-    if (!shell->tokens->next || (shell->tokens->next && shell->tokens->next->token_type != WORD))
+    if (!shell->tokens->next ||
+        (shell->tokens->next && shell->tokens->next->token_type != WORD))
     {
         printf("\n");
         return;

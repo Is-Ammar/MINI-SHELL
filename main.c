@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 14:13:45 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:28:51 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int parsing(t_shell *shell, char *input)
 	shell->tokens = tokenize_input(input);
 	if (parse_input(&shell->tokens))
         return (1);
-    // remove_quotes_expand(&shell->tokens, &shell->env_list);
-    t_dll   *curr;
-    curr = shell->tokens;
-    while (curr)
-    {
-        printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
-        curr = curr->next;
-    }
+    // expansion(&shell->tokens, &shell->env_list, shell->exit_code);
+    // t_dll   *curr;
+    // curr = shell->tokens;
+    // while (curr)
+    // {
+    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
+    //     curr = curr->next;
+    // }
     return (0);
     // Abstract_segment_tree(tokens);
     //free_token_list(&tokens);
@@ -51,7 +51,7 @@ void read_eval_print_loop(t_shell *shell)
             continue;
         }
         add_history(input);
-        execution(shell);
+        // execution(shell);
         free(input);
     }
 }
@@ -59,13 +59,13 @@ void read_eval_print_loop(t_shell *shell)
 int main(int ac, char **av, char **env)
 {
     (void)av;
-    t_shell shell;
-
+    t_shell (shell);
     if (ac != 1)
-        return (1);
-    shell = (struct s_shell){0};
-    create_env(&shell.env_list, env);
-    read_eval_print_loop(&shell);
-    // free_shell(shell);
-    return (0);
+		return (1);
+
+	shell = (struct s_shell){0};
+	create_env(&shell.env_list, env);
+	read_eval_print_loop(&shell);
+	// free_shell(shell);
+	return (0);
 }

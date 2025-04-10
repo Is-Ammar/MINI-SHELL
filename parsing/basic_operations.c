@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   basic_operations.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
+/*   Updated: 2025/04/05 09:14:40 by habdella         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 t_dll	*create_token_list(void)
@@ -42,18 +54,53 @@ void	add_token(t_dll **head, char *val, t_token_type token_type)
 	token->next = NULL;
 }
 
-void	remove_token(t_dll **head, t_dll *token)
+void	add_mid_token(t_dll **head, t_dll *token, char *val)
 {
-	if (!head || !*head || !token)
+	t_dll *_Next;
+	t_dll *new_token;
+
+	new_token = create_token_list();
+	new_token->value = val;
+	new_token->token_type = WORD;
+	if (!*head)
+	{
+		*head = new_token;
 		return ;
-	if (*head == token)
-		*head = token->next;
-	if (token->prev)
-		token->prev->next = token->next;
-	if (token->next)
-		token->next->prev = token->prev;
-	free(token->value);
-	free(token);
+	}
+	if (!token)
+		return ;
+	_Next = token->next;
+	token->next = new_token;
+	new_token->prev = token;
+	new_token->next = _Next;
+	if (_Next)
+		_Next->prev = new_token;
+}
+
+void	remove_token(t_dll **head, t_dll *remove)
+{
+	t_dll	*prv;
+	t_dll	*nxt;
+
+	if (!head || !*head || !remove)
+		return ;
+	if (*head == remove && remove->next == NULL)
+	{
+		free(remove->value);
+		free(remove);
+		*head = NULL;
+		return ;
+	}
+	prv = remove->prev;
+	nxt = remove->next;
+	if (prv)
+		prv->next = nxt;
+	if (nxt)
+		nxt->prev = prv;
+	if (*head == remove)
+		*head = nxt;
+	free(remove->value);
+	free(remove);
 }
 
 void	free_token_list(t_dll **head)

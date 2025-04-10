@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 08:38:56 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:25:11 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ char	*dollar_sign(char *value, int *i, t_env *env, int e_code)
 char	*double_quote(char *value, int *i, t_env *env, int e_code)
 {
 	int len;
-	int flag;
 	int start;
 
 	(void)e_code;
 	start = *i + 1;
 	len = start;
-	flag = 0;
 	while (value[len] && !ft_strchr("\"$", value[len]))
 		len++;
 	*i = len + 1;
@@ -66,7 +64,7 @@ char	*single_quote(char *value, int *i)
 	return (ft_strduplen(&value[start], len - start));	
 }
 
-char	*expanding(char *value, t_env *env, int e_code)
+char	*expand_env_vars(char *value, t_env *env, int e_code)
 {
 	char	*new_val;
 	char	*temp;

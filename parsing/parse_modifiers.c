@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 14:13:01 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/05 08:36:46 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ void	remove_spaces(t_dll **tokens)
 		if (curr->token_type == WHITESPACE)
 			remove_token(tokens, curr);
 		curr = curr->next;
-	}	
+	}
 }
 
-void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code)
+int	expansion(t_dll **tokens, t_env **env, int e_code)
 {
 	t_dll	*curr;
 	char	*temp;
 
 	if (!tokens || !*tokens)
-		return ;
+		return (0);
 	curr = *tokens;
 	temp = NULL;
 	while (curr && curr->token_type != OPERATOR)
@@ -116,17 +116,14 @@ void	remove_quotes_expand(t_dll **tokens, t_env **env, int e_code)
 		if (curr->expandable == TRUE)
 		{
 			temp = curr->value;
-			curr->value = expanding(curr->value, *env, e_code);
+			curr->value = expand_env_vars(curr->value, *env, e_code);
 			if (temp)
 				free(temp);
 		}
-		// if (curr->wildcard == TRUE)
-		// {
-		// 	temp = curr->value;
-		// 	curr->value = wildcard(curr->value, *env, e_code);
-		// 	if (temp)
-		// 		free(temp);
-		// }
+		if (curr->wildcard == TRUE)
+			if (wildcard(tokens, curr))
+				return (1);
 		curr = curr->next;
 	}
+	return (0);
 }
