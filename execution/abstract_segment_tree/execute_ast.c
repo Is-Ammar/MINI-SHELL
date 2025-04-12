@@ -1,31 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   smash.h                                            :+:      :+:    :+:   */
+/*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/10 18:44:38 by iammar           ###   ########.fr       */
+/*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
+/*   Updated: 2025/04/10 11:35:16 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SMASH_H
-# define SMASH_H
-
-#include "parsing/parsing.h"
-#include "execution/execution.h"
-
-typedef struct s_shell
-{
-    t_env   *env_list;
-    t_dll   *tokens;
-    t_ast   *ast;
-    int     exit_code;
-}   t_shell;
-
-typedef struct s_dll	t_dll;
-typedef	struct s_env	t_env;
-typedef struct s_ast    t_ast;
-
-#endif
+#include "../../smash.h"

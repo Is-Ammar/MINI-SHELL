@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/04 09:17:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:53:57 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,16 @@ typedef struct s_env
 typedef struct s_shell	t_shell;
 typedef struct s_dll	t_dll;
 
+typedef struct s_arg
+{
+	char	*argument;
+	struct s_arg 	*next;
+} 			t_arg;
+
 typedef	struct s_ast
 {
 	t_dll 			*token;
+	t_arg 			*arguments;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -74,5 +81,17 @@ void 					unset_env_var(t_shell *shell, t_dll *token);
 
 //-------------------Create-new-env--------------------------//
 void					create_env(t_env **env, char **environ);
+//-------------------abstract_tree---------------------------//
+t_ast 					*abstract_segment_tree(t_shell *shell);
+t_ast 					*parse_redirection(t_dll **tokens, t_shell *shell);
+t_ast 					*parse_logical_operators(t_dll **tokens, t_shell *shell);
+t_ast 					*parse_pipe(t_dll **tokens, t_shell *shell);
+t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
+t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
+void 					free_ast(t_ast *node);
+
+
+
+
 
 #endif

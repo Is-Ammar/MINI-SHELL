@@ -17,7 +17,7 @@ EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/env/env_variable_settings.c execution/env/env_variable_settings1.c \
 			execution/builtin/pwd.c execution/builtin/env.c execution/builtin/exit.c \
 			execution/builtin/echo.c execution/builtin/export.c execution/builtin/helpers.c \
-			execution/builtin/unset.c 
+			execution/builtin/unset.c execution/abstract_segment_tree/ast_utils.c execution/abstract_segment_tree/ast.c \
 
 # -------------------------------------------------------------------------- #
 PARS_OBJ = ${PARS_SRC:%.c=%.o}

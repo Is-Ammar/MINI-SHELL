@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/10 18:28:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 12:52:09 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int parsing(t_shell *shell, char *input)
 	shell->tokens = tokenize_input(input);
 	if (parse_input(&shell->tokens))
         return (1);
-    // expansion(&shell->tokens, &shell->env_list, shell->exit_code);
+    expansion(&shell->tokens, &shell->env_list, shell->exit_code);
+    shell->ast = abstract_segment_tree(shell);
+    // printtt(shell->ast);
+    // 
     // t_dll   *curr;
     // curr = shell->tokens;
     // while (curr)
@@ -26,7 +29,6 @@ int parsing(t_shell *shell, char *input)
     //     curr = curr->next;
     // }
     return (0);
-    // Abstract_segment_tree(tokens);
     //free_token_list(&tokens);
 }
 
