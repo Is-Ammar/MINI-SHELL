@@ -6,60 +6,11 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/12 14:06:37 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:09:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smash.h" 
-
-void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
-{
-    if (!node) return;
-
-    printf("%s", prefix);
-    printf(is_last ? "└── " : "├── ");
-
-    if (node->token) 
-    {
-        if (node->token->operator == AND)
-            printf("AND\n");
-        else if (node->token->operator == OR)
-            printf("OR\n");
-        else if (node->token->token_type == REDIRECTION)
-            printf("%s\n", node->token->value);
-        else if (node->token->token_type == PIPE)
-            printf("PIPE\n");
-        // else if (node->token->bracket == 1)
-        //     printf("( )\n");
-        else if (node->token->token_type == WORD)
-        {
-            printf("CMD: %s", node->token->value);
-            if(node->arguments)
-            {
-                t_arg *arg = node->arguments;
-                printf(" [args:");
-                while (arg) 
-                {
-                    printf(" %s", arg->argument);
-                    arg = arg->next;
-                }
-                printf("]");
-            }
-            printf("\n");
-        }
-    }
-
-    char new_prefix[256];
-    snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
-    print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
-    print_ast_tree(node->right, depth + 1, 1, new_prefix);
-}
-
-void printtt(t_ast *root)
-{
-    printf("AST Visualization:\n");
-    print_ast_tree(root, 0, 1, "");
-}
 
 int parsing(t_shell *shell, char *input)
 {

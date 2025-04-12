@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   basic_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/05 09:14:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:57:20 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	add_mid_token(t_dll **head, t_dll *token, char *val)
 	t_dll *new_token;
 
 	new_token = create_token_list();
-	new_token->value = val;
+	new_token->value = ft_strdup(val);
 	new_token->token_type = WORD;
 	if (!*head)
 	{
