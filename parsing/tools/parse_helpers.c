@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/05 08:33:53 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 08:51:38 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,27 @@ char	*ft_itoa(int n)
 	return (itoa);
 }
 
-char	*ft_strdup_expand(char *value, t_env *env)
+char	*remove_quotes(char *token)
 {
-	char	*name;
-	char	*env_value;
+	int		i;
+	int		j;
+	int		len;
+	char	*p;
 
-	if (!value)
+	if (!token)
 		return (NULL);
-	if (value[0] == '"')
+	len = ft_strlen_quotes(token);
+	p = malloc(len + 1);
+	if (!p)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (token[i])
 	{
-		name = ft_strduplen(&value[1], ft_strlen_quotes(value));
-		env_value = get_env_var(env, &name[1]);
+		if (token[i] != '"' && token[i] != '\'')
+			p[j++] = token[i];
+		i++;
 	}
-	else
-	{
-		name = ft_strdup(value);
-		env_value = get_env_var(env, name);
-	}
-	free(name);
-	if (!env_value)
-		return ("");
-	return (ft_strdup(env_value));
+	p[j] = '\0';
+	return (p);
 }

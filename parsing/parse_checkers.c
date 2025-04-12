@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 13:55:31 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:31:57 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	check_quotes(t_dll *tokens)
 	while (curr)
 	{
 		i = 0;
-		if (curr->quote_type == SQUOTE)
+		if (curr->value[i] == '\'')
 		{
 			while (curr->value[i])
 				i++;
 			if (curr->value[--i] != '\'' || ft_strlen(curr->value) == 1)
 				return (Error(curr->value, EQUOTES), 1);
 		}
-		else if (curr->quote_type == DQUOTE)
+		else if (curr->value[i] == '"')
 		{
 			while (curr->value[i])
 				i++;
@@ -133,6 +133,29 @@ int	check_subshell(t_dll *tokens)
 	return (0);
 }
 
+int	subshell_last(t_dll *tokens)
+{
+	t_dll	*curr;
+	t_dll	*_Next;
+	int		flag;
+
+	if (!tokens)
+		return (0);
+	curr = tokens;
+	flag = 0;
+	while (curr && curr->next)
+	{
+		_Next = curr->next;
+		if (curr->bracket == LEFT && _Next->token_type == REDIRECTION)
+			flag = 1;
+		if (flag && _Next->token_type == WORD && _Next->next
+			&& _Next->next->token_type == WORD)
+			return (Error(_Next->next->value, ESYNTAX), 1);
+		curr = _Next;
+	}
+	return (0);
+}
+
 int	parse_input(t_dll **tokens)
 {
 	operators_merge(tokens);
@@ -147,7 +170,7 @@ int	parse_input(t_dll **tokens)
 		return (1);
 	if (find_token(*tokens, SYMBOL) != NULL)
 	{
-		if (check_subshell(*tokens))
+		if (check_subshell(*tokens) || subshell_last(*tokens))
 			return (1);
 	}
 	// if (is_heredoc(*tokens))

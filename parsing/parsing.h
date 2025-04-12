@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/05 09:12:34 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:45:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_dll
 
 typedef struct s_shell	t_shell;
 typedef	struct s_env	t_env;
+typedef	struct s_ast	t_ast;
 
 // -------------------- Everything about tokens -------------------- //
 
@@ -97,7 +98,7 @@ t_dll	*tokenize_input(char *input);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 t_token_type	get_token_type(char *val);
 t_quote_type	get_quote_type(char *val);
-char			*get_token_val(char *input);
+char			*get_token_val(char *input, int *index);
 int				ft_strlen(const char *s);
 int				ft_strlen_quotes(const char *s);
 char			*ft_strduplen(char *input, int len);
@@ -123,11 +124,19 @@ void	remove_spaces(t_dll **tokens);
 void	identify_tokens(t_dll *tokens);
 char	*expand_env_vars(char *value, t_env *env, int e_code);
 int		expansion(t_dll **tokens, t_env **env, int e_code);
-int		wildcard(t_dll **tokens, t_dll *curr);
+int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 char	*ft_strdup_expand(char *token, t_env *env);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_itoa(int n);
+/* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
+int	wildcard(t_dll **tokens, t_dll *curr);
+int	hidden_files(char *val, char *name);
+int	search_for_match(t_dll **tokens, t_dll *curr, char *val, char *d_name);
+int prefix(char *name, char *val, int *start);
+int	infix(char *val, char *name, int i);
+int	last_infix_check(char *val, char *name, int i, int j);
+int suffix(char *name, char *val);
 // ------------------------------------------------------------------ //
 
 #endif

@@ -12,6 +12,21 @@
 
 # include "parsing.h"
 
+char	*ft_strdup_expand(char *value, t_env *env)
+{
+	char	*name;
+	char	*env_value;
+
+	if (!value)
+		return (NULL);
+	name = ft_strdup(value);
+	env_value = get_env_var(env, name);
+	free(name);
+	if (!env_value)
+		return ("");
+	return (ft_strdup(env_value));
+}
+
 char	*dollar_sign(char *value, int *i, t_env *env, int e_code)
 {
 	int 	len;
@@ -29,26 +44,32 @@ char	*dollar_sign(char *value, int *i, t_env *env, int e_code)
 	return (ft_strdup_expand(p, env));
 }
 
-char	*double_quote(char *value, int *i, t_env *env, int e_code)
+char	*double_quote(char *val, int *i, t_env *env, int e_code)
 {
-	int len;
-	int start;
+	int		j;
+	int		start;
+	char	*temp_val;
+	char	*new_val;
 
-	(void)e_code;
 	start = *i + 1;
-	len = start;
-	while (value[len] && !ft_strchr("\"$", value[len]))
-		len++;
-	*i = len + 1;
-	if (value[len] == '"')
-		return (ft_strduplen(&value[start], len - start));
-	while (value[len] && !ft_strchr("\"$", value[len]))
-		len++;
-	if (value[len] == '"')
-		*i = len + 1;
-	else
-		*i = len;
-	return (ft_strdup_expand(&value[start], env));
+	new_val = ft_strdup("");
+	while (val[start] && val[start] != '"')
+	{
+		j = start;
+		while (val[start] && !ft_strchr("\"$", val[start]))
+			start++;
+		temp_val = new_val;
+		if (j != start)
+			new_val = ft_strjoin(new_val, ft_strduplen(&val[j], start - j));
+		if (val[start] == '"')
+			break ;
+		if (val[start] == '$')
+			new_val = ft_strjoin(new_val, dollar_sign(val, &start, env, e_code));
+		if (temp_val)
+			free(temp_val);
+	}
+	*i = start + 1;
+	return (new_val);
 }
 
 char	*single_quote(char *value, int *i)
@@ -71,7 +92,8 @@ char	*expand_env_vars(char *value, t_env *env, int e_code)
 	int		i;
 	int		j;
 
-	(1) && (new_val = ft_strdup(""), i = 0);
+	i = 0;
+	new_val = ft_strdup("");
 	while (value[i])
 	{
 		j = i;

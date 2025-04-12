@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/01 13:45:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 08:51:35 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,15 @@ char	*ft_strdup_quotes(char *token)
 
 	if (!token)
 		return (NULL);
-	len = ft_strlen_quotes(token);
-	p = malloc(len + 1);
-	if (!p)
-		return (NULL);
 	i = 0;
 	j = 0;
+	len = ft_strlen(token) - 1;
+	p = malloc(len);
+	if (!p)
+		return (NULL);
 	while (token[i])
 	{
-		if (token[i] != '"' && token[i] != '\'')
+		if (i != 0 && i != len)
 			p[j++] = token[i];
         i++;
 	}

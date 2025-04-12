@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/12 12:52:09 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/12 13:45:20 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int parsing(t_shell *shell, char *input)
     shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
     // 
-    // t_dll   *curr;
-    // curr = shell->tokens;
-    // while (curr)
-    // {
-    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
-    //     curr = curr->next;
-    // }
+    t_dll   *curr;
+    curr = shell->tokens;
+    while (curr)
+    {
+        printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
+        curr = curr->next;
+    }
     return (0);
     //free_token_list(&tokens);
 }

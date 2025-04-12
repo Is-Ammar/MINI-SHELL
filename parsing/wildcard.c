@@ -6,108 +6,86 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/10 18:27:18 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 11:39:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int suffix(char *name, char *val)
+int	double_quote_check(char *val, int i)
 {
-	int	i;
-	int	j;
-
-	i = ft_strlen(val) - 1;
-	j = ft_strlen(name) - 1;
-	if (val[i] == '*')
-		return (0);
-	while (val[i] && name[j] && val[i] != '*')
+	i += 1;
+	while (val[i] && val[i] != '"')
 	{
-		if (val[i] != name[j])
+		if (val[i] == '*')
 			return (1);
-		i--;
-		j--;
+		i++;
 	}
 	return (0);
 }
 
-int	last_check(char *val, char *name, int i, int j)
+int	single_quote_check(char *val, int i)
 {
-	while (val[i] && val[i] == '*')
+	i += 1;
+	while (val[i] && val[i] != '\'')
+	{
+		if (val[i] == '*')
+			return (1);
 		i++;
-	if (val[i] && name[j] == '\0')
-		return (1);
+	}
 	return (0);
 }
 
-int	check_wildcard(char *val, char *name, int i)
+int	check_depth_to_expand(char *val)
 {
-	int is_patern;
-	int	pos;
-	int	j;
+	int	i;
 
-	(1) && (j = i, is_patern = TRUE);
-	while (val[i] && name[j])
+	if (!ft_strchr(val, '\'') && !ft_strchr(val, '"'))
+		return (0);
+	i = 0;
+	while (val[i])
 	{
-		while (name[j] && val[i] && val[i] == '*')
-			i++;
-		pos = i;
-		while (name[j] && val[i] && val[i] != '*')
+		if (val[i] == '\'' || val[i] == '"')
 		{
-			if (val[i] == name[j] && (val[i + 1] == '\0' || val[i + 1] == '*'))
-				is_patern = TRUE;
-			if (val[i] != name[j])
-				(i = pos, j++, is_patern = FALSE);
-			else
-				(i++, j++);
+			if (val[i] == '\'' && !single_quote_check(val, i))
+				return (0);
+			if (val[i] == '"' && !double_quote_check(val, i))
+				return (0);
+			i += 1;
+			while (val[i] && (val[i] != '\'' || val[i] != '"'))
+				i++;
 		}
-		if (is_patern == FALSE)
-			return (1);
-	}
-	return (last_check(val, name, i, j));
-}
-
-int prefix(char *name, char *val, int *start, int *flag)
-{
-	int	i;
-
-	i = 0;
-	if (name[0] == '*')
-		return (0);
-	while (val[i] && name[i] && val[i] != '*')
-	{
-		if (val[i] != name[i])
-			return (1);
 		i++;
 	}
-	*start = i;
-	while (val[i] && val[i] == '*')
-		i++;
-	if (val[i] == '\0')
-		*flag = 1;
-	return (0);
+	return (1);
 }
 
-int	search_for_match(t_dll **tokens, t_dll *curr, char *val, char *d_name)
+int	hidden_files(char *val, char *name)
 {
 	int	i;
 	int	j;
-	int flag;
+	int	point_count;
 
-	i = 0;
-	j = 0;
-	flag = 0;
-	while (val[j] && val[j] == '*')
-		val++;
-	if (val[j] == '\0' && *d_name == '.')
+	(1) && (i = 0, j = 0, point_count = 0);
+	if (!ft_strcmp(".", name) || !ft_strcmp("..", name))
 		return (1);
-	if (prefix(d_name, val, &i, &flag))
+	if (name[0] == '.' && !ft_strchr(val, '.'))
 		return (1);
-	if (!flag && check_wildcard(val, d_name, i))
+	while (val[i] && val[i] == '*')
+		i++;
+	if (val[i] == '\0' && name[0] == '.')
 		return (1);
-	if (!flag && suffix(d_name, val))
-		return (1);
-	add_mid_token(tokens, curr, d_name);
+	if (i != 0 && val[i] && val[i] == '.')
+	{
+		while (name[j])
+		{
+			if (name[j] && name[j] == '.')
+				point_count++;
+			j++;
+		}
+		if (name[0] == '.' && point_count == 1)
+			return (1);
+	}
 	return (0);
 }
 
@@ -117,14 +95,16 @@ int	wildcard(t_dll **tokens, t_dll *curr)
 	struct dirent	*dentry;
 	int				match_number;
 
+	match_number = 0;
 	dir = opendir(".");
 	if (!dir)
-		return (perror("minishell: "), 0);
+		return (perror("minishell: "), 1);
 	dentry = readdir(dir);
-	match_number = 0;
 	while (dentry != NULL)
 	{
-		if (!search_for_match(tokens, curr, curr->value, dentry->d_name))
+		if (hidden_files(curr->value, dentry->d_name))
+			;
+		else if (!search_for_match(tokens, curr, curr->value, dentry->d_name))
 			match_number++;
 		dentry = readdir(dir);
 	}

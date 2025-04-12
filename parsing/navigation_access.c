@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/05 09:11:43 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/12 11:58:16 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_quote_type	get_quote_type(char *val)
 {
-	if (val[0] == '\'')
+	if (ft_strchr(val, '\''))
 		return (SQUOTE);
-	if (val[0] == '"')
+	if (ft_strchr(val, '"'))
 		return (DQUOTE);
 	return (NONE);
 }
