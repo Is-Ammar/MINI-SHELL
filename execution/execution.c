@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/13 09:21:41 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/16 10:40:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int is_builtin(t_shell *shell)
 {
     char    *cmd;
 
-    if (expansion(&shell->tokens, shell->env_list, shell->exit_code))
-        shell->exit_code = 1;
+    expansion(&shell->tokens, shell->env_list, shell->exit_code);
     cmd = shell->ast->token->value;
     if (!cmd)
         return (0);

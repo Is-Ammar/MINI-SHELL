@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 10:35:15 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:40:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int parsing(t_shell *shell, char *input)
 	shell->tokens = tokenize_input(input);
 	if (parse_input(&shell->tokens))
         return (1);
-    expansion(&shell->tokens, &shell->env_list, shell->exit_code);
+    expansion(&shell->tokens, shell->env_list, shell->exit_code);
+    heredoc(&shell->tokens, shell->env_list, shell->exit_code);
+    redirections(&shell->tokens);
     shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
     // t_dll   *curr;
@@ -76,8 +78,6 @@ int parsing(t_shell *shell, char *input)
     //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
     //     curr = curr->next;
     // }
-    heredoc(&shell->tokens, shell->env_list, shell->exit_code);
-    redirections(&shell->tokens);
     // expansion(&shell->tokens, shell->env_list, shell->exit_code);
     // shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
