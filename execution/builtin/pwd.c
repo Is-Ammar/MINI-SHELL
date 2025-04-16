@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 22:52:21 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:41:34 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void execute_builtin_pwd(t_shell *shell)
 {
     char *cwd;
     
-    cwd = ft_strdup(get_env_var(shell->env_list, "PWD"));
+    cwd = (get_env_var(shell->env_list, "PWD"));
     if (!cwd || access(cwd, F_OK) == -1)
     {
         cwd = get_current_dir_safe(shell);

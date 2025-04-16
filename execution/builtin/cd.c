@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 22:51:39 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:06:42 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
     return (NULL);
 }
 
-char *resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
+char *resolve_directory(t_arg *arg_token, t_shell *shell, char *cwd)
 {
-    if (!arg_token || arg_token->token_type != WORD || !arg_token->value
-        || ft_strcmp(arg_token->value, "~") == 0
-        || ft_strcmp(arg_token->value, "") == 0)
+    if (!arg_token || !arg_token->argument
+        || ft_strcmp(arg_token->argument, "~") == 0
+        || ft_strcmp(arg_token->argument, "") == 0)
         return (get_directory(shell, "HOME", NULL));
-    if (ft_strcmp(arg_token->value, "-") == 0)
+    if (ft_strcmp(arg_token->argument, "-") == 0)
     {
         if (!get_env_var(shell->env_list, "OLDPWD"))
         {
@@ -63,15 +63,15 @@ char *resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
         }
         return (get_directory(shell, "OLDPWD", cwd));
     }
-    return (ft_strdup(arg_token->value));
+    return (ft_strdup(arg_token->argument));
 }
 
-int parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
+int parse_cd_args(t_arg *arg_token, t_shell *shell, char **dir, char **cwd)
 {
     *dir = resolve_directory(arg_token, shell, *cwd);
     if (!*dir)
         return (1);
-    if (arg_token && arg_token->next && arg_token->next->token_type == WORD)
+    if (arg_token && arg_token->next && arg_token->next)
     {
         ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
         free(*dir);
@@ -113,7 +113,7 @@ void update_pwd_vars(t_shell *shell, char *old_cwd)
 void execute_builtin_cd(t_shell *shell)
 {
     char *dir;
-    t_dll *arg_token;
+    t_arg *arg_token;
     char *cwd;
 
     dir = NULL;
@@ -124,7 +124,7 @@ void execute_builtin_cd(t_shell *shell)
         shell->exit_code = 1;
         return;
     }
-    arg_token = shell->tokens->next;
+    arg_token = shell->ast->arguments;
     if (parse_cd_args(arg_token, shell, &dir, &cwd))
     {
         free(cwd);

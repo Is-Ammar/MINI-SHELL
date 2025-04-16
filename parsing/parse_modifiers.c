@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/12 13:11:27 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/16 09:50:17 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	expansion(t_dll **tokens, t_env **env, int e_code)
 		return (0);
 	curr = *tokens;
 	temp = NULL;
-	while (curr && curr->token_type != OPERATOR)
+	while (curr /*&& curr->token_type != OPERATOR*/)
 	{
 		if (curr->expandable == TRUE || curr->quote_type != NONE)
 		{

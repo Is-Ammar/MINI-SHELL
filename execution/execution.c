@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/04 16:08:31 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/13 09:21:41 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int is_builtin(t_shell *shell)
 
     if (expansion(&shell->tokens, &shell->env_list, shell->exit_code))
         shell->exit_code = 1;
-    cmd = (shell->tokens)->value;
+    cmd = shell->ast->token->value;
     if (!cmd)
         return (0);
     return (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "echo") == 0
@@ -29,41 +29,31 @@ int is_builtin(t_shell *shell)
 
 void execute_builtin(t_shell *shell)
 {
-    if (!shell->tokens || !shell->tokens->value)
+    if (!shell->ast || !shell->ast->token)
         return;
     
-    if (ft_strcmp(shell->tokens->value, "cd") == 0)
+    if (ft_strcmp(shell->ast->token->value, "cd") == 0)
         execute_builtin_cd(shell);
-    else if (ft_strcmp(shell->tokens->value, "pwd") == 0)
+    else if (ft_strcmp(shell->ast->token->value, "pwd") == 0)
         execute_builtin_pwd(shell);
-    else if (ft_strcmp(shell->tokens->value, "echo") == 0)
+    else if (ft_strcmp(shell->ast->token->value, "echo") == 0)
         execute_builtin_echo(shell);
-    else if (ft_strcmp(shell->tokens->value, "export") == 0)
+    else if (ft_strcmp(shell->ast->token->value, "export") == 0)
         execute_builtin_export(shell);
-    else if (ft_strcmp(shell->tokens->value, "unset") == 0)
+    else if (ft_strcmp(shell->ast->token->value, "unset") == 0)
      execute_builtin_unset(shell);
-    else if (ft_strcmp(shell->tokens->value, "env") == 0)
+    else if (ft_strcmp(shell->ast->token->value, "env") == 0)
         execute_builtin_env(shell);
-    else if (ft_strcmp(shell->tokens->value, "exit") == 0)
+    else if (ft_strcmp(shell->ast->token->value, "exit") == 0)
         execute_builtin_exit(shell);
 }
 
 void execution(t_shell *shell)
 {
-    if (!shell->tokens)
+    if (!shell->ast)
         return;
-    if (!shell->tokens->value)
+    if (!shell->ast->token || !shell->ast->token->value)
         return;
-    // t_env *tmp = shell->env_list;
-    // while(tmp)
-    // {
-    //     printf("----name:%s\n",tmp->env_name);
-    //     printf("----value:%s\n\n\n",tmp->env_value);
-    //     tmp = tmp->next;
-    // }
-    // printf("-\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    if (is_builtin(shell))
-        execute_builtin(shell);
-    // else
-    //  execute_external_command(shell);
+    execute_ast(shell);
+
 }

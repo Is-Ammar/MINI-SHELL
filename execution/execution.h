@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/10 18:53:57 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/13 18:42:49 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <errno.h> 
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef struct s_env
 {
@@ -48,6 +51,8 @@ typedef	struct s_ast
 int						is_builtin(t_shell *shell);
 void					execute_builtin(t_shell *shell);
 void					execution(t_shell *shell);
+void 					execute_ast(t_shell *shell);
+void 					execute_external(t_shell *shell, t_ast *cmd_node);
 
 //------------------------buitlin-----------------------------//
 
@@ -89,7 +94,6 @@ t_ast 					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void 					free_ast(t_ast *node);
-
 
 
 

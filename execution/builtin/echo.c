@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 14:20:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/16 09:55:21 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,35 @@
 
 void execute_builtin_echo(t_shell *shell)
 {
-    t_dll   *curr;
+    t_arg   *curr;
     int     flag;
 
-    if (!shell->tokens->next ||
-        (shell->tokens->next && shell->tokens->next->token_type != WORD))
+    if (!shell->ast || !shell->ast->token || 
+        !shell->ast->arguments || 
+        (shell->ast->arguments && shell->ast->arguments))
     {
         printf("\n");
         return;
     }
-    (1) && (flag = 0, curr = shell->tokens->next);
-    while (!ft_strcmp(curr->value, "-n"))
+    
+    (1) && (flag = 0, curr = shell->ast->arguments);
+
+    while (curr && !ft_strcmp(curr->argument, "-n"))
     {
         flag = 1;
         curr = curr->next;
     }
-    while (curr && curr->token_type == WORD)
+
+    while (curr)
     {
-        printf("%s", curr->value);
+        printf("%s", curr->argument);
         curr = curr->next;
-        if (curr && curr->token_type == WORD)
+        if (curr)
             printf(" ");
     }
+
     if (!flag)
         printf("\n");
+        
     shell->exit_code = 0;
 }

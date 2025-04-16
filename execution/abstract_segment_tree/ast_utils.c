@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/12 14:11:22 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/13 15:18:50 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,14 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
 
     *tokens = (*tokens)->next;
     tail = &cmd_node->arguments;
-
     while (*tokens && (*tokens)->value && (*tokens)->token_type == WORD) 
     {
-    new_arg = malloc(sizeof(t_arg));
-    new_arg->argument = (*tokens)->value;
-    new_arg->next = NULL;
-    *tail = new_arg;
-    tail = &new_arg->next;
-    *tokens = (*tokens)->next;
+        new_arg = malloc(sizeof(t_arg));
+        new_arg->argument = (*tokens)->value;
+        new_arg->next = NULL;
+        *tail = new_arg;
+        tail = &new_arg->next;
+        *tokens = (*tokens)->next;
     }
     return cmd_node;
 }
