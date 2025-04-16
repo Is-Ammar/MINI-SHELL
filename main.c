@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 09:50:59 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/16 10:35:15 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,18 @@ int parsing(t_shell *shell, char *input)
     //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
     //     curr = curr->next;
     // }
+    heredoc(&shell->tokens, shell->env_list, shell->exit_code);
+    redirections(&shell->tokens);
+    // expansion(&shell->tokens, shell->env_list, shell->exit_code);
+    // shell->ast = abstract_segment_tree(shell);
+    // printtt(shell->ast);
+    t_dll   *curr;
+    curr = shell->tokens;
+    while (curr)
+    {
+        printf("Token --> : `%s', redirection type: %d\n", curr->value, curr->redir_type);
+        curr = curr->next;
+    }
     return (0);
     //free_token_list(&tokens);
 }
@@ -101,7 +113,7 @@ void read_eval_print_loop(t_shell *shell)
             continue;
         }
         add_history(input);
-        execution(shell);
+        // execution(shell);
         free(input);
     }
 }

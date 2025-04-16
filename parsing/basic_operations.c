@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   basic_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/13 15:08:58 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/16 10:37:38 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_dll	*create_token_list(void)
 	head->value = NULL;
 	head->token_type = WHITESPACE;
 	head->quote_type = NONE;
+	head->redir_type = 0;
 	head->expandable = 0;
 	head->direction = 0;
 	head->bracket = 0;
@@ -88,7 +89,6 @@ void	remove_token(t_dll **head, t_dll *remove)
 	{
 		free(remove->value);
 		free(remove);
-		*head = NULL;
 		return ;
 	}
 	prv = remove->prev;

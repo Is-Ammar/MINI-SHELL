@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 09:50:17 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/16 10:37:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	identify_tokens(t_dll *tokens)
 	curr = tokens;
 	while (curr)
 	{
-		if (!check_depth_to_expand(curr->value) && curr->value)
+		if (!check_depth_to_expand(curr->value))
 			curr->wildcard = TRUE;
 		if (ft_strchr(curr->value, '$'))
 			curr->expandable = TRUE;
@@ -81,9 +81,9 @@ void	identify_tokens(t_dll *tokens)
 		if (!ft_strcmp(curr->value, "<<"))
 			curr->heredoc = TRUE;
 		if (curr->value[0] == '<')
-			curr->direction = LEFT;
-		else if (curr->value[0] == '>')
-			curr->direction = RIGHT;
+			(curr->direction = LEFT);
+		if (curr->value[0] == '>')
+			(curr->direction = RIGHT);
 		curr = curr->next;
 	}
 }
@@ -103,7 +103,7 @@ void	remove_spaces(t_dll **tokens)
 	}
 }
 
-int	expansion(t_dll **tokens, t_env **env, int e_code)
+int	expansion(t_dll **tokens, t_env *env, int e_code)
 {
 	t_dll	*curr;
 	char	*temp;
@@ -117,7 +117,7 @@ int	expansion(t_dll **tokens, t_env **env, int e_code)
 		if (curr->expandable == TRUE || curr->quote_type != NONE)
 		{
 			temp = curr->value;
-			curr->value = expand_env_vars(curr->value, *env, e_code);
+			curr->value = expand_env_vars(curr->value, env, e_code);
 			if (temp)
 				free(temp);
 		}

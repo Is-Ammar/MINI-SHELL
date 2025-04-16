@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/12 13:45:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/16 09:19:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 # define PARSING_H
 
 # include <stdio.h> 
+# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stddef.h>
 # include <dirent.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../execution/execution.h"
@@ -24,6 +28,7 @@
 #define RED     "\033[31m"				// Red text
 #define RESET   "\001\033[0m\002"		// Reset all attributes
 #define CYAN	"\001\033[0;36m\002"	// Cyan text
+#define	PURPLE	"\001\033[0;35m\002"	// purple text
 
 # define FALSE	0
 # define TRUE	1
@@ -62,11 +67,19 @@ typedef enum e_quote_type
 	DQUOTE
 }	t_quote_type;
 
+typedef	enum e_redirect
+{
+	READ = 1,
+	WRITE = 2,
+	APPEND = 3,
+}	t_redicrect;
+
 typedef struct s_dll
 {
 	char			*value;
 	t_token_type 	token_type;
 	t_quote_type	quote_type;
+	t_redicrect		redir_type;
 	int				expandable;
 	int				direction;
 	int				bracket;
@@ -103,6 +116,7 @@ int				ft_strlen(const char *s);
 int				ft_strlen_quotes(const char *s);
 char			*ft_strduplen(char *input, int len);
 char			*ft_strdup_quotes(char	*token);
+char			*remove_quotes(char *token);
 char			*ft_strchr(const char *s, int c);
 void			Error(char *val, t_error_type error);
 int				ft_printf(const char *format, ...);
@@ -116,6 +130,7 @@ int		parse_input(t_dll **tokens);
 int		check_quotes(t_dll *tokens);
 int		check_brackets(t_dll *tokens);
 int		check_subshell(t_dll *tokens);
+int		subshell_last(t_dll *tokens);
 int		check_logic(t_dll *tokens);
 /* ///////////////// modifiers \\\\\\\\\\\\\\\\\\\\\ */ 
 void	operators_merge(t_dll **tokens);
@@ -123,20 +138,31 @@ void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
 void	identify_tokens(t_dll *tokens);
 char	*expand_env_vars(char *value, t_env *env, int e_code);
-int		expansion(t_dll **tokens, t_env **env, int e_code);
+int		expansion(t_dll **tokens, t_env *env, int e_code);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 char	*ft_strdup_expand(char *token, t_env *env);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_itoa(int n);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
-int	wildcard(t_dll **tokens, t_dll *curr);
-int	hidden_files(char *val, char *name);
-int	search_for_match(t_dll **tokens, t_dll *curr, char *val, char *d_name);
-int prefix(char *name, char *val, int *start);
-int	infix(char *val, char *name, int i);
-int	last_infix_check(char *val, char *name, int i, int j);
-int suffix(char *name, char *val);
+int		wildcard(t_dll **tokens, t_dll *curr);
+int		hidden_files(char *val, char *name);
+int		search_for_match(t_dll **tokens, t_dll *curr, char *val, char *d_name);
+int 	prefix(char *name, char *val, int *start);
+int		infix(char *val, char *name, int i);
+int		last_infix_check(char *val, char *name, int i, int j);
+int 	suffix(char *name, char *val);
+/* ///////////////// heredoc \\\\\\\\\\\\\\\\\\\\\ */
+void	heredoc(t_dll **tokens, t_env *env, int e_code);
+void	handle_herdoc(t_dll *_Next, char *name, t_env *env, int e_code);
+void	expandable_doc(char *delim, char *name, t_env *env, int e_code);
+void	non_expandable_doc(char *delim, char *name);
+void	replace_tokens(t_dll **tokens, t_dll *curr, t_dll *_Next, char *name);
+char	*ft_strnstr(const char *big, const char *little, int len);
+void	last_check_doc(t_dll **tokens);
+/* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
+void	redirections(t_dll **tokens);
+int		handle_redirect(char *value, t_dll *_Next);
 // ------------------------------------------------------------------ //
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/13 15:35:35 by habdella           ###   ########.fr       */
+/*   Updated: 2025/04/16 10:38:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	check_depth_to_expand(char *val)
 
 	if (!ft_strchr(val, '\'') && !ft_strchr(val, '"'))
 		return (0);
+	if ((val[0] == '\'' && val[1] == '\'') || (val[0] == '"'&& val[1] == '"'))
+		return (1);
 	i = 0;
 	while (val[i])
 	{

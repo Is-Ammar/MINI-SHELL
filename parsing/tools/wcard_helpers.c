@@ -46,7 +46,8 @@ int	infix(char *val, char *name, int i)
 	int	pos;
 	int	j;
 
-	(1) && (j = i, is_patern = TRUE);
+	j = i;
+	is_patern = TRUE;
 	while (val[i] && name[j])
 	{
 		while (name[j] && val[i] && val[i] == '*')

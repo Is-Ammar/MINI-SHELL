@@ -16,7 +16,7 @@ int is_builtin(t_shell *shell)
 {
     char    *cmd;
 
-    if (expansion(&shell->tokens, &shell->env_list, shell->exit_code))
+    if (expansion(&shell->tokens, shell->env_list, shell->exit_code))
         shell->exit_code = 1;
     cmd = shell->ast->token->value;
     if (!cmd)

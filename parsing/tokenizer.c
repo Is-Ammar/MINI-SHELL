@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/12 12:03:57 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/16 08:02:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_dll	*tokenize_input(char *input)
 	char			*token_val;
 	int				index;
 
-	head = create_token_list();
+	head = NULL;
 	index = 0;
 	while (input[index])
 	{
@@ -113,6 +113,5 @@ t_dll	*tokenize_input(char *input)
 		token_type = get_token_type(token_val);
 		add_token(&head, token_val, token_type);
 	}
-	remove_token(&head, head);
 	return (head);
 }
