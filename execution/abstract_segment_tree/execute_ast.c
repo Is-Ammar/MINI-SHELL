@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/16 10:24:28 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/18 15:43:48 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void execute_ast(t_shell *shell)
             if (is_builtin(shell))
                 execute_builtin(shell);
             else
-                execute_external(shell, shell->ast);
+                execute_external(shell);
         }
         return;
     }
@@ -58,7 +58,7 @@ void execute_ast(t_shell *shell)
 
         else if (shell->ast->token->token_type == PIPE)
         {
-            printf("pipe----------------------------\n");
+            printf("pipe");//(execute_pipe(shell))
         }
         
         shell->ast = original_ast;

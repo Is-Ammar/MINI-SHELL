@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_env.c                                       :+:      :+:    :+:   */
+/*   env_variable_settings1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 21:11:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/18 15:28:07 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,50 @@ char *get_current_dir_safe(t_shell *shell)
         return NULL;
     }
     return cwd;
+}
+
+char **convert_env_to_array(t_env *env_list)
+{
+    t_env *current;
+    char **env_array = {NULL};
+    int count;
+    int i;
+    size_t len;
+    
+    count = 0;
+    i = 0;
+    current = env_list;
+    while (current)
+    {
+        count++;
+        current = current->next;
+    }
+    env_array = malloc((count + 1) * sizeof(char *));
+    if (!env_array)
+        return NULL;
+    current = env_list;
+    while (current)
+    {
+        len = ft_strlen(current->env_name) + ft_strlen(current->env_value) + 2;
+
+        env_array[i] = malloc(len);
+        if (!env_array[i])
+        {
+            while (--i >= 0)
+                free(env_array[i]);
+            free(env_array);
+            return NULL;
+        }
+        ft_strlcpy(env_array[i], current->env_name, ft_strlen(current->env_name) + 1);
+        ft_strcat(env_array[i], "=");
+        ft_strcat(env_array[i], current->env_value);
+
+        i++;
+        current = current->next;
+    }
+
+    env_array[i] = NULL;
+    return env_array;
 }
 
 // int mark_env_var_exported(t_env **env, char *name)

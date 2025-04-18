@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/16 07:58:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/18 13:16:54 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,17 @@ size_t	ft_strlcpy(char *dst, char *src, size_t len)
 	}
 	dst[i] = '\0';
 	return (src_len);
+}
+
+char *ft_strcat(char *dest, const char *src)
+{
+    char *ptr;
+    
+    ptr = dest;
+    while (*ptr)
+        ptr++;
+    while (*src)
+        *ptr++ = *src++;
+    *ptr = '\0';
+    return dest;
 }

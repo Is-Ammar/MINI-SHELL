@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 09:55:21 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/16 23:27:12 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void execute_builtin_echo(t_shell *shell)
 {
     t_arg   *curr;
     int     flag;
+    int     i;
 
-    if (!shell->ast || !shell->ast->token || 
-        !shell->ast->arguments || 
-        (shell->ast->arguments && shell->ast->arguments))
+    i = 1;
+    if (!shell->ast || !shell->ast->token || !shell->ast->arguments)
     {
         printf("\n");
         return;
@@ -27,8 +27,12 @@ void execute_builtin_echo(t_shell *shell)
     
     (1) && (flag = 0, curr = shell->ast->arguments);
 
-    while (curr && !ft_strcmp(curr->argument, "-n"))
+    if (curr && ft_strchr(curr->argument, '-'))
     {
+        while(curr->argument[i] == 'n')
+        {
+            i++;
+        }
         flag = 1;
         curr = curr->next;
     }
