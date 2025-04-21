@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/20 12:00:41 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:34:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,19 @@ int		handle_redirect(char *value, t_dll *_Next)
     if (!ft_strcmp(value, ">>"))
 	{
 		_Next->redir_type = APPEND;
+		_Next->token_type = REDIRECTION;
 		return (1);
 	}
 	if (!ft_strcmp(value, "<"))
 	{
 		_Next->redir_type = READ;
+		_Next->token_type = REDIRECTION;
 		return (1);
 	}	
 	if (!ft_strcmp(value, ">"))
 	{
 		_Next->redir_type = WRITE;
+		_Next->token_type = REDIRECTION;
 		return (1);
 	}
 	return (0);

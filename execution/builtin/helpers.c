@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:18:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 13:45:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:07:20 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,19 @@ double	ft_atoi(char *str)
 int	is_valid_identifier(const char *str)
 {
 	int	i;
-	 
+
+	i = 1;
 	if (!str || !*str)
 		return (0);
-		
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-		
-	i = 1;
-	while (str[i])
+	while (str[i] && str[i] != '=')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
-	
-	return (1);
+	return (i);
 }
 
 void	ft_putchar_fd(char c, int fd)

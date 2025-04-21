@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/15 12:21:24 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:48:53 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	subshell_last(t_dll *tokens)
 			flag = 1;
 		if (flag && _Next->token_type == WORD && _Next->next
 			&& _Next->next->token_type == WORD)
+			return (Error(_Next->next->value, ESYNTAX), 1);
+		if (curr->token_type == WORD && _Next->bracket == RIGHT)
 			return (Error(_Next->next->value, ESYNTAX), 1);
 		curr = _Next;
 	}

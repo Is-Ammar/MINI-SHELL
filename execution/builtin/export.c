@@ -3,62 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 13:47:20 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:39:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
+// void execute_builtin_export(t_shell *shell)
+// {
+//     char    *name;
+//     char    *value;
+//     char    *tmp;
+//     t_dll   *current;
+// 	t_arg 	*arg;
+//     int     exit_code;
+    
+//     exit_code = 0;
+//     current = shell->ast->token;
+// 	arg = shell->ast->arguments;
+    
+//     if (!current)
+//         return;
+    
+//     while (current)
+//     {
+//         tmp = ft_strdup(current->value);
+//         if (!tmp)
+//             return;
+        
+//         value = ft_strchr(tmp, '=');
+//         if (value)
+//         {
+//             *value = '\0';
+//             name = tmp;
+//             value++;
+//             if (is_valid_identifier(name))
+//                 set_env_var(&shell->env_list, name, value);
+//             else
+//             {
+//                 ft_putstr_fd("export: '", 2);
+//                 ft_putstr_fd(current->value, 2);
+//                 ft_putstr_fd("': not a valid identifier\n", 2);
+//                 exit_code = 1;
+//             }
+//         }
+//         else
+//         {
+//             ft_putstr_fd("export: '", 2);
+//             ft_putstr_fd(current->value, 2);
+//             ft_putstr_fd("': not a valid identifier\n", 2);
+//             exit_code = 1;
+//         }
+        
+//         free(tmp);
+//         current = current->next;
+//     }
+    
+//     shell->exit_code = exit_code;
+// }
+
+
+
+int	var_check(char *val, t_shell *shell)
+{
+	int		i;
+	char	*name;
+
+	i = is_valid_identifier(val);
+	if (!i)
+		return (1);
+	if (val[i] == '=')
+	{
+		name = ft_strduplen(val, i);
+		i += 1;
+		set_env_var(&shell->env_list, name, &val[i]);
+		free(name);
+	}
+	return (0);
+}
+
 void execute_builtin_export(t_shell *shell)
 {
-    char    *name;
-    char    *value;
-    char    *tmp;
-    t_dll   *current;
-    int     exit_code;
-    
-    exit_code = 0;
-    current = shell->tokens->next;
-    
-    if (!current)
-        return;
-    
-    while (current)
-    {
-        tmp = ft_strdup(current->value);
-        if (!tmp)
-            return;
-        
-        value = ft_strchr(tmp, '=');
-        if (value)
-        {
-            *value = '\0';
-            name = tmp;
-            value++;
-            if (is_valid_identifier(name))
-                set_env_var(&shell->env_list, name, value);
-            else
-            {
-                ft_putstr_fd("export: '", 2);
-                ft_putstr_fd(current->value, 2);
-                ft_putstr_fd("': not a valid identifier\n", 2);
-                exit_code = 1;
-            }
-        }
-        else
-        {
-            ft_putstr_fd("export: '", 2);
-            ft_putstr_fd(current->value, 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            exit_code = 1;
-        }
-        
-        free(tmp);
-        current = current->next;
-    }
-    
-    shell->exit_code = exit_code;
+	t_arg	*curr;
+	int		e_code;
+
+	e_code = 0;
+	curr = shell->ast->arguments;
+	if (!curr)
+		/*return (default(shell))*/;
+	while (curr)
+	{
+		if (var_check(curr->argument, shell))
+		{
+            ft_printf("export: `%s': not a valid identifier\n", curr->argument);
+			e_code = 1;
+		}
+		curr = curr->next;
+	}
+	shell->exit_code = e_code;
 }

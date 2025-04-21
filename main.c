@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/21 15:09:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:05:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int parsing(t_shell *shell, char *input)
     heredoc(&shell->tokens, shell->env_list, shell->exit_code);
     redirect(&shell->tokens);
     // redirections(&shell->tokens);
-    // shell->ast = abstract_segment_tree(shell);
+    shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
     // exit(0);
     // t_dll   *curr;
@@ -162,7 +162,7 @@ void read_eval_print_loop(t_shell *shell)
             continue;
         }
         add_history(input);
-        // execution(shell);
+        execution(shell);
         free(input);
     }
 }
