@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/18 14:14:09 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:45:18 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void					execute_builtin(t_shell *shell);
 void					execution(t_shell *shell);
 void 					execute_ast(t_shell *shell);
 void 					execute_external(t_shell *shell);
-void 					execute_pipe(t_shell *shell);
+int 					execute_pipe(t_shell *shell);
 
 //------------------------buitlin-----------------------------//
 
@@ -78,7 +78,7 @@ char 					*get_current_dir_safe(t_shell *shell);
 char 					*ft_strcat(char *dest, const char *src);
 char					**ft_split(char const *s, char c);
 void					free_split(char **result);
-
+void					ft_putchar_fd(char c, int fd);
 //---------------------Env-settings-------------------------//
 void					free_env_list(t_env *env_list);
 char					*get_env_var(t_env *env_list, char *name);

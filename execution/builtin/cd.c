@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/13 17:06:42 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/19 14:13:29 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
 char *resolve_directory(t_arg *arg_token, t_shell *shell, char *cwd)
 {
     if (!arg_token || !arg_token->argument
-        || ft_strcmp(arg_token->argument, "~") == 0
         || ft_strcmp(arg_token->argument, "") == 0)
         return (get_directory(shell, "HOME", NULL));
     if (ft_strcmp(arg_token->argument, "-") == 0)

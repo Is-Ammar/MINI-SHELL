@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/18 15:51:56 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/20 22:21:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,20 @@ char *get_command_path(char *cmd, t_env *env_list)
     return NULL;
 }
 
-int execute(char *cmd, char *path,char **args, char **env)
+int execute(char *cmd, char *path, char **args, char **env)
 {
     pid_t pid;
     int status = 0;
+    int exit_code = 0;
 
     pid = fork();
     if (pid == -1)
     {
         perror("fork");
-        status = 1;
-        return status;
+        return 1;
     }
     else if (pid == 0)
     {
-        
         if (execve(path, args, env) == -1)
         {
             ft_putstr_fd("minishell: '", 2);
@@ -81,12 +80,16 @@ int execute(char *cmd, char *path,char **args, char **env)
             exit(127);
         }
     }
-     else
+    else
     {
         waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            exit_code = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            exit_code = 128 + WTERMSIG(status);
     }
-    return status;
     
+    return exit_code;
 }
 
 

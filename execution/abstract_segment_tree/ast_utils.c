@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/16 10:36:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/20 10:43:02 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
     t_ast *bracket_content;
     t_arg *new_arg;
     t_arg **tail;
+    t_dll *current;
     
     if (!*tokens || !(*tokens)->value)
         return NULL;
@@ -85,9 +86,18 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
     if ((*tokens)->bracket) 
     {
         *tokens = (*tokens)->next;
+
+        current = *tokens;
+        while (current && !(current->bracket && current->value && 
+                           ft_strcmp(current->value, ")") == 0)) 
+        {
+            current->inside_parentheses = TRUE;
+            current = current->next;
+        }
         bracket_content = parse_logical_operators(tokens, shell);
         if (*tokens && (*tokens)->bracket)
             *tokens = (*tokens)->next;
+            
         return bracket_content;
     }
 

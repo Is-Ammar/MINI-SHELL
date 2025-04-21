@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 09:19:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/20 09:23:36 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_dll
 	t_token_type 	token_type;
 	t_quote_type	quote_type;
 	t_redicrect		redir_type;
+	int 			inside_parentheses;
 	int				expandable;
 	int				direction;
 	int				bracket;

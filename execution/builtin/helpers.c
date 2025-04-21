@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:18:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 21:14:03 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:45:01 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,9 @@ int	is_valid_identifier(const char *str)
 	}
 	
 	return (1);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
 }

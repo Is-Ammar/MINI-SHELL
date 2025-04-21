@@ -20,7 +20,7 @@ EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/builtin/echo.c execution/builtin/export.c execution/builtin/helpers.c \
 			execution/builtin/unset.c execution/abstract_segment_tree/ast_utils.c execution/abstract_segment_tree/ast.c \
 			execution/abstract_segment_tree/execute_ast.c execution/external_command/external_command.c \
-			execution/utils2.c
+			execution/utils2.c execution/execute_pipe/execute_pipe.c
 
 # -------------------------------------------------------------------------- #
 PARS_OBJ = ${PARS_SRC:%.c=%.o}

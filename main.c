@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/18 09:30:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:50:28 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,53 @@ int parsing(t_shell *shell, char *input)
     //free_token_list(&tokens);
 }
 
+// static char	*ft_strjoin_free(char *s1, char *s2, int free1, int free2)
+// {
+// 	char	*result;
+
+// 	result = ft_strjoin(s1, s2);
+// 	if (free1 && s1)
+// 		free(s1);
+// 	if (free2 && s2)
+// 		free(s2);
+// 	return (result);
+// }
+
+// char	*get_prompt(void)
+// {
+// 	char	cwd[1024];
+// 	char	*line1;
+// 	char	*line2;
+// 	char	*username;
+// 	char	*tmp;
+
+// 	username = getenv("USER");
+// 	if (!username)
+// 		username = "user";
+// 	if (getcwd(cwd, sizeof(cwd)) == NULL)
+// 		ft_strlcpy(cwd, "~",ft_strlen(cwd));
+
+// 	line1 = ft_strdup(GREEN);
+// 	tmp = ft_strjoin_free(line1, username, 1, 0);
+// 	line1 = tmp;
+// 	tmp = ft_strjoin_free(line1, RESET "@" BLUE "minishell" RESET ":", 1, 0);
+// 	line1 = tmp;
+// 	tmp = ft_strjoin_free(line1, CYAN, 1, 0);
+// 	line1 = tmp;
+// 	tmp = ft_strjoin_free(line1, cwd, 1, 0);
+// 	line1 = tmp;
+// 	tmp = ft_strjoin_free(line1, RESET, 1, 0);
+// 	line1 = tmp;
+	
+// 	line2 = ft_strdup(YELLOW BOLD "➔ " RESET);
+
+// 	tmp = ft_strjoin_free(line1, "\n", 1, 0);
+// 	line1 = tmp;
+// 	tmp = ft_strjoin_free(line1, line2, 1, 1);
+	
+// 	return (tmp);
+// }
+
 void read_eval_print_loop(t_shell *shell)
 {
     char    *input;
@@ -100,7 +147,7 @@ void read_eval_print_loop(t_shell *shell)
     input = NULL;
     while (1337)
     {
-        input = readline(CYAN "minishell:~$ "RESET);
+        input = readline(get_prompt());
         if (!input)
             return;
 		if (!*input)
