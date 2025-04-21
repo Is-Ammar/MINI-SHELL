@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/20 09:23:36 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:56:25 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_dll
 	t_token_type 	token_type;
 	t_quote_type	quote_type;
 	t_redicrect		redir_type;
-	int 			inside_parentheses;
+	int				inside_parentheses;
 	int				expandable;
 	int				direction;
 	int				bracket;
@@ -90,6 +90,13 @@ typedef struct s_dll
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }  	t_dll;
+
+typedef struct s_collector
+{
+	void				*address;
+	struct s_collector	*next;
+}	t_collector;
+
 
 typedef struct s_shell	t_shell;
 typedef	struct s_env	t_env;
@@ -139,6 +146,9 @@ void	merge_quotes(t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
 void	identify_tokens(t_dll *tokens);
 char	*expand_env_vars(char *value, t_env *env, int e_code);
+char	*double_quote(char *val, int *i, t_env *env, int e_code);
+char	*single_quote(char *value, int *i);
+char	*dollar_sign(char *value, int *i, t_env *env, int e_code);
 int		expansion(t_dll **tokens, t_env *env, int e_code);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
@@ -157,13 +167,17 @@ int 	suffix(char *name, char *val);
 void	heredoc(t_dll **tokens, t_env *env, int e_code);
 void	handle_herdoc(t_dll *_Next, char *name, t_env *env, int e_code);
 void	expandable_doc(char *delim, char *name, t_env *env, int e_code);
+char	*expand_in_heredoc(char *value, t_env *env, int e_code);
 void	non_expandable_doc(char *delim, char *name);
 void	replace_tokens(t_dll **tokens, t_dll *curr, t_dll *_Next, char *name);
 char	*ft_strnstr(const char *big, const char *little, int len);
 void	last_check_doc(t_dll **tokens);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
-void	redirections(t_dll **tokens);
+void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *_Next);
+int		redirections(t_dll **tokens);
+int		in_fd(t_dll *token);
+int		out_fd(t_dll *token, int O_FLAG);
 // ------------------------------------------------------------------ //
 
 #endif

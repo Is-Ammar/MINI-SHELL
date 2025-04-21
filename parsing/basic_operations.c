@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 10:37:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:57:02 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_dll	*create_token_list(void)
 	head->value = NULL;
 	head->token_type = WHITESPACE;
 	head->quote_type = NONE;
+	head->inside_parentheses = 0;
 	head->redir_type = 0;
 	head->expandable = 0;
 	head->direction = 0;

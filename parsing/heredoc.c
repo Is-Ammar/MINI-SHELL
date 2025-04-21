@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/15 12:28:18 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/17 07:51:18 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	expandable_doc(char *delim, char *name, t_env *env, int e_code)
 		if (ft_strchr(line, '$'))
 		{
 			temp = line;
-			line = expand_env_vars(line, env, e_code);
+			line = expand_in_heredoc(line, env, e_code);
 			free(temp);
 		}
 		write(fd, line, ft_strlen(line));

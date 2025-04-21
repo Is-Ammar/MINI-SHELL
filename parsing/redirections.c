@@ -6,13 +6,81 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 08:06:46 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/20 12:00:41 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int    handle_redirect(char *value, t_dll *_Next)
+int	out_fd(t_dll *token, int O_FLAG)
+{
+	int	out_fd;
+
+	out_fd = 1;
+	if (access(token->value, F_OK) == 0)
+	{
+		if (access(token->value, W_OK) == -1)
+		{
+			ft_printf("permission denied: %s\n", token->value);
+			return (1);
+		}
+	}
+	out_fd = open(token->value, O_CREAT | O_WRONLY | O_FLAG, 0644);
+	dup2(out_fd, 1);
+	close(out_fd);
+	return (0);
+}
+
+int	in_fd(t_dll *token)
+{
+	int	in_fd;
+
+	in_fd = 0;
+	if (access(token->value, F_OK) == -1)
+	{
+		ft_printf("no such file or directory: %s\n", token->value);
+		return (1);
+	}
+	if (access(token->value, R_OK) == -1)
+	{
+		ft_printf("permission denied: %s\n", token->value);
+		return (1);
+	}
+	in_fd = open(token->value, O_RDONLY);
+	dup2(in_fd, 0);
+	close(in_fd);
+	return (0);
+}
+
+int		redirections(t_dll **tokens)
+{
+	t_dll	*curr;
+
+	if (!tokens || !*tokens)
+		return (0);
+	curr = *tokens;
+	while (curr && curr->token_type != OPERATOR && curr->token_type != PIPE)
+	{
+		if (curr->redir_type == READ)
+		{
+			if (in_fd(curr))
+				return (1);
+		}
+		else if (curr->redir_type == WRITE)
+		{
+			if (out_fd(curr, O_TRUNC))
+				return (1);
+		}
+		else if (curr->redir_type == APPEND)
+		{
+			if (out_fd(curr, O_APPEND))
+				return (1);
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
+int		handle_redirect(char *value, t_dll *_Next)
 {
     if (!ft_strcmp(value, ">>"))
 	{
@@ -32,7 +100,7 @@ int    handle_redirect(char *value, t_dll *_Next)
 	return (0);
 }
 
-void	redirections(t_dll **tokens)
+void	redirect(t_dll **tokens)
 {
 	t_dll	*curr;
 	t_dll	*_Next;
