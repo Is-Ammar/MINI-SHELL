@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 22:21:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:19:49 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int execute(char *cmd, char *path, char **args, char **env)
 void execute_external(t_shell *shell)
 {
     char *cmd;
-    t_arg *tmp;
-    t_arg *args_list;
+    t_dll *tmp;
+    t_dll *args_list;
     char **args;
     char **env;
     char *path;
@@ -127,7 +127,7 @@ void execute_external(t_shell *shell)
     tmp = args_list;
     while (tmp)
     {
-        args[i++] = tmp->argument;
+        args[i++] = tmp->value;
         tmp = tmp->next;
     }
     args[i] = NULL;

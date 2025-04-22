@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/21 17:39:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:10:16 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	var_check(char *val, t_shell *shell)
 
 void execute_builtin_export(t_shell *shell)
 {
-	t_arg	*curr;
+	t_dll	*curr;
 	int		e_code;
 
 	e_code = 0;
@@ -96,9 +96,9 @@ void execute_builtin_export(t_shell *shell)
 		/*return (default(shell))*/;
 	while (curr)
 	{
-		if (var_check(curr->argument, shell))
+		if (var_check(curr->value, shell))
 		{
-            ft_printf("export: `%s': not a valid identifier\n", curr->argument);
+            ft_printf("export: `%s': not a valid identifier\n", curr->value);
 			e_code = 1;
 		}
 		curr = curr->next;

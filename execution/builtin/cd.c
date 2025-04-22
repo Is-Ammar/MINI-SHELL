@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/19 14:13:29 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 13:08:08 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
     return (NULL);
 }
 
-char *resolve_directory(t_arg *arg_token, t_shell *shell, char *cwd)
+char *resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
 {
-    if (!arg_token || !arg_token->argument
-        || ft_strcmp(arg_token->argument, "") == 0)
+    if (!arg_token || !arg_token->value
+        || ft_strcmp(arg_token->value, "") == 0)
         return (get_directory(shell, "HOME", NULL));
-    if (ft_strcmp(arg_token->argument, "-") == 0)
+    if (ft_strcmp(arg_token->value, "-") == 0)
     {
         if (!get_env_var(shell->env_list, "OLDPWD"))
         {
@@ -62,10 +62,10 @@ char *resolve_directory(t_arg *arg_token, t_shell *shell, char *cwd)
         }
         return (get_directory(shell, "OLDPWD", cwd));
     }
-    return (ft_strdup(arg_token->argument));
+    return (ft_strdup(arg_token->value));
 }
 
-int parse_cd_args(t_arg *arg_token, t_shell *shell, char **dir, char **cwd)
+int parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
 {
     *dir = resolve_directory(arg_token, shell, *cwd);
     if (!*dir)
@@ -112,7 +112,7 @@ void update_pwd_vars(t_shell *shell, char *old_cwd)
 void execute_builtin_cd(t_shell *shell)
 {
     char *dir;
-    t_arg *arg_token;
+    t_dll *arg_token;
     char *cwd;
 
     dir = NULL;

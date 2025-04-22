@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/10 17:42:21 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 13:13:58 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,43 +26,12 @@ t_ast *abstract_segment_tree(t_shell *shell)
     return abst;
 }
 
-t_ast *parse_redirection(t_dll **tokens, t_shell *shell)
-{
-	t_ast *result;
-	t_ast *logical_node;
-
-	
-	result = parse_pipe(tokens, shell);
-	while (*tokens && (*tokens)->value && (*tokens)->token_type == REDIRECTION)
-	{
-		
-		logical_node = malloc(sizeof(t_ast));
-		if (!logical_node)
-			return NULL;
-		
-		logical_node->token = *tokens;
-		logical_node->left = result;
-		
-		*tokens = (*tokens)->next;
-		logical_node->right = parse_pipe(tokens, shell);
-		if (!logical_node->right)
-		{
-			free_ast(logical_node);
-			return NULL;
-		}
-		
-		result = logical_node;
-	}
-	
-	return result;
-}
-
 t_ast *parse_logical_operators(t_dll **tokens, t_shell *shell)
 {
     t_ast *result;
 	t_ast *logical_node;
     
-    result = parse_redirection(tokens, shell);
+    result = parse_pipe(tokens, shell);
     while (*tokens && (*tokens)->value && (*tokens)->token_type == OPERATOR)
     {
         
@@ -74,7 +43,7 @@ t_ast *parse_logical_operators(t_dll **tokens, t_shell *shell)
         logical_node->left = result;
         
         *tokens = (*tokens)->next;
-        logical_node->right = parse_redirection(tokens, shell);
+        logical_node->right = parse_pipe(tokens, shell);
         if (!logical_node->right)
         {
             free_ast(logical_node);

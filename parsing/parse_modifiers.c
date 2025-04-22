@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 10:37:14 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:53:00 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,19 +112,15 @@ int	expansion(t_dll **tokens, t_env *env, int e_code)
 		return (0);
 	curr = *tokens;
 	temp = NULL;
-	while (curr /*&& curr->token_type != OPERATOR*/)
+	if (curr->expandable == TRUE || curr->quote_type != NONE)
 	{
-		if (curr->expandable == TRUE || curr->quote_type != NONE)
-		{
-			temp = curr->value;
-			curr->value = expand_env_vars(curr->value, env, e_code);
-			if (temp)
-				free(temp);
-		}
-		if (curr->wildcard == TRUE)
-			if (wildcard(tokens, curr))
-				return (1);
-		curr = curr->next;
+		temp = curr->value;
+		curr->value = expand_env_vars(curr->value, env, e_code);
+		if (temp)
+			free(temp);
 	}
+	if (curr->wildcard == TRUE)
+		if (wildcard(tokens, curr))
+				return (1);
 	return (0);
 }

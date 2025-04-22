@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 10:43:02 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:10:27 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
 {
     t_ast *cmd_node;
     t_ast *bracket_content;
-    t_arg *new_arg;
-    t_arg **tail;
+    t_dll *new_arg;
+    t_dll **tail;
     t_dll *current;
     
     if (!*tokens || !(*tokens)->value)
@@ -109,16 +109,33 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
     cmd_node->arguments = NULL;
     cmd_node->left = NULL;
     cmd_node->right = NULL;
-
+    
     *tokens = (*tokens)->next;
     tail = &cmd_node->arguments;
     while (*tokens && (*tokens)->value && (*tokens)->token_type == WORD) 
     {
-        new_arg = malloc(sizeof(t_arg));
-        new_arg->argument = (*tokens)->value;
+        new_arg = malloc(sizeof(t_dll));
+        if (!new_arg)
+            return NULL;
+        new_arg->value = (*tokens)->value;
+        new_arg->token_type = (*tokens)->token_type;
+        new_arg->quote_type = (*tokens)->quote_type;
+        new_arg->redir_type = (*tokens)->redir_type;
+        new_arg->inside_parentheses = (*tokens)->inside_parentheses;
+        new_arg->expandable = (*tokens)->expandable;
+        new_arg->direction = (*tokens)->direction;
+        new_arg->bracket = (*tokens)->bracket;
+        new_arg->heredoc = (*tokens)->heredoc;
+        new_arg->wildcard = (*tokens)->wildcard;
+        new_arg->operator = (*tokens)->operator;
+        new_arg->prev = NULL;
         new_arg->next = NULL;
+        if (*tail)
+            (*tail)->next = new_arg;
+        new_arg->prev = *tail;
         *tail = new_arg;
         tail = &new_arg->next;
+        
         *tokens = (*tokens)->next;
     }
     return cmd_node;

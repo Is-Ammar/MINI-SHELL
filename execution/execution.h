@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 13:45:18 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 12:59:20 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,10 @@ typedef struct s_env
 typedef struct s_shell	t_shell;
 typedef struct s_dll	t_dll;
 
-typedef struct s_arg
-{
-	char	*argument;
-	struct s_arg 	*next;
-} 			t_arg;
-
 typedef	struct s_ast
 {
 	t_dll 			*token;
-	t_arg 			*arguments;
+	t_dll			*arguments;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -99,8 +93,5 @@ t_ast 					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void 					free_ast(t_ast *node);
-
-
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/19 13:13:24 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 13:03:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void execute_builtin_echo(t_shell *shell)
 {
-    t_arg   *curr;
+    t_dll   *curr;
     int     flag;
     int     i;
 
@@ -26,12 +26,12 @@ void execute_builtin_echo(t_shell *shell)
     
     flag = 0;
     curr = shell->ast->arguments;
-    if (curr && curr->argument[0] == '-' && curr->argument[1] == 'n')
+    if (curr && curr->value[0] == '-' && curr->value[1] == 'n')
     {
         i = 2;
-        while (curr->argument[i] == 'n')
+        while (curr->value[i] == 'n')
             i++;
-        if (curr->argument[i] == '\0')
+        if (curr->value[i] == '\0')
         {
             flag = 1;
             curr = curr->next;
@@ -39,7 +39,7 @@ void execute_builtin_echo(t_shell *shell)
     }
     while (curr)
     {
-        printf("%s", curr->argument);
+        printf("%s", curr->value);
         curr = curr->next;
         if (curr)
             printf(" ");

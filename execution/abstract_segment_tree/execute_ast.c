@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 21:20:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:15:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ void execute_ast(t_shell *shell)
 {
     t_ast *original_ast;
     int exit_status;
+    t_dll   *curr;
     
     if (shell->ast->token && shell->ast->token->inside_parentheses == TRUE &&
-        shell->subshell) 
+        shell->subshell)
     {
         shell->subshell++;
         execute_subshell(shell);
@@ -48,6 +49,13 @@ void execute_ast(t_shell *shell)
     {
         if (shell->ast->token && shell->ast->token->token_type == WORD)
         {
+            expansion(&shell->ast->token, shell->env_list, shell->exit_code);
+            curr = shell->ast->arguments;
+            while(curr)
+            {
+                expansion(&shell->ast->arguments, shell->env_list, shell->exit_code);
+                curr = curr->next;
+            }
             if (is_builtin(shell))
                 execute_builtin(shell);
             else

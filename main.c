@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/21 16:05:47 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:23:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int parsing(t_shell *shell, char *input)
 	shell->tokens = tokenize_input(input);
 	if (parse_input(&shell->tokens))
         return (1);
-    expansion(&shell->tokens, shell->env_list, shell->exit_code);
+    // expansion(&shell->tokens, shell->env_list, shell->exit_code);
     heredoc(&shell->tokens, shell->env_list, shell->exit_code);
     redirect(&shell->tokens);
     // redirections(&shell->tokens);

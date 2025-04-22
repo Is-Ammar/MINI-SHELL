@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/20 14:15:40 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:45:15 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 int is_builtin(t_shell *shell)
 {
     char    *cmd;
-
-    // expansion(&shell->tokens, shell->env_list, shell->exit_code);
+    
     cmd = shell->ast->token->value;
     if (!cmd)
         return (0);

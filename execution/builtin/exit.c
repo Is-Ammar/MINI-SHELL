@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/18 09:12:19 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 13:10:00 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void execute_builtin_exit(t_shell *shell)
     char *arg;
     char *ptr;
     int valid;
-    t_arg *arg_token;
+    t_dll *arg_token;
     
     printf("exit\n");
     status = 0;
     if (shell->ast && shell->ast->token && shell->ast->arguments)
     {
         arg_token = shell->ast->arguments;
-        arg = arg_token->argument;
+        arg = arg_token->value;
 
         if (*arg == '\0')
         {
@@ -55,7 +55,7 @@ void execute_builtin_exit(t_shell *shell)
  
         long_status = ft_atoi(arg);
 
-        if (arg_token->next && arg_token->next->argument)
+        if (arg_token->next && arg_token->next->value)
         {
             ft_putstr_fd("minishell: exit: too many arguments\n", 2);
             shell->exit_code = 1;
