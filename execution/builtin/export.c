@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/22 13:10:16 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:25:37 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,19 @@
 //     shell->exit_code = exit_code;
 // }
 
+void	declare(t_shell *shell)
+{
+	t_env	*env;
 
+	env = shell->env_list;
+	if (!env)
+		return ;
+	while (env)
+	{
+		printf("declare -x %s=\"%s\"\n", env->env_name, env->env_value);
+		env = env->next;
+	}
+}
 
 int	var_check(char *val, t_shell *shell)
 {
@@ -93,7 +105,7 @@ void execute_builtin_export(t_shell *shell)
 	e_code = 0;
 	curr = shell->ast->arguments;
 	if (!curr)
-		/*return (default(shell))*/;
+		return (declare(shell));
 	while (curr)
 	{
 		if (var_check(curr->value, shell))
