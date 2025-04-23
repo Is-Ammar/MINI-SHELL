@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/22 13:23:32 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/23 09:55:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int parsing(t_shell *shell, char *input)
     // expansion(&shell->tokens, shell->env_list, shell->exit_code);
     heredoc(&shell->tokens, shell->env_list, shell->exit_code);
     redirect(&shell->tokens);
-    // redirections(&shell->tokens);
+	// reoreder_cmds(&shell->tokens);
     shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
     // exit(0);
@@ -77,7 +77,7 @@ int parsing(t_shell *shell, char *input)
     // curr = shell->tokens;
     // while (curr)
     // {
-    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->operator);
+    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->token_type);
     //     curr = curr->next;
     // }
     // expansion(&shell->tokens, shell->env_list, shell->exit_code);

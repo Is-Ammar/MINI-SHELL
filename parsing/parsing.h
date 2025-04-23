@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/22 14:51:58 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/23 09:36:11 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # define METACHARS	"( )\t\n<|&>'\"$"
 # define LEFT	1
 # define RIGHT	2
+
+# define FD_IN	0
+# define FD_OUT	1
 
 typedef	enum e_error_type
 {
@@ -150,7 +153,7 @@ char	*expand_env_vars(char *value, t_env *env, int e_code);
 char	*double_quote(char *val, int *i, t_env *env, int e_code);
 char	*single_quote(char *value, int *i);
 char	*dollar_sign(char *value, int *i, t_env *env, int e_code);
-int		expansion(t_dll **tokens, t_env *env, int e_code);
+int		expansion(t_dll **tokens, t_dll *curr, t_env *env, int e_code);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */ 
 char	*ft_strdup_expand(char *token, t_env *env);
@@ -177,6 +180,8 @@ void	last_check_doc(t_dll **tokens);
 void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *_Next);
 int		redirections(t_dll **tokens);
+void    restore_fds(t_dll *token);
+void    identify_redirections(t_dll **tokens);
 int		in_fd(t_dll *token);
 int		out_fd(t_dll *token, int O_FLAG);
 // ------------------------------------------------------------------ //

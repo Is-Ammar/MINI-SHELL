@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/22 15:15:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/23 09:33:16 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void execute_subshell(t_shell *shell)
 
 void execute_ast(t_shell *shell)
 {
-    t_ast *original_ast;
-    int exit_status;
+    t_ast   *original_ast;
+    t_dll   *token;
     t_dll   *curr;
+    int     exit_status;
     
     if (shell->ast->token && shell->ast->token->inside_parentheses == TRUE &&
         shell->subshell)
@@ -49,17 +50,23 @@ void execute_ast(t_shell *shell)
     {
         if (shell->ast->token && shell->ast->token->token_type == WORD)
         {
-            expansion(&shell->ast->token, shell->env_list, shell->exit_code);
+            token = shell->ast->token;
+            expansion(&shell->ast->token, token, shell->env_list, shell->exit_code);
             curr = shell->ast->arguments;
             while(curr)
             {
-                expansion(&shell->ast->arguments, shell->env_list, shell->exit_code);
+                expansion(&shell->ast->arguments, curr, shell->env_list, shell->exit_code);
                 curr = curr->next;
             }
-            if (is_builtin(shell))
-                execute_builtin(shell);
-            else
-                execute_external(shell);
+            redirections(&shell->ast->arguments);
+            if (shell->ast->token->token_type == WORD)
+            {
+                if (is_builtin(shell))
+                    execute_builtin(shell);
+                else
+                    execute_external(shell);
+            }
+            restore_fds(shell->ast->token);
         }
         return;
     }

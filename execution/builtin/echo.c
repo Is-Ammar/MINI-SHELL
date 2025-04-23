@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/22 13:03:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/23 08:25:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void execute_builtin_echo(t_shell *shell)
         printf("\n");
         return;
     }
-    
     flag = 0;
     curr = shell->ast->arguments;
     if (curr && curr->value[0] == '-' && curr->value[1] == 'n')
@@ -40,12 +39,11 @@ void execute_builtin_echo(t_shell *shell)
     while (curr)
     {
         printf("%s", curr->value);
-        curr = curr->next;
         if (curr)
             printf(" ");
+        curr = curr->next;
     }
     if (!flag)
         printf("\n");
-        
     shell->exit_code = 0;
 }

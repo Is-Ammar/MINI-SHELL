@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/22 15:10:27 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/23 09:29:56 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
     
     *tokens = (*tokens)->next;
     tail = &cmd_node->arguments;
-    while (*tokens && (*tokens)->value && (*tokens)->token_type == WORD) 
+    while (*tokens && (*tokens)->value && ((*tokens)->token_type == WORD || (*tokens)->token_type == REDIRECTION)) 
     {
         new_arg = malloc(sizeof(t_dll));
         if (!new_arg)
