@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/24 14:26:38 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/24 18:11:27 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void execute_ast(t_shell *shell)
     int exit_status;
     
     if (shell->ast->token && shell->ast->token->inside_parentheses == TRUE &&
-        shell->subshell)
+        !shell->subshell)
     {
         shell->subshell++;
         execute_subshell(shell);
