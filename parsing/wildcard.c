@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 16:06:39 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:27:01 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ int	wildcard(t_dll **tokens, t_dll *curr)
 	dentry = readdir(dir);
 	while (dentry != NULL)
 	{
-		if (hidden_files(curr->value, dentry->d_name))
+		if (hidden_files(curr->value, ft_strdup(dentry->d_name)))
 			;
 		else if (!search_for_match(tokens, curr, curr->value, dentry->d_name))
 			match_number++;
 		dentry = readdir(dir);
 	}
 	if (match_number)
-		remove_token(tokens, curr);
+		ft_list_remove_if(tokens, curr);
 	closedir(dir);
 	return (0);
 }

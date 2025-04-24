@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/23 09:36:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:25:07 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@
 # define METACHARS	"( )\t\n<|&>'\"$"
 # define LEFT	1
 # define RIGHT	2
-
-# define FD_IN	0
-# define FD_OUT	1
 
 typedef	enum e_error_type
 {
@@ -180,7 +177,6 @@ void	last_check_doc(t_dll **tokens);
 void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *_Next);
 int		redirections(t_dll **tokens);
-void    restore_fds(t_dll *token);
 void    identify_redirections(t_dll **tokens);
 int		in_fd(t_dll *token);
 int		out_fd(t_dll *token, int O_FLAG);

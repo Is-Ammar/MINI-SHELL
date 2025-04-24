@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/22 12:59:20 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:27:34 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char 					*ft_strcat(char *dest, const char *src);
 char					**ft_split(char const *s, char c);
 void					free_split(char **result);
 void					ft_putchar_fd(char c, int fd);
+void 					ft_list_remove_if(t_dll **begin_list, t_dll *data_ref);
 //---------------------Env-settings-------------------------//
 void					free_env_list(t_env *env_list);
 char					*get_env_var(t_env *env_list, char *name);
@@ -93,5 +94,6 @@ t_ast 					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void 					free_ast(t_ast *node);
+void 					execute_simple_command(t_shell *shell);
 
 #endif

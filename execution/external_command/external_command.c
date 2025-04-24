@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/23 09:29:06 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:16:54 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ int execute(char *cmd, char *path, char **args, char **env)
     {
         if (execve(path, args, env) == -1)
         {
+            // perror("execve: ");
+            // exit(127);
             ft_putstr_fd("minishell: '", 2);
             ft_putstr_fd(cmd, 2);
             ft_putstr_fd("': command not found\n", 2);
-            exit(127);
         }
     }
     else
@@ -121,17 +122,15 @@ void execute_external(t_shell *shell)
         shell->exit_code = 1;
         return;
     }
-    
     args[0] = cmd;
     i = 1;
     tmp = args_list;
-    while (tmp && tmp->token_type != REDIRECTION)
+    while (tmp && tmp->redir_type == 0)
     {
         args[i++] = tmp->value;
         tmp = tmp->next;
     }
     args[i] = NULL;
-    
     env = convert_env_to_array(shell->env_list);
     path = get_command_path(cmd, shell->env_list);
     

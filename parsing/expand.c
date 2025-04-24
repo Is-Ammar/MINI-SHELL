@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/04 14:25:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:29:06 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ char	*dollar_sign(char *value, int *i, t_env *env, int e_code)
 
 	start = *i + 1;
 	len = start;
-	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
-		len++;
 	if (value[len] == '?')
 		return (*i = len + 1, ft_itoa(e_code));
+	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
+		len++;
 	*i = len;
 	p = ft_strduplen(&value[start], len - start);
 	return (ft_strdup_expand(p, env));

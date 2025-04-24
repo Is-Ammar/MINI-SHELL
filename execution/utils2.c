@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:03:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/18 14:23:40 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:27:19 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,25 @@ char	**ft_split(char const *s, char c)
 	}
 	result[word_count] = NULL;
 	return (result);
+}
+
+
+void ft_list_remove_if(t_dll **begin_list, t_dll *data_ref)
+{
+    if(begin_list == NULL || *begin_list == NULL)
+        return ;
+		t_dll *cur = *begin_list;
+
+    if(cur == data_ref)
+    {
+        *begin_list = cur->next;
+		free(cur->value);
+        free(cur);
+        ft_list_remove_if(begin_list, data_ref);
+    }
+    else
+    {
+        cur = *begin_list;
+        ft_list_remove_if(&cur->next, data_ref);
+    }
 }

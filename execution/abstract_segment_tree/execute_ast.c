@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/23 09:33:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:26:38 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,58 @@ void execute_subshell(t_shell *shell)
     shell->exit_code = WEXITSTATUS(status);
 }
 
+void execute_simple_command(t_shell *shell)
+{
+    int saved_stdout;
+    int saved_stdin;
+    t_dll *curr;
+    t_dll *next;
+    
+    if (shell->ast->token && (shell->ast->token->token_type == WORD || shell->ast->token->token_type == REDIRECTION))
+    {
+        saved_stdout = dup(STDOUT_FILENO);
+        saved_stdin = dup(STDIN_FILENO);
+
+        if (shell->ast->token)
+            expansion(&shell->ast->token, shell->ast->token, shell->env_list, shell->exit_code);
+            
+
+        curr = shell->ast->arguments;
+        while (curr)
+        {
+            next = curr->next;
+            
+            if(expansion(&shell->ast->arguments, curr, shell->env_list, shell->exit_code))
+                printf("dhjksfghsjf");
+            curr = next;
+        }
+        if (redirections(&shell->ast->token) == 0 && 
+            redirections(&shell->ast->arguments) == 0)
+        {
+            if (shell->ast->token && shell->ast->token->token_type == WORD)
+            {
+                if (is_builtin(shell))
+                    execute_builtin(shell);
+                else
+                    execute_external(shell);
+            }
+        }
+        else
+        {
+            shell->exit_code = 1;
+        }
+        
+        dup2(saved_stdout, STDOUT_FILENO);
+        dup2(saved_stdin, STDIN_FILENO);
+        close(saved_stdout);
+        close(saved_stdin);
+    }
+}
+
 void execute_ast(t_shell *shell)
 {
-    t_ast   *original_ast;
-    t_dll   *token;
-    t_dll   *curr;
-    int     exit_status;
+    t_ast *original_ast;
+    int exit_status;
     
     if (shell->ast->token && shell->ast->token->inside_parentheses == TRUE &&
         shell->subshell)
@@ -48,29 +94,9 @@ void execute_ast(t_shell *shell)
     
     if (!shell->ast->left && !shell->ast->right)
     {
-        if (shell->ast->token && shell->ast->token->token_type == WORD)
-        {
-            token = shell->ast->token;
-            expansion(&shell->ast->token, token, shell->env_list, shell->exit_code);
-            curr = shell->ast->arguments;
-            while(curr)
-            {
-                expansion(&shell->ast->arguments, curr, shell->env_list, shell->exit_code);
-                curr = curr->next;
-            }
-            redirections(&shell->ast->arguments);
-            if (shell->ast->token->token_type == WORD)
-            {
-                if (is_builtin(shell))
-                    execute_builtin(shell);
-                else
-                    execute_external(shell);
-            }
-            restore_fds(shell->ast->token);
-        }
+        execute_simple_command(shell);
         return;
     }
-    
     if (shell->ast->token)
     {
         original_ast = shell->ast;

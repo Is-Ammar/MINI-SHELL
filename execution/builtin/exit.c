@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/22 13:10:00 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/23 21:15:16 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void execute_builtin_exit(t_shell *shell)
     t_dll *arg_token;
     
     printf("exit\n");
-    status = 0;
+    status = shell->exit_code;
     if (shell->ast && shell->ast->token && shell->ast->arguments)
     {
         arg_token = shell->ast->arguments;
