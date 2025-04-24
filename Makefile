@@ -19,9 +19,9 @@ EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/env/env_variable_settings.c execution/env/env_variable_settings1.c \
 			execution/builtin/pwd.c execution/builtin/env.c execution/builtin/exit.c \
 			execution/builtin/echo.c execution/builtin/export.c execution/builtin/helpers.c \
-			execution/builtin/unset.c execution/abstract_segment_tree/ast_utils.c execution/abstract_segment_tree/ast.c \
-			execution/abstract_segment_tree/execute_ast.c execution/external_command/external_command.c \
-			execution/utils2.c execution/execute_pipe/execute_pipe.c
+			execution/builtin/unset.c execution/abstract_syntax_tree/parse_simple_command.c execution/abstract_syntax_tree/ast.c \
+			execution/abstract_syntax_tree/execute_ast.c execution/external_command/external_command.c \
+			execution/utils2.c execution/execute_pipe/execute_pipe.c 
 
 # -------------------------------------------------------------------------- #
 PARS_OBJ = ${PARS_SRC:%.c=%.o}

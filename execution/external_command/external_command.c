@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/23 22:16:54 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/24 21:11:27 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int execute(char *cmd, char *path, char **args, char **env)
     pid_t pid;
     int status = 0;
     int exit_code = 0;
+    (void)cmd;
 
     pid = fork();
     if (pid == -1)
@@ -74,11 +75,7 @@ int execute(char *cmd, char *path, char **args, char **env)
     {
         if (execve(path, args, env) == -1)
         {
-            // perror("execve: ");
-            // exit(127);
-            ft_putstr_fd("minishell: '", 2);
-            ft_putstr_fd(cmd, 2);
-            ft_putstr_fd("': command not found\n", 2);
+            perror("execve: ");
         }
     }
     else
@@ -146,7 +143,6 @@ void execute_external(t_shell *shell)
         ft_putstr_fd("\n", 2);
         shell->exit_code = 127;
     }
-    
     free(args);
     free_split(env);
 }

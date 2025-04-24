@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/24 18:11:27 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/24 21:09:55 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void execute_subshell(t_shell *shell)
     if (pid == 0) 
     {
         execute_ast(shell);
-        exit(0);
+        exit(shell->exit_code);
     } 
     else 
     {
