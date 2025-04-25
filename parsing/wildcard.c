@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/24 14:27:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 08:15:45 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	wildcard(t_dll **tokens, t_dll *curr)
 		dentry = readdir(dir);
 	}
 	if (match_number)
-		ft_list_remove_if(tokens, curr);
+		remove_token(tokens, curr);
 	closedir(dir);
 	return (0);
 }

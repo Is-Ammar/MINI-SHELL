@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/24 20:23:34 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 09:45:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int parsing(t_shell *shell, char *input)
     // curr = shell->tokens;
     // while (curr)
     // {
-    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->token_type);
+    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->redir_type);
     //     curr = curr->next;
     // }
     // expansion(&shell->tokens, shell->env_list, shell->exit_code);

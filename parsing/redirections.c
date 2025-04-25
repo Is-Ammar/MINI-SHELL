@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/23 22:28:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 10:15:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	out_fd(t_dll *token, int O_FLAG)
 	int	out_fd;
 
 	out_fd = 1;
-	if (token->fds[1] != STDOUT_FILENO)
-		close(token->fds[1]);
 	if (access(token->value, F_OK) == 0)
 	{
 		if (access(token->value, W_OK) == -1)
@@ -34,7 +32,7 @@ int	out_fd(t_dll *token, int O_FLAG)
 		return (1);
 	}
 	dup2(out_fd, 1);
-	token->fds[1] = out_fd;
+	close(out_fd);
 	return (0);
 }
 
@@ -43,8 +41,6 @@ int	in_fd(t_dll *token)
 	int	in_fd;
 
 	in_fd = 0;
-	if (token->fds[0] != STDIN_FILENO)
-		close(token->fds[0]);
 	if (access(token->value, F_OK) == -1)
 	{
 		ft_printf("no such file or directory: %s\n", token->value);
@@ -62,7 +58,7 @@ int	in_fd(t_dll *token)
 		return (1);
 	}
 	dup2(in_fd, 0);
-	token->fds[0] = in_fd;
+	close(in_fd);
 	return (0);
 }
 
@@ -100,6 +96,11 @@ int		handle_redirect(char *value, t_dll *_Next)
     if (!ft_strcmp(value, ">>"))
 	{
 		_Next->redir_type = APPEND;
+		return (1);
+	}
+	if (!ft_strcmp(value, "<<"))
+	{
+		_Next->redir_type = READ;
 		return (1);
 	}
 	if (!ft_strcmp(value, "<"))
