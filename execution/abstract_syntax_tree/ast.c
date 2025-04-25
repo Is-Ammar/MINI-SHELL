@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 10:05:53 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:15:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_ast *abstract_segment_tree(t_shell *shell)
         return NULL;
     
     abst = parse_logical_operators(&curr_token, shell);
-    
     return abst;
 }
 
@@ -84,4 +83,16 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
     }
     
     return result;
+}
+
+void free_ast(t_ast *node)
+{
+    if (!node)
+        return;
+    
+    free_ast(node->left);
+    free_ast(node->right);
+    if(node->arguments)
+        free(node->arguments);
+    free(node);
 }

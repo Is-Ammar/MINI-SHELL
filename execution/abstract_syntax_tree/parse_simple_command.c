@@ -6,24 +6,11 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 11:32:28 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 13:15:22 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
-
-
-void free_ast(t_ast *node)
-{
-    if (!node)
-        return;
-    
-    free_ast(node->left);
-    free_ast(node->right);
-    if(node->arguments)
-        free(node->arguments);
-    free(node);
-}
 
 static t_ast	*handle_bracket_content(t_dll **tokens, t_shell *shell)
 {

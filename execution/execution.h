@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/24 14:27:34 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 13:41:55 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,7 @@ t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void 					free_ast(t_ast *node);
 void 					execute_simple_command(t_shell *shell);
+int						execute(char *cmd, char *path, char **args, char **env);
+char					*get_command_path(char *cmd, t_env *env_list);
 
 #endif

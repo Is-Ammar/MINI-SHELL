@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 11:31:13 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 13:14:29 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	handle_expansions(t_shell *shell)
 		next = curr->next;
 		if (expansion(&shell->ast->arguments, curr,
 				shell->env_list, shell->exit_code))
-			printf("dhjksfghsjf");
+			return;
 		curr = next;
 	}
 }
@@ -69,7 +69,7 @@ void execute_command(t_shell *shell)
     
     save_restore_fds(&saved_stdout, &saved_stdin, 0);
     handle_expansions(shell);
-    if (redirections(&shell->ast->token) == 0 && redirections(&shell->ast->arguments) == 0)
+    if (!redirections(&shell->ast->token)&& !redirections(&shell->ast->arguments))
     {
         if (shell->ast->arguments)
         {
