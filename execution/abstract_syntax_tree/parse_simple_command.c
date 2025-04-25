@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 09:49:24 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:32:28 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,24 +90,34 @@ static void	process_command_arguments(t_dll **tokens, t_ast *cmd_node, t_dll **t
 		*tokens = (*tokens)->next;
 	}
 }
-
-t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
+t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
 {
-	t_ast	*cmd_node;
-	t_dll	**tail;
-
-	if (!*tokens || !(*tokens)->value)
-		return (NULL);
-	if ((*tokens)->bracket)
-		return (handle_bracket_content(tokens, shell));
-	cmd_node = malloc(sizeof(t_ast));
-	if (!cmd_node)
-		return (NULL);
-	cmd_node->token = find_token(*tokens, WORD);
-	cmd_node->arguments = NULL;
-	cmd_node->left = NULL;
-	cmd_node->right = NULL;
-	tail = &cmd_node->arguments;
-	process_command_arguments(tokens, cmd_node, tail);
-	return (cmd_node);
+    t_ast *cmd_node;
+    t_dll **tail;
+    t_dll *first_token;
+	t_dll *start_tokens;
+	
+	first_token = *tokens;
+    if (!*tokens || !(*tokens)->value)
+        return (NULL);
+    if ((*tokens)->bracket)
+        return (handle_bracket_content(tokens, shell));
+    
+    cmd_node = malloc(sizeof(t_ast));
+    if (!cmd_node)
+        return (NULL);
+    cmd_node->token = find_token(*tokens, WORD);
+    
+    cmd_node->arguments = NULL;
+    cmd_node->left = NULL;
+    cmd_node->right = NULL;
+    tail = &cmd_node->arguments;
+    start_tokens = *tokens;
+    process_command_arguments(tokens, cmd_node, tail);
+    if (!cmd_node->token && start_tokens && (start_tokens->token_type == REDIRECTION))
+    {
+        cmd_node->token = first_token;
+    }
+    
+    return (cmd_node);
 }

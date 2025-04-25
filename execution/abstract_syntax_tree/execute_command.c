@@ -1,0 +1,106 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
+/*   Updated: 2025/04/25 11:31:13 by iammar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../smash.h"
+
+static void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
+{
+	if (restore == 0)
+	{
+		*saved_stdout = dup(STDOUT_FILENO);
+		*saved_stdin = dup(STDIN_FILENO);
+	}
+	else
+	{
+		dup2(*saved_stdout, STDOUT_FILENO); 
+		dup2(*saved_stdin, STDIN_FILENO);
+		close(*saved_stdout);
+		close(*saved_stdin);
+	}
+}
+
+static void	handle_expansions(t_shell *shell)
+{
+	t_dll	*curr;
+	t_dll	*next;
+
+	if (shell->ast->token)
+		expansion(&shell->ast->token, shell->ast->token,
+			shell->env_list, shell->exit_code);
+	curr = shell->ast->arguments;
+	while (curr)
+	{
+		next = curr->next;
+		if (expansion(&shell->ast->arguments, curr,
+				shell->env_list, shell->exit_code))
+			printf("dhjksfghsjf");
+		curr = next;
+	}
+}
+static void remove_redir_args(t_dll **args)
+{
+	t_dll *curr;
+	
+	curr = *args;
+	while(curr)
+	{
+		if(curr->token_type == REDIRECTION)
+			remove_token(args, curr);
+		curr = curr->next;
+	}
+}
+
+void execute_command(t_shell *shell)
+{
+    int saved_stdout;
+    int saved_stdin;
+
+    if (!shell->ast->token && !shell->ast->arguments)
+        return;
+    
+    save_restore_fds(&saved_stdout, &saved_stdin, 0);
+    handle_expansions(shell);
+    if (redirections(&shell->ast->token) == 0 && redirections(&shell->ast->arguments) == 0)
+    {
+        if (shell->ast->arguments)
+        {
+            remove_redir_args(&shell->ast->arguments);
+        }
+        if (shell->ast->token && shell->ast->token->token_type == WORD)
+        {
+            if (is_builtin(shell))
+                execute_builtin(shell);
+            else
+                execute_external(shell);
+        }
+    }
+    else
+    {
+        shell->exit_code = 1;
+    }
+    
+    save_restore_fds(&saved_stdout, &saved_stdin, 1);
+}
+
+void	execute_simple_command(t_shell *shell)
+{
+	int	saved_stdout;
+	int	saved_stdin;
+
+	if (!(shell->ast->token && (shell->ast->token->token_type == WORD ||
+		shell->ast->token->token_type == REDIRECTION)))
+		return ;
+	save_restore_fds(&saved_stdout, &saved_stdin, 0);
+	handle_expansions(shell);
+	execute_command(shell);
+	save_restore_fds(&saved_stdout, &saved_stdin, 1);
+}

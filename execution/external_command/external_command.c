@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/24 21:11:27 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 10:58:18 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void execute_external(t_shell *shell)
     args[0] = cmd;
     i = 1;
     tmp = args_list;
-    while (tmp && tmp->redir_type == 0)
+    while (tmp)
     {
         args[i++] = tmp->value;
         tmp = tmp->next;
