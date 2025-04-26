@@ -6,28 +6,28 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 09:45:14 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:04:35 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-void    identify_redirections(t_dll **tokens)
+void	identify_redirections(t_dll **tokens)
 {
-    t_dll *curr;
+	t_dll	*curr;
 
-    if (!tokens || !*tokens)
-        return ;
-    curr = *tokens;
-    while (curr)
-    {
-        if (ft_strnstr(curr->value, "/tmp/.heredoc_", 14))
-        {
+	if (!tokens || !*tokens)
+		return ;
+	curr = *tokens;
+	while (curr)
+	{
+		if (ft_strnstr(curr->value, "/tmp/.heredoc_", 14))
+		{
 			curr->token_type = REDIRECTION;
-            curr->redir_type = READ;
-        }
-        if (curr->redir_type)
-            curr->token_type = REDIRECTION;
-        curr = curr->next;
-    }
+			curr->redir_type = READ;
+		}
+		if (curr->redir_type)
+			curr->token_type = REDIRECTION;
+		curr = curr->next;
+	}
 }

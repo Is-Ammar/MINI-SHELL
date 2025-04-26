@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 10:15:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:46:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	in_fd(t_dll *token)
 	return (0);
 }
 
-int		redirections(t_dll **tokens)
+int	redirections(t_dll **tokens)
 {
 	t_dll	*curr;
 
@@ -91,26 +91,21 @@ int		redirections(t_dll **tokens)
 	return (0);
 }
 
-int		handle_redirect(char *value, t_dll *_Next)
+int	handle_redirect(char *value, t_dll *nxt)
 {
-    if (!ft_strcmp(value, ">>"))
+	if (!ft_strcmp(value, ">>"))
 	{
-		_Next->redir_type = APPEND;
-		return (1);
-	}
-	if (!ft_strcmp(value, "<<"))
-	{
-		_Next->redir_type = READ;
+		nxt->redir_type = APPEND;
 		return (1);
 	}
 	if (!ft_strcmp(value, "<"))
 	{
-		_Next->redir_type = READ;
+		nxt->redir_type = READ;
 		return (1);
 	}	
 	if (!ft_strcmp(value, ">"))
 	{
-		_Next->redir_type = WRITE;
+		nxt->redir_type = WRITE;
 		return (1);
 	}
 	return (0);
@@ -119,20 +114,20 @@ int		handle_redirect(char *value, t_dll *_Next)
 void	redirect(t_dll **tokens)
 {
 	t_dll	*curr;
-	t_dll	*_Next;
+	t_dll	*nxt;
 
 	if (!tokens || !*tokens)
 		return ;
 	curr = *tokens;
 	while (curr && curr->next)
 	{
-		_Next = curr->next;
+		nxt = curr->next;
 		if (curr->direction == LEFT || curr->direction == RIGHT)
 		{
-			if (handle_redirect(curr->value, _Next))
+			if (handle_redirect(curr->value, nxt))
 				remove_token(tokens, curr);
 		}
-		curr = _Next;
+		curr = nxt;
 	}
 	identify_redirections(tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 09:38:34 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:27:29 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	expandable_doc(char *delim, char *name, t_env *env, int e_code)
 	close(fd);
 }
 
-void	handle_herdoc(t_dll *_Next, char *name, t_env *env, int e_code)
+void	handle_herdoc(t_dll *nxt, char *name, t_env *env, int e_code)
 {
 	pid_t		pid;
 	char		*temp;
@@ -72,14 +72,14 @@ void	handle_herdoc(t_dll *_Next, char *name, t_env *env, int e_code)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (_Next->quote_type == NONE)
-			expandable_doc(_Next->value, name, env, e_code);
-		else if (_Next->quote_type != NONE)
+		if (nxt->quote_type == NONE)
+			expandable_doc(nxt->value, name, env, e_code);
+		else if (nxt->quote_type != NONE)
 		{
-			temp = _Next->value;
-            _Next->value = remove_quotes(_Next->value);
-            free(temp);
-			non_expandable_doc(_Next->value, name);
+			temp = nxt->value;
+			nxt->value = remove_quotes(nxt->value);
+			free(temp);
+			non_expandable_doc(nxt->value, name);
 		}
 	}
 	else
@@ -87,30 +87,30 @@ void	handle_herdoc(t_dll *_Next, char *name, t_env *env, int e_code)
 	return ;
 }
 
-void    heredoc(t_dll **tokens, t_env *env, int e_code)
+void	heredoc(t_dll **tokens, t_env *env, int e_code)
 {
-    t_dll   *curr;
-    char	*temp;
-    char    *name;
+	t_dll	*curr;
+	char	*temp;
+	char	*name;
 	int		count;
 
-    if (!tokens || !*tokens)
-        return ;
-    (1) && (curr = *tokens, count = 0, name = ft_strdup(""));
-    while (curr && curr->next)
-    {
+	if (!tokens || !*tokens)
+		return ;
+	(1) && (curr = *tokens, count = 0, name = ft_strdup(""));
+	while (curr && curr->next)
+	{
 		if (curr->token_type == OPERATOR)
 			count++;
-        if (curr->heredoc == TRUE)
-        {
+		if (curr->heredoc == TRUE)
+		{
 			temp = name;
 			name = ft_strjoin(ft_strdup("/tmp/.heredoc_"), ft_itoa(count));
 			free(temp);
 			handle_herdoc(curr->next, name, env, e_code);
 			replace_tokens(tokens, curr, curr->next, name);
-        }
-        curr = curr->next;
-    }
+		}
+		curr = curr->next;
+	}
 	free(name);
 	last_check_doc(tokens);
 }

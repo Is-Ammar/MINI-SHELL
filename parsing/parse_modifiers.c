@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/23 13:11:39 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 11:53:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,25 @@
 void	operators_merge(t_dll **tokens)
 {
 	t_dll	*curr;
-	t_dll	*Next;
+	t_dll	*nxt;
 
 	if (!tokens || !*tokens)
 		return ;
 	curr = *tokens;
 	while (curr && curr->next)
 	{
-		Next = curr->next;
-		if (Next && curr->value[0] == Next->value[0])
+		nxt = curr->next;
+		if (nxt && curr->value[0] == nxt->value[0])
 		{
 			if (curr->value[0] == '&' || curr->value[0] == '|'
 				|| curr->value[0] == '<' || curr->value[0] == '>')
 			{
-				merge_tokens(curr, Next);
+				merge_tokens(curr, nxt);
 				curr->token_type = get_token_type(curr->value);
+				continue ;
 			}
 		}
-		curr = curr->next;
+		curr = nxt;
 	}
 	if (curr)
 		curr->quote_type = get_quote_type(curr->value);
@@ -41,23 +42,23 @@ void	operators_merge(t_dll **tokens)
 void	merge_quotes(t_dll **tokens)
 {
 	t_dll	*curr;
-	t_dll	*Next;
+	t_dll	*nxt;
 
 	if (!tokens || !*tokens)
 		return ;
 	curr = *tokens;
 	while (curr && curr->next)
 	{
-		Next = curr->next;
-		if (curr->token_type == WORD && Next->token_type == WORD)
+		nxt = curr->next;
+		if (curr->token_type == WORD && nxt->token_type == WORD)
 		{
-			merge_tokens(curr, Next);
+			merge_tokens(curr, nxt);
 			curr->token_type = get_token_type(curr->value);
 			curr->quote_type = get_quote_type(curr->value);
 			continue ;
 		}
 		curr->quote_type = get_quote_type(curr->value);
-		curr = Next;
+		curr = nxt;
 	}
 }
 
@@ -119,6 +120,6 @@ int	expansion(t_dll **tokens, t_dll *curr, t_env *env, int e_code)
 	}
 	if (curr->wildcard == TRUE)
 		if (wildcard(tokens, curr))
-				return (1);
+			return (1);
 	return (0);
 }

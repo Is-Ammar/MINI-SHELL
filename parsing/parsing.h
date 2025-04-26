@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 09:27:55 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:24:31 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,23 @@
 # include <readline/readline.h>
 # include "../execution/execution.h"
 
-#define RED     "\033[31m"				// Red text
-#define RESET   "\001\033[0m\002"		// Reset all attributes
-#define CYAN	"\001\033[0;36m\002"	// Cyan text
-#define	PURPLE	"\001\033[0;35m\002"	// purple text
+# define RESET	 "\001\033[0m\002"
+// # define BLACK	 "\001\033[0;30m\002"
+# define RED	 "\001\033[0;31m\002"
+// # define GREEN	 "\001\033[0;32m\002"
+// # define YELLOW  "\001\033[0;33m\002"
+// # define BLUE	 "\001\033[0;34m\002"
+# define PURPLE  "\001\033[0;35m\002"
+# define CYAN	 "\001\033[0;36m\002"
+// # define WHITE	 "\001\033[0;37m\002"
+
+# define B_RED    "\001\033[1;31m\002"
+# define B_GREEN  "\001\033[1;32m\002"
+# define B_YELLOW "\001\033[1;33m\002"
+# define B_BLUE   "\001\033[1;34m\002"
+# define B_PURPLE "\001\033[1;35m\002"
+# define B_CYAN   "\001\033[1;36m\002"
+# define B_WHITE  "\001\033[1;37m\002"
 
 # define FALSE	0
 # define TRUE	1
@@ -126,7 +139,7 @@ char			*ft_strduplen(char *input, int len);
 char			*ft_strdup_quotes(char	*token);
 char			*remove_quotes(char *token);
 char			*ft_strchr(const char *s, int c);
-void			Error(char *val, t_error_type error);
+int				ft_error(char *val, t_error_type error);
 int				ft_printf(const char *format, ...);
 // ----------------------------------------------------------------- //
 
@@ -165,16 +178,16 @@ int		last_infix_check(char *val, char *name, int i, int j);
 int 	suffix(char *name, char *val);
 /* ///////////////// heredoc \\\\\\\\\\\\\\\\\\\\\ */
 void	heredoc(t_dll **tokens, t_env *env, int e_code);
-void	handle_herdoc(t_dll *_Next, char *name, t_env *env, int e_code);
+void	handle_herdoc(t_dll *nxt, char *name, t_env *env, int e_code);
 void	expandable_doc(char *delim, char *name, t_env *env, int e_code);
 char	*expand_in_heredoc(char *value, t_env *env, int e_code);
 void	non_expandable_doc(char *delim, char *name);
-void	replace_tokens(t_dll **tokens, t_dll *curr, t_dll *_Next, char *name);
+void	replace_tokens(t_dll **tokens, t_dll *curr, t_dll *nxt, char *name);
 char	*ft_strnstr(const char *big, const char *little, int len);
 void	last_check_doc(t_dll **tokens);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
 void	redirect(t_dll **tokens);
-int		handle_redirect(char *value, t_dll *_Next);
+int		handle_redirect(char *value, t_dll *nxt);
 int		redirections(t_dll **tokens);
 void    identify_redirections(t_dll **tokens);
 int		in_fd(t_dll *token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   smash.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/21 14:02:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:23:01 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include "parsing/parsing.h"
 #include "execution/execution.h"
-
 
 #define GREEN   "\001\033[32m\002"
 #define YELLOW  "\001\033[33m\002"

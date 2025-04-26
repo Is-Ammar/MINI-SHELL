@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 08:23:29 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:11:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_dll	*create_token_list(void)
 
 void	add_token(t_dll **head, char *val, t_token_type token_type)
 {
-	t_dll *token;
-	t_dll *curr;
+	t_dll	*token;
+	t_dll	*curr;
 
 	token = create_token_list();
 	token->value = val;
@@ -58,8 +58,8 @@ void	add_token(t_dll **head, char *val, t_token_type token_type)
 
 void	add_mid_token(t_dll **head, t_dll *token, char *val)
 {
-	t_dll *_Next;
-	t_dll *new_token;
+	t_dll	*nxt;
+	t_dll	*new_token;
 
 	new_token = create_token_list();
 	new_token->value = ft_strdup(val);
@@ -71,48 +71,48 @@ void	add_mid_token(t_dll **head, t_dll *token, char *val)
 	}
 	if (!token)
 		return ;
-	_Next = token->next;
+	nxt = token->next;
 	token->next = new_token;
 	new_token->prev = token;
-	new_token->next = _Next;
-	if (_Next)
-		_Next->prev = new_token;
+	new_token->next = nxt;
+	if (nxt)
+		nxt->prev = new_token;
 }
 
 void	remove_token(t_dll **head, t_dll *remove)
 {
-	t_dll *curr;
-	
-	if(!head || !*head)
+	t_dll	*curr;
+
+	if (!head || !*head)
 		return ;
 	curr = *head;
-    if (curr == remove)
-    {
-        *head = curr->next;
+	if (curr == remove)
+	{
+		*head = curr->next;
 		free(curr->value);
-        free(curr);
-        remove_token(head, remove);
-    }
-    else
-    {
-        curr = *head;
-        remove_token(&curr->next, remove);
-    }
+		free(curr);
+		remove_token(head, remove);
+	}
+	else
+	{
+		curr = *head;
+		remove_token(&curr->next, remove);
+	}
 }
 
 void	free_token_list(t_dll **head)
 {
 	t_dll	*curr;
-	t_dll	*Next;
+	t_dll	*nxt;
 
 	if (!head || !*head)
 		return ;
 	curr = *head;
 	while (curr)
 	{
-		Next = curr->next;
+		nxt = curr->next;
 		remove_token(head, curr);
-		curr = Next;
+		curr = nxt;
 	}
 	*head = NULL;
 }

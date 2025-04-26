@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 13:42:22 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:38:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	execute(char *cmd, char *path, char **args, char **env)
 
 	status = 0;
 	exit_code = 0;
-	(void)cmd;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -29,8 +28,11 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	}
 	else if (pid == 0)
 	{
-		if (execve(path, args, env) == -1)
-			perror("execve: ");
+		if (ft_strchr(cmd, '/'))
+			execve(cmd, args, env);
+		else
+			execve(path, args, env);
+		ft_error(cmd, ECOMMAND);
 	}
 	else
 	{
@@ -80,14 +82,6 @@ static char	**prepare_command_args(char *cmd, t_dll *args_list, int ac)
 	return (args);
 }
 
-static void	handle_command_not_found(t_shell *shell, char *cmd)
-{
-	ft_putstr_fd("minishell: command not found: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd("\n", 2);
-	shell->exit_code = 127;
-}
-
 void	execute_external(t_shell *shell)
 {
 	char	*cmd;
@@ -112,7 +106,7 @@ void	execute_external(t_shell *shell)
 		free(path);
 	}
 	else
-		handle_command_not_found(shell, cmd);
+		shell->exit_code = ft_error(cmd, ECOMMAND);
 	free(args);
 	free_split(env);
 }

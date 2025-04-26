@@ -6,13 +6,13 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/12 08:55:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:08:52 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-int suffix(char *name, char *val)
+int	suffix(char *name, char *val)
 {
 	int	i;
 	int	j;
@@ -42,7 +42,7 @@ int	last_infix_check(char *val, char *name, int i, int j)
 
 int	infix(char *val, char *name, int i)
 {
-	int is_patern;
+	int	is_patern;
 	int	pos;
 	int	j;
 
@@ -58,9 +58,9 @@ int	infix(char *val, char *name, int i)
 			if (val[i] == name[j] && (val[i + 1] == '\0' || val[i + 1] == '*'))
 				is_patern = TRUE;
 			if (val[i] != name[j])
-				(i = pos, j++, is_patern = FALSE);
+				(1) && (i = pos, j++, is_patern = FALSE);
 			else
-				(i++, j++);
+				(1) && (i++, j++);
 		}
 		if (is_patern == FALSE)
 			return (1);
@@ -68,7 +68,7 @@ int	infix(char *val, char *name, int i)
 	return (last_infix_check(val, name, i, j));
 }
 
-int prefix(char *name, char *val, int *start)
+int	prefix(char *name, char *val, int *start)
 {
 	int	i;
 

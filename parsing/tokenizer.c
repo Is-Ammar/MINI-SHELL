@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/16 08:02:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:44:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*handle_expansion_var(char *input, int *i)
 	return (token);
 }
 
-char    *handle_quotes_bracket(char *input, int *i, int type)
+char	*handle_quotes_bracket(char *input, int *i, int type)
 {
 	int		len;
 	char	*token;
@@ -37,8 +37,8 @@ char    *handle_quotes_bracket(char *input, int *i, int type)
 	else if (type == DQUOTE)
 		while (input[len] && input[len] != '"')
 			len++;
-	if ((input[*i] == '\'' && input[len] == '\'') ||
-		(input[*i] == '"' && input[len] == '"'))
+	if ((input[*i] == '\'' && input[len] == '\'')
+		|| (input[*i] == '"' && input[len] == '"'))
 	{
 		token = ft_strduplen(&input[*i], len - *i + 1);
 		*i = len + 1;
@@ -58,7 +58,7 @@ char	*get_token_val(char *input, int *index)
 
 	i = *index;
 	if (input[i] == '\'')
-	    token = handle_quotes_bracket(input, &i, SQUOTE);
+		token = handle_quotes_bracket(input, &i, SQUOTE);
 	else if (input[i] == '"')
 		token = handle_quotes_bracket(input, &i, DQUOTE);
 	else if (ft_strchr("$", input[i]))

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 08:15:45 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:45:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	hidden_files(char *val, char *name)
 
 int	wildcard(t_dll **tokens, t_dll *curr)
 {
-    DIR				*dir;
+	DIR				*dir;
 	struct dirent	*dentry;
 	int				match_number;
 

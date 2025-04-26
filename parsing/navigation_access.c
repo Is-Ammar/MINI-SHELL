@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 09:27:45 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:33:26 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_merge(char *first_val, char *second_val)
 		merge[i++] = second_val[j++];
 	}
 	merge[i] = '\0';
-	return (merge);	
+	return (merge);
 }
 
 void	merge_tokens(t_dll *first_token, t_dll *second_token)
@@ -53,17 +53,14 @@ void	merge_tokens(t_dll *first_token, t_dll *second_token)
 
 	if (!first_token || !second_token)
 		return ;
-	
 	temp = first_token->value;
 	first_token->value = ft_merge(temp, second_token->value);
 	free(temp);
-	
 	if (second_token->prev)
 		second_token->prev->next = first_token;
 	if (second_token->next)
 		second_token->next->prev = first_token;
 	first_token->next = second_token->next;
-	
 	free(second_token->value);
 	free(second_token);
 }

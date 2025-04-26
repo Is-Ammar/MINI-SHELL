@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/24 14:29:06 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/25 11:24:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "parsing.h"
+#include "parsing.h"
 
 char	*ft_strdup_expand(char *value, t_env *env)
 {
@@ -29,12 +29,14 @@ char	*ft_strdup_expand(char *value, t_env *env)
 
 char	*dollar_sign(char *value, int *i, t_env *env, int e_code)
 {
-	int 	len;
-	int 	start;
+	int		len;
+	int		start;
 	char	*p;
 
 	start = *i + 1;
 	len = start;
+	if (value[len] == '\0' || value[len] == '$')
+		return (*i = len, ft_strdup("$"));
 	if (value[len] == '?')
 		return (*i = len + 1, ft_itoa(e_code));
 	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
@@ -64,7 +66,8 @@ char	*double_quote(char *val, int *i, t_env *env, int e_code)
 		if (val[start] == '"')
 			break ;
 		if (val[start] == '$')
-			new_val = ft_strjoin(new_val, dollar_sign(val, &start, env, e_code));
+			new_val = ft_strjoin(new_val, dollar_sign(val, &start, env, \
+				e_code));
 		if (temp_val)
 			free(temp_val);
 	}
@@ -82,7 +85,7 @@ char	*single_quote(char *value, int *i)
 	while (value[len] && value[len] != '\'')
 		len++;
 	*i = len + 1;
-	return (ft_strduplen(&value[start], len - start));	
+	return (ft_strduplen(&value[start], len - start));
 }
 
 char	*expand_env_vars(char *value, t_env *env, int e_code)
