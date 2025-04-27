@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/22 13:08:08 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 10:48:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
 
     if (ft_strcmp(dir_type, "HOME") == 0)
     {
-        dir = get_env_var(shell->env_list, "HOME");
+        dir = get_env_var(shell, shell->env_list, "HOME");
         if (!dir)
         {
             ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
@@ -28,12 +28,12 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
     }
     else if (ft_strcmp(dir_type, "OLDPWD") == 0)
     {
-        dir = get_env_var(shell->env_list, "OLDPWD");
+        dir = get_env_var(shell, shell->env_list, "OLDPWD");
         if (!dir)
         {
             if (!cwd)
                 return (NULL);
-            return (ft_strdup(cwd));
+            return (ft_strdup(shell, cwd));
         }
         ft_putstr_fd(dir, 1);
         ft_putstr_fd("\n", 1);
@@ -49,20 +49,20 @@ char *resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
         return (get_directory(shell, "HOME", NULL));
     if (ft_strcmp(arg_token->value, "-") == 0)
     {
-        if (!get_env_var(shell->env_list, "OLDPWD"))
+        if (!get_env_var(shell, shell->env_list, "OLDPWD"))
         {
             if (cwd)
             {
                 ft_putstr_fd(cwd, 1);
                 ft_putstr_fd("\n", 1);
-                return (ft_strdup(cwd));
+                return (ft_strdup(shell, cwd));
             }
             ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
             return (NULL);
         }
         return (get_directory(shell, "OLDPWD", cwd));
     }
-    return (ft_strdup(arg_token->value));
+    return (ft_strdup(shell, arg_token->value));
 }
 
 int parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
@@ -86,16 +86,16 @@ void update_pwd_vars(t_shell *shell, char *old_cwd)
     char *pwd;
 
     if (old_cwd)
-        set_env_var(&shell->env_list, "OLDPWD", old_cwd);
+        set_env_var(shell, &shell->env_list, "OLDPWD", old_cwd);
     
     new_cwd = getcwd(NULL, 0);
     if (!new_cwd)
     {
         if (errno == ENOENT)
         {
-            pwd = get_env_var(shell->env_list, "PWD");
+            pwd = get_env_var(shell, shell->env_list, "PWD");
             if (pwd)
-                set_env_var(&shell->env_list, "PWD", pwd);
+                set_env_var(shell, &shell->env_list, "PWD", pwd);
         }
         else
         {
@@ -105,7 +105,7 @@ void update_pwd_vars(t_shell *shell, char *old_cwd)
         return;
     }
     
-    set_env_var(&shell->env_list, "PWD", new_cwd);
+    set_env_var(shell, &shell->env_list, "PWD", new_cwd);
     free(new_cwd);
 }
 

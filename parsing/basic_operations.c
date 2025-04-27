@@ -6,19 +6,17 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:11:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:50:30 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_dll	*create_token_list(void)
+t_dll	*create_token_list(t_shell *shell)
 {
 	t_dll	*head;
 
-	head = malloc(sizeof(t_dll));
-	if (!head)
-		return (NULL);
+	head = ft_malloc(shell, sizeof(t_dll));
 	head->value = NULL;
 	head->token_type = WHITESPACE;
 	head->quote_type = NONE;
@@ -35,14 +33,14 @@ t_dll	*create_token_list(void)
 	return (head);
 }
 
-void	add_token(t_dll **head, char *val, t_token_type token_type)
+void	add_token(t_shell *shell, t_dll **head, char *val, t_token_type t_type)
 {
 	t_dll	*token;
 	t_dll	*curr;
 
-	token = create_token_list();
+	token = create_token_list(shell);
 	token->value = val;
-	token->token_type = token_type;
+	token->token_type = t_type;
 	if (!*head)
 	{
 		*head = token;
@@ -56,13 +54,13 @@ void	add_token(t_dll **head, char *val, t_token_type token_type)
 	token->next = NULL;
 }
 
-void	add_mid_token(t_dll **head, t_dll *token, char *val)
+void	add_mid_token(t_shell *shell, t_dll **head, t_dll *token, char *val)
 {
 	t_dll	*nxt;
 	t_dll	*new_token;
 
-	new_token = create_token_list();
-	new_token->value = ft_strdup(val);
+	new_token = create_token_list(shell);
+	new_token->value = ft_strdup(shell, val);
 	new_token->token_type = WORD;
 	if (!*head)
 	{
@@ -89,8 +87,6 @@ void	remove_token(t_dll **head, t_dll *remove)
 	if (curr == remove)
 	{
 		*head = curr->next;
-		free(curr->value);
-		free(curr);
 		remove_token(head, remove);
 	}
 	else

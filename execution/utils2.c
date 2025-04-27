@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:03:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/24 14:27:19 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 10:36:44 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	count_words(const char *s, char c)
 	return (count);
 }
 
-char	*get_next_word(const char **s, char c)
+char	*get_next_word(t_shell *shell, const char **s, char c)
 {
 	const char	*start;
 	int			length;
@@ -48,9 +48,7 @@ char	*get_next_word(const char **s, char c)
 	while (**s && **s != c)
 		(*s)++;
 	length = *s - start;
-	word = malloc(length + 1);
-	if (!word)
-		return (NULL);
+	word = ft_malloc(shell, length + 1);
 	i = 0;
 	while (i < length)
 	{
@@ -74,7 +72,7 @@ void	free_split(char **result)
 	free(result);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(t_shell *shell, char const *s, char c)
 {
 	char	**result;
 	int		word_count;
@@ -84,12 +82,10 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	word_count = count_words(s, c);
-	result = malloc((word_count + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
+	result = ft_malloc(shell, (word_count + 1) * sizeof(char *));
 	while (i < word_count)
 	{
-		result[i] = get_next_word(&s, c);
+		result[i] = get_next_word(shell, &s, c);
 		if (!result[i])
 		{
 			free_split(result);
@@ -99,25 +95,4 @@ char	**ft_split(char const *s, char c)
 	}
 	result[word_count] = NULL;
 	return (result);
-}
-
-
-void ft_list_remove_if(t_dll **begin_list, t_dll *data_ref)
-{
-    if(begin_list == NULL || *begin_list == NULL)
-        return ;
-		t_dll *cur = *begin_list;
-
-    if(cur == data_ref)
-    {
-        *begin_list = cur->next;
-		free(cur->value);
-        free(cur);
-        ft_list_remove_if(begin_list, data_ref);
-    }
-    else
-    {
-        cur = *begin_list;
-        ft_list_remove_if(&cur->next, data_ref);
-    }
 }

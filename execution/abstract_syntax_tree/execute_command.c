@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/26 14:24:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:30:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,12 @@ static void	handle_expansions(t_shell *shell)
 	t_dll	*next;
 
 	if (shell->ast->token)
-		expansion(&shell->ast->token, shell->ast->token,
-			shell->env_list, shell->exit_code);
+		expansion(shell, &shell->ast->token, shell->ast->token);
 	curr = shell->ast->arguments;
 	while (curr)
 	{
 		next = curr->next;
-		if (expansion(&shell->ast->arguments, curr,
-				shell->env_list, shell->exit_code))
-			return;
+		expansion(shell, &shell->ast->arguments, curr);
 		curr = next;
 	}
 }
@@ -62,13 +59,8 @@ static void remove_redir_args(t_dll **args)
 
 void execute_command(t_shell *shell)
 {
-    int saved_stdout;
-    int saved_stdin;
-
     if (!shell->ast->token && !shell->ast->arguments)
         return;
-    save_restore_fds(&saved_stdout, &saved_stdin, 0);
-    handle_expansions(shell);
     if (!redirections(&shell->ast->token)&& !redirections(&shell->ast->arguments))
     {
         if (shell->ast->arguments)
@@ -85,7 +77,6 @@ void execute_command(t_shell *shell)
     }
     else
         shell->exit_code = 1;
-    save_restore_fds(&saved_stdout, &saved_stdin, 1);
 }
 
 void	execute_simple_command(t_shell *shell)

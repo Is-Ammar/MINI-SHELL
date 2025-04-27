@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/26 16:38:13 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 12:03:59 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,13 @@ static int	count_args(t_dll *args_list)
 	return (ac);
 }
 
-static char	**prepare_command_args(char *cmd, t_dll *args_list, int ac)
+static char	**prepare_command_args(t_shell *shell, char *cmd, t_dll *args_list, int ac)
 {
 	char	**args;
 	t_dll	*tmp;
 	int		i;
 
-	args = malloc((ac + 2) * sizeof(char *));
-	if (!args)
-		return (NULL);
+	args = ft_malloc(shell, (ac + 2) * sizeof(char *));
 	args[0] = cmd;
 	i = 1;
 	tmp = args_list;
@@ -92,14 +90,14 @@ void	execute_external(t_shell *shell)
 
 	cmd = shell->ast->token->value;
 	ac = count_args(shell->ast->arguments);
-	args = prepare_command_args(cmd, shell->ast->arguments, ac);
+	args = prepare_command_args(shell, cmd, shell->ast->arguments, ac);
 	if (!args)
 	{
 		shell->exit_code = 1;
 		return ;
 	}
-	env = convert_env_to_array(shell->env_list);
-	path = get_command_path(cmd, shell->env_list);
+	env = convert_env_to_array(shell, shell->env_list);
+	path = get_command_path(shell, cmd, shell->env_list);
 	if (path)
 	{
 		shell->exit_code = execute(cmd, path, args, env);

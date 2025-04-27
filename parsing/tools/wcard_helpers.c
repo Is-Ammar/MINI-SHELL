@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:08:52 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:23:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	prefix(char *name, char *val, int *start)
 	return (0);
 }
 
-int	search_for_match(t_dll **tokens, t_dll *curr, char *val, char *d_name)
+int	search_for_match(t_shell *shell, t_dll *curr, char *val, char *d_name)
 {
 	int	i;
 
@@ -96,6 +96,6 @@ int	search_for_match(t_dll **tokens, t_dll *curr, char *val, char *d_name)
 		return (1);
 	if (suffix(d_name, val))
 		return (1);
-	add_mid_token(tokens, curr, d_name);
+	add_mid_token(shell, &shell->tokens, curr, d_name);
 	return (0);
 }

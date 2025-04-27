@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/18 13:16:54 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 09:13:59 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(t_shell *shell, const char *s)
 {
 	char	*p;
 	int		i;
@@ -35,9 +35,7 @@ char	*ft_strdup(const char *s)
 	if (!s)
 		return (NULL);
 	len = ft_strlen(s);
-	p = malloc(len + 1);
-	if (!p)
-		return (NULL);
+	p = ft_malloc(shell, len + 1);
 	i = 0;
 	while (i < len)
 	{

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/26 16:23:01 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 10:24:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 #define BOLD    "\001\033[1m\002"
 #define RESET   "\001\033[0m\002"
-#define ITALIC  "\001\033[3m\002"
+#define ITALIC     "\001\033[3m\002"
 #define UNDERLINE "\001\033[4m\002"
 
 
@@ -39,17 +39,19 @@
 #define BG_WHITE   "\001\033[47m\002"
 #define BG_BLACK   "\001\033[40m\002"
 
+typedef struct s_dll	t_dll;
+typedef	struct s_env	t_env;
+typedef struct s_ast    t_ast;
+typedef struct s_gc     t_gc;
+
 typedef struct s_shell
 {
     t_env   *env_list;
     t_dll   *tokens;
     t_ast   *ast;
+    t_gc    *g_collect;
     int     subshell;
     int     exit_code;
 }   t_shell;
-
-typedef struct s_dll	t_dll;
-typedef	struct s_env	t_env;
-typedef struct s_ast    t_ast;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:27:47 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:02:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,24 @@ char	*ft_strnstr(const char *big, const char *little, int len)
 	return (NULL);
 }
 
-char	*expand_in_heredoc(char *value, t_env *env, int e_code)
+char	*expand_in_heredoc(t_shell *shell, char *value)
 {
 	char	*new_val;
-	char	*temp;
 	int		i;
 	int		j;
 
 	i = 0;
-	new_val = ft_strdup("");
+	new_val = ft_strdup(shell, "");
 	while (value[i])
 	{
 		j = i;
 		while (value[i] && value[i] != '$')
 			i++;
-		temp = new_val;
 		if (j != i)
-			new_val = ft_strjoin(new_val, ft_strduplen(&value[j], i - j));
+			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, &value[j] \
+			, i - j));
 		else if (value[i] == '$')
-			new_val = ft_strjoin(new_val, dollar_sign(value, &i, env, e_code));
-		if (temp)
-			free(temp);
+			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value, &i));
 	}
 	return (new_val);
 }
@@ -81,11 +78,4 @@ void	last_check_doc(t_dll **tokens)
 		}
 		curr = nxt;
 	}
-}
-
-void	replace_tokens(t_dll **tokens, t_dll *curr, t_dll *nxt, char *name)
-{
-	remove_token(tokens, nxt);
-	add_mid_token(tokens, curr, name);
-	remove_token(tokens, curr);
 }

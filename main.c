@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 09:45:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:51:09 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,11 @@
 
 int parsing(t_shell *shell, char *input)
 {
-	shell->tokens = tokenize_input(input);
-	if (parse_input(&shell->tokens))
+	shell->tokens = tokenize_input(shell, input);
+	if (parse_input(shell, &shell->tokens))
         return (1);
-    // expansion(&shell->tokens, shell->env_list, shell->exit_code);
-    heredoc(&shell->tokens, shell->env_list, shell->exit_code);
+    heredoc(shell, &shell->tokens);
     redirect(&shell->tokens);
-	// reoreder_cmds(&shell->tokens);
     shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
     // exit(0);
@@ -94,11 +92,11 @@ int parsing(t_shell *shell, char *input)
     //free_token_list(&tokens);
 }
 
-static char	*ft_strjoin_free(char *s1, char *s2, int free1, int free2)
+static char	*ft_strjoin_free(t_shell *shell, char *s1, char *s2, int free1, int free2)
 {
 	char	*result;
 
-	result = ft_strjoin(s1, s2);
+	result = ft_strjoin(shell, s1, s2);
 	if (free1 && s1)
 		free(s1);
 	if (free2 && s2)
@@ -106,7 +104,7 @@ static char	*ft_strjoin_free(char *s1, char *s2, int free1, int free2)
 	return (result);
 }
 
-char	*get_prompt(void)
+char	*get_prompt(t_shell *shell)
 {
 	char	cwd[1024];
 	char	*line1;
@@ -120,23 +118,23 @@ char	*get_prompt(void)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		ft_strlcpy(cwd, "~",ft_strlen(cwd));
 
-	line1 = ft_strdup(GREEN);
-	tmp = ft_strjoin_free(line1, username, 1, 0);
+	line1 = ft_strdup(shell, GREEN);
+	tmp = ft_strjoin(shell, line1, username);
 	line1 = tmp;
-	tmp = ft_strjoin_free(line1, RESET "@" BLUE "minishell" RESET ":", 1, 0);
+	tmp = ft_strjoin_free(shell, line1, RESET "@" BLUE "minishell" RESET ":", 1, 0);
 	line1 = tmp;
-	tmp = ft_strjoin_free(line1, CYAN, 1, 0);
+	tmp = ft_strjoin(shell, line1, CYAN);
 	line1 = tmp;
-	tmp = ft_strjoin_free(line1, cwd, 1, 0);
+	tmp = ft_strjoin(shell, line1, cwd);
 	line1 = tmp;
-	tmp = ft_strjoin_free(line1, RESET, 1, 0);
+	tmp = ft_strjoin(shell, line1, RESET);
 	line1 = tmp;
 	
-	line2 = ft_strdup(YELLOW BOLD "➔ " RESET);
+	line2 = ft_strdup(shell, YELLOW BOLD "➔ " RESET);
 
-	tmp = ft_strjoin_free(line1, "\n", 1, 0);
+	tmp = ft_strjoin(shell, line1, "\n");
 	line1 = tmp;
-	tmp = ft_strjoin_free(line1, line2, 1, 1);
+	tmp = ft_strjoin(shell, line1, line2);
 	
 	return (tmp);
 }
@@ -148,7 +146,7 @@ void read_eval_print_loop(t_shell *shell)
     input = NULL;
     while (1337)
     {
-        input = readline(get_prompt());
+        input = readline(get_prompt(shell));
         if (!input)
             return;
 		if (!*input)
@@ -170,13 +168,14 @@ void read_eval_print_loop(t_shell *shell)
 int main(int ac, char **av, char **env)
 {
     (void)av;
-    t_shell (shell);
+    t_shell shell;
     if (ac != 1)
 		return (1);
 
 	shell = (struct s_shell){0};
-	create_env(&shell.env_list, env);
+	create_env(shell, &shell.env_list, env);
 	read_eval_print_loop(&shell);
+    // burn_garbage(&shell);
 	// free_shell(shell);
 	return (0);
 }

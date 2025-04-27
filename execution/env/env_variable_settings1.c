@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/18 15:28:07 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 10:47:06 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-void	create_env(t_env **env, char **environ)
+void	create_env(t_shell shell, t_env **env, char **environ)
 {
 	int		i;
 	char	*equals_sign;
@@ -28,18 +28,16 @@ void	create_env(t_env **env, char **environ)
 		if (equals_sign)
 		{
 			name_len = equals_sign - environ[i];
-			name = malloc(name_len + 1);
-			if (!name)
-				continue ;
+			name = ft_malloc(&shell, name_len + 1);
 			ft_strlcpy(name, environ[i], name_len + 1);
 			name[name_len] = '\0';
-			value = ft_strdup(equals_sign + 1);
+			value = ft_strdup(&shell, equals_sign + 1);
 			if (!value)
 			{
 				free(name);
 				continue ;
 			}
-			add_env_var(env, name, value);
+			add_env_var(&shell, env, name, value);
 			free(name);
 			free(value);
 		}
@@ -85,16 +83,16 @@ char *get_current_dir_safe(t_shell *shell)
     {
         if (errno == ENOENT)
         {
-            pwd = get_env_var(shell->env_list, "PWD");
+            pwd = get_env_var(shell, shell->env_list, "PWD");
             if (pwd)
-                return ft_strdup(pwd);
+                return ft_strdup(shell, pwd);
         }
         return NULL;
     }
     return cwd;
 }
 
-char **convert_env_to_array(t_env *env_list)
+char **convert_env_to_array(t_shell *shell, t_env *env_list)
 {
     t_env *current;
     char **env_array = {NULL};
@@ -110,9 +108,7 @@ char **convert_env_to_array(t_env *env_list)
         count++;
         current = current->next;
     }
-    env_array = malloc((count + 1) * sizeof(char *));
-    if (!env_array)
-        return NULL;
+    env_array = ft_malloc(shell, (count + 1) * sizeof(char *));
     current = env_list;
     while (current)
     {

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:41:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:44:45 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ int	check_logic(t_dll *tokens)
 	return (additional_check_logic(curr));
 }
 
-int	parse_input(t_dll **tokens)
+int	parse_input(t_shell *shell, t_dll **tokens)
 {
-	operators_merge(tokens);
+	operators_merge(shell, tokens);
 	if (check_quotes(*tokens))
 		return (1);
-	merge_quotes(tokens);
+	merge_quotes(shell, tokens);
 	if (check_brackets(*tokens))
 		return (1);
 	remove_spaces(tokens);

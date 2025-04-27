@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:07:21 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 09:03:35 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strduplen(char *input, int len)
+char	*ft_strduplen(t_shell *shell, char *input, int len)
 {
 	int		i;
 	char	*p;
 
 	if (!input || len <= 0)
 		return (NULL);
-	p = malloc(len + 1);
+	p = ft_malloc(shell, len + 1);
 	if (!p)
 		return (NULL);
 	i = 0;
@@ -80,7 +80,7 @@ char	*ft_strduplen(char *input, int len)
 	return (p);
 }
 
-char	*ft_strdup_quotes(char *token)
+char	*ft_strdup_quotes(t_shell *shell, char *token)
 {
 	int		i;
 	int		j;
@@ -92,7 +92,7 @@ char	*ft_strdup_quotes(char *token)
 	i = 0;
 	j = 0;
 	len = ft_strlen(token) - 1;
-	p = malloc(len);
+	p = ft_malloc(shell, len);
 	if (!p)
 		return (NULL);
 	while (token[i])

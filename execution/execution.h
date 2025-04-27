@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 13:41:55 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 12:07:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void 					execute_builtin_unset(t_shell *shell);
 //-----------------------Utils-------------------------------//
 int						ft_strcmp(char *s1, char *s2);
 void					ft_putstr_fd(char const *s, int fd);
-char					*ft_strdup(const char *str);
+char					*ft_strdup(t_shell *shell, const char *str);
 size_t					ft_strlcpy(char *dst, char *src, size_t len);
 double					ft_atoi(char *str);
 int						ft_isalpha(int c);
@@ -70,22 +70,21 @@ int						ft_isalnum(int c);
 int						is_valid_identifier(const char *str);
 char 					*get_current_dir_safe(t_shell *shell);
 char 					*ft_strcat(char *dest, const char *src);
-char					**ft_split(char const *s, char c);
+char					**ft_split(t_shell *shell, char const *s, char c);
 void					free_split(char **result);
 void					ft_putchar_fd(char c, int fd);
-void 					ft_list_remove_if(t_dll **begin_list, t_dll *data_ref);
 //---------------------Env-settings-------------------------//
 void					free_env_list(t_env *env_list);
-char					*get_env_var(t_env *env_list, char *name);
-void					set_env_var(t_env **env_list, char *name, char *value);
-t_env					*create_env_var(const char *name, const char *value);
-void					add_env_var(t_env **env_list, const char *name,
-							const char *value);
+char					*get_env_var(t_shell *shell, t_env *env_list, char *name);
+void					set_env_var(t_shell *shell, t_env **env_list, char *name,
+								char *value);
+void					add_env_var(t_shell *shell, t_env **env_list, char *name,
+								char *value);
 void 					unset_env_var(t_shell *shell, t_dll *token);
-char 					**convert_env_to_array(t_env *env_list);
+char 					**convert_env_to_array(t_shell *shell, t_env *env_list);
 
 //-------------------Create-new-env--------------------------//
-void					create_env(t_env **env, char **environ);
+void					create_env(t_shell shell, t_env **env, char **environ);
 //-------------------abstract_tree---------------------------//
 t_ast 					*abstract_segment_tree(t_shell *shell);
 t_ast 					*parse_redirection(t_dll **tokens, t_shell *shell);
@@ -96,6 +95,6 @@ t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void 					free_ast(t_ast *node);
 void 					execute_simple_command(t_shell *shell);
 int						execute(char *cmd, char *path, char **args, char **env);
-char					*get_command_path(char *cmd, t_env *env_list);
+char					*get_command_path(t_shell *shell, char *cmd, t_env *env_list);
 
 #endif

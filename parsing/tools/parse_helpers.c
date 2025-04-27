@@ -6,13 +6,13 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:06:32 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:02:19 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(t_shell *shell, char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -22,9 +22,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
-	p = malloc(len + 1);
-	if (!p)
-		return (NULL);
+	p = ft_malloc(shell, len + 1);
 	i = 0;
 	while (s1 && s1[i])
 	{
@@ -66,7 +64,7 @@ static void	helper(long nb, char *p)
 	p[--j] = '\0';
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(t_shell *shell, int n)
 {
 	long	nb;
 	char	*itoa;
@@ -81,14 +79,12 @@ char	*ft_itoa(int n)
 		size++;
 		n /= 10;
 	}
-	itoa = malloc(size + 2);
-	if (!itoa)
-		return (NULL);
+	itoa = ft_malloc(shell, size + 2);
 	helper(nb, itoa);
 	return (itoa);
 }
 
-char	*remove_quotes(char *token)
+char	*remove_quotes(t_shell *shell, char *token)
 {
 	int		i;
 	int		j;
@@ -98,9 +94,7 @@ char	*remove_quotes(char *token)
 	if (!token)
 		return (NULL);
 	len = ft_strlen_quotes(token);
-	p = malloc(len + 1);
-	if (!p)
-		return (NULL);
+	p = ft_malloc(shell, len + 1);
 	i = 0;
 	j = 0;
 	while (token[i])

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/26 16:26:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:51:29 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ int	ft_error(char *val, t_error_type error)
 	else if (error == ECOMMAND)
 	{
 		if (ft_strchr(val, '/'))
-			ft_printf(B_WHITE"minishell: %s: No such file or directory\n"RESET, val);
+			ft_printf(B_WHITE"minishell: %s: No such file or directory\n"RESET \
+			, val);
 		else
 			ft_printf(B_WHITE"%s: command not found\n"RESET, val);
 		return (127);

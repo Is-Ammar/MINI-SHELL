@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/12 22:41:34 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 11:54:53 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void execute_builtin_pwd(t_shell *shell)
 {
     char *cwd;
     
-    cwd = (get_env_var(shell->env_list, "PWD"));
+    cwd = (get_env_var(shell, shell->env_list, "PWD"));
     if (!cwd || access(cwd, F_OK) == -1)
     {
         cwd = get_current_dir_safe(shell);

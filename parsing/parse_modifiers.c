@@ -6,13 +6,13 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:53:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:28:09 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	operators_merge(t_dll **tokens)
+void	operators_merge(t_shell *shell, t_dll **tokens)
 {
 	t_dll	*curr;
 	t_dll	*nxt;
@@ -28,7 +28,7 @@ void	operators_merge(t_dll **tokens)
 			if (curr->value[0] == '&' || curr->value[0] == '|'
 				|| curr->value[0] == '<' || curr->value[0] == '>')
 			{
-				merge_tokens(curr, nxt);
+				merge_tokens(shell, curr, nxt);
 				curr->token_type = get_token_type(curr->value);
 				continue ;
 			}
@@ -39,7 +39,7 @@ void	operators_merge(t_dll **tokens)
 		curr->quote_type = get_quote_type(curr->value);
 }
 
-void	merge_quotes(t_dll **tokens)
+void	merge_quotes(t_shell *shell, t_dll **tokens)
 {
 	t_dll	*curr;
 	t_dll	*nxt;
@@ -52,7 +52,7 @@ void	merge_quotes(t_dll **tokens)
 		nxt = curr->next;
 		if (curr->token_type == WORD && nxt->token_type == WORD)
 		{
-			merge_tokens(curr, nxt);
+			merge_tokens(shell, curr, nxt);
 			curr->token_type = get_token_type(curr->value);
 			curr->quote_type = get_quote_type(curr->value);
 			continue ;
@@ -104,22 +104,20 @@ void	remove_spaces(t_dll **tokens)
 	}
 }
 
-int	expansion(t_dll **tokens, t_dll *curr, t_env *env, int e_code)
+int	expansion(t_shell *shell, t_dll **tokens, t_dll *curr)
 {
-	char	*temp;
+	t_env	*env;
+	int		e_code;
 
 	if (!tokens || !*tokens)
 		return (0);
-	temp = NULL;
+	env = shell->env_list;
+	e_code = shell->exit_code;
 	if (curr->expandable == TRUE || curr->quote_type != NONE)
 	{
-		temp = curr->value;
-		curr->value = expand_env_vars(curr->value, env, e_code);
-		if (temp)
-			free(temp);
+		curr->value = expand_env_vars(shell, curr->value);
 	}
 	if (curr->wildcard == TRUE)
-		if (wildcard(tokens, curr))
-			return (1);
+		wildcard(shell, tokens, curr);
 	return (0);
 }

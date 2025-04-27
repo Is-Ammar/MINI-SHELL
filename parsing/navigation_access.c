@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:33:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:42:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_quote_type	get_quote_type(char *val)
 	return (NONE);
 }
 
-char	*ft_merge(char *first_val, char *second_val)
+char	*ft_merge(t_shell *shell, char *first_val, char *second_val)
 {
 	char	*merge;
 	int		len;
@@ -29,7 +29,7 @@ char	*ft_merge(char *first_val, char *second_val)
 	int		j;
 
 	len = ft_strlen(first_val) + ft_strlen(second_val);
-	merge = malloc(len + 1);
+	merge = ft_malloc(shell, len + 1);
 	if (!merge)
 		return (NULL);
 	i = 0;
@@ -47,22 +47,19 @@ char	*ft_merge(char *first_val, char *second_val)
 	return (merge);
 }
 
-void	merge_tokens(t_dll *first_token, t_dll *second_token)
+void	merge_tokens(t_shell *shell, t_dll *first_token, t_dll *second_token)
 {
 	char	*temp;
 
 	if (!first_token || !second_token)
 		return ;
 	temp = first_token->value;
-	first_token->value = ft_merge(temp, second_token->value);
-	free(temp);
+	first_token->value = ft_merge(shell, temp, second_token->value);
 	if (second_token->prev)
 		second_token->prev->next = first_token;
 	if (second_token->next)
 		second_token->next->prev = first_token;
 	first_token->next = second_token->next;
-	free(second_token->value);
-	free(second_token);
 }
 
 t_dll	*find_token(t_dll *head, t_token_type token_type)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/25 13:15:32 by iammar           ###   ########.fr       */
+/*   Updated: 2025/04/27 14:49:49 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,15 @@ t_ast *parse_logical_operators(t_dll **tokens, t_shell *shell)
     while (*tokens && (*tokens)->value && (*tokens)->token_type == OPERATOR)
     {
         
-        logical_node = malloc(sizeof(t_ast));
+        logical_node = ft_malloc(shell, sizeof(t_ast));
         if (!logical_node)
             return NULL;
-        
         logical_node->token = *tokens;
         logical_node->left = result;
-        
         *tokens = (*tokens)->next;
         logical_node->right = parse_pipe(tokens, shell);
         if (!logical_node->right)
-        {
-            free_ast(logical_node);
             return NULL;
-        }
-        
         result = logical_node;
     }
     
@@ -64,35 +58,16 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
     while (*tokens && (*tokens)->value && (*tokens)->token_type == PIPE)
     {
 		
-        pipe_node = malloc(sizeof(t_ast));
+        pipe_node = ft_malloc(shell, sizeof(t_ast));
         if (!pipe_node)
             return NULL;
-        
         pipe_node->token = *tokens;
         pipe_node->left = result;
-        
         *tokens = (*tokens)->next;
         pipe_node->right = parse_simple_command(tokens, shell);
         if (!pipe_node->right)
-        {
-            free_ast(pipe_node);
             return NULL;
-        }
-        
         result = pipe_node;
     }
-    
     return result;
-}
-
-void free_ast(t_ast *node)
-{
-    if (!node)
-        return;
-    
-    free_ast(node->left);
-    free_ast(node->right);
-    if(node->arguments)
-        free(node->arguments);
-    free(node);
 }
