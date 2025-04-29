@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 12:07:22 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:22:27 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void					add_env_var(t_shell *shell, t_env **env_list, char *name,
 								char *value);
 void 					unset_env_var(t_shell *shell, t_dll *token);
 char 					**convert_env_to_array(t_shell *shell, t_env *env_list);
+void 					set_last_cmd_env(t_shell *shell);
 
 //-------------------Create-new-env--------------------------//
 void					create_env(t_shell shell, t_env **env, char **environ);

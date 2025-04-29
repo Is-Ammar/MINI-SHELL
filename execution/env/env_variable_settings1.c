@@ -3,47 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 10:47:06 by habdella         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:37:42 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-void	create_env(t_shell shell, t_env **env, char **environ)
+t_env *find_env_var(t_env *env_list, char *name)
 {
-	int		i;
-	char	*equals_sign;
-	char	*name;
-	char	*value;
-	int		name_len;
+    t_env *current;
 
-	i = 0;
-	*env = NULL;
-	while (environ[i])
-	{
-		equals_sign = ft_strchr((const char *)environ[i], '=');
-		if (equals_sign)
-		{
-			name_len = equals_sign - environ[i];
-			name = ft_malloc(&shell, name_len + 1);
-			ft_strlcpy(name, environ[i], name_len + 1);
-			name[name_len] = '\0';
-			value = ft_strdup(&shell, equals_sign + 1);
-			if (!value)
-			{
-				free(name);
-				continue ;
-			}
-			add_env_var(&shell, env, name, value);
-			free(name);
-			free(value);
-		}
-		i++;
-	}
+    current = env_list;
+    while (current)
+    {
+        if (ft_strcmp(current->env_name, name) == 0)
+            return current;
+        current = current->next;
+    }
+    return NULL;
 }
+
+void create_env(t_shell shell, t_env **env, char **environ)
+{
+    int     i;
+    char    *equals_sign;
+    char    *name;
+    char    *value;
+    int     name_len;
+    char   *shlvl_entry;
+    int     shlvl_value;
+    char    *new_shlvl;
+
+    i = 0;
+    *env = NULL;
+    while (environ[i])
+    {
+        equals_sign = ft_strchr((const char *)environ[i], '=');
+        if (equals_sign)
+        {
+            name_len = equals_sign - environ[i];
+            name = ft_malloc(&shell, name_len + 1);
+            ft_strlcpy(name, environ[i], name_len + 1);
+            name[name_len] = '\0';
+            value = ft_strdup(&shell, equals_sign + 1);
+            add_env_var(&shell, env, name, value);
+        }
+        i++;
+    }
+
+    shlvl_entry = get_env_var(&shell, *env, "SHLVL");
+    if (!shlvl_entry)
+    {
+        set_env_var(&shell, env, ft_strdup(&shell, "SHLVL"), ft_strdup(&shell, "1"));
+    }
+    else
+    {
+        shlvl_value = ft_atoi(shlvl_entry);
+        if (shlvl_value < 0)
+            shlvl_value = 0;
+        else if (shlvl_value >= 999)
+        {
+            ft_putstr_fd("minishell: warning: shell level too high, resetting to 1\n",2);
+            shlvl_value = 0;
+        }
+        shlvl_value++;
+        new_shlvl = ft_itoa(&shell, shlvl_value);
+        if (new_shlvl)
+        {
+            set_env_var(&shell, env, ft_strdup(&shell, "SHLVL"), new_shlvl);
+        }
+    }
+}
+
 
 void unset_env_var(t_shell *shell, t_dll *token)
 {
@@ -133,25 +167,3 @@ char **convert_env_to_array(t_shell *shell, t_env *env_list)
     env_array[i] = NULL;
     return env_array;
 }
-
-// int mark_env_var_exported(t_env **env, char *name)
-// {
-//     t_env *current;
-    
-//     if (!env || !name || !*name)
-//         return (1);
-
-//     current = *env;
-//     while (current)
-//     {
-//         if (ft_strcmp(current->env_name, name) == 0)
-//         {
-            
-//             current->exported = 1;
-//             return (0);
-//         }
-//         current = current->next;
-//     }
-//     /////////////////////
-	
-// }
