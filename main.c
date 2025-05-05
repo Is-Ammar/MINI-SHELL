@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/29 09:45:29 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/05 13:42:08 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,18 @@ void read_eval_print_loop(t_shell *shell)
     char    *input;
     
     input = NULL;
+	setup_signal_handlers();
     while (1337)
     {
+		setup_signal_handlers();
         input = readline(get_prompt(shell));
         if (!input)
-            return;
+		{
+			printf("exit\n");
+			// burn_garbage(&shell);
+			// free_shell(shell);
+			exit(0);
+		}
 		if (!*input)
 		{
 			shell->exit_code = 0;
@@ -160,6 +167,7 @@ void read_eval_print_loop(t_shell *shell)
             continue;
         }
         add_history(input);
+		reset_signal_handlers();
         execution(shell);
         free(input);
     }

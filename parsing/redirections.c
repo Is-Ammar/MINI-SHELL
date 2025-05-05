@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:46:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:31:43 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	in_fd(t_dll *token)
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
-	if (out_fd < 0)
+	if (out_fd < 0) // should be in_fd
 	{
 		perror(token->value);
 		return (1);

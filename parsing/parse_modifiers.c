@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 14:28:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:28:26 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ void	remove_spaces(t_dll **tokens)
 
 int	expansion(t_shell *shell, t_dll **tokens, t_dll *curr)
 {
-	t_env	*env;
-	int		e_code;
+	// t_env	*env; unused ---
+	// int		e_code; unused ---
 
 	if (!tokens || !*tokens)
 		return (0);
-	env = shell->env_list;
-	e_code = shell->exit_code;
+	// env = shell->env_list;
+	// e_code = shell->exit_code;
 	if (curr->expandable == TRUE || curr->quote_type != NONE)
 	{
 		curr->value = expand_env_vars(shell, curr->value);

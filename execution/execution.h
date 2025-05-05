@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/29 21:22:27 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/05 15:32:30 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <termios.h>
 #include <sys/stat.h>
 
 typedef struct s_env
@@ -97,5 +98,8 @@ void 					free_ast(t_ast *node);
 void 					execute_simple_command(t_shell *shell);
 int						execute(char *cmd, char *path, char **args, char **env);
 char					*get_command_path(t_shell *shell, char *cmd, t_env *env_list);
+//----------------------signals---------------------//
+void 					setup_signal_handlers(void);
+void 					reset_signal_handlers(void);
 
 #endif
