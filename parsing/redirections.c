@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/05 15:31:43 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/05 19:02:24 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	in_fd(t_dll *token)
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
-	if (out_fd < 0) // should be in_fd
+	if (in_fd < 0) // should be in_fd
 	{
 		perror(token->value);
 		return (1);

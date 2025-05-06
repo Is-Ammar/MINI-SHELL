@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/29 09:34:38 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:11:37 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	pid_t	pid;
 	int		status;
 	int		exit_code;
+	struct sigaction sa_child;
+	struct sigaction sa_parent;
+	struct sigaction sa_original_int;
+	struct sigaction sa_original_quit;
+
+    sigaction(SIGINT, NULL, &sa_original_int);
+    sigaction(SIGQUIT, NULL, &sa_original_quit);
+    sa_parent.sa_handler = SIG_IGN;
+    sigemptyset(&sa_parent.sa_mask);
+    sa_parent.sa_flags = 0;
+    sigaction(SIGINT, &sa_parent, NULL);
+    sigaction(SIGQUIT, &sa_parent, NULL);
 
 	status = 0;
 	exit_code = 0;
@@ -28,6 +40,11 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	}
 	else if (pid == 0)
 	{
+		sa_child.sa_handler = SIG_DFL;
+        sigemptyset(&sa_child.sa_mask);
+        sa_child.sa_flags = 0;
+        sigaction(SIGINT, &sa_child, NULL);
+        sigaction(SIGQUIT, &sa_child, NULL);
 		if (ft_strchr(cmd, '/'))
 			execve(cmd, args, env);
 		else
@@ -37,10 +54,17 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			exit_code = 128 + WTERMSIG(status);
+        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+        {
+            write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+        }
+        sigaction(SIGINT, &sa_original_int, NULL);
+        sigaction(SIGQUIT, &sa_original_quit, NULL);
+
+        if (WIFSIGNALED(status))
+            exit_code = 128 + WTERMSIG(status);
+        else
+            exit_code = WEXITSTATUS(status);
 	}
 	return (exit_code);
 }
