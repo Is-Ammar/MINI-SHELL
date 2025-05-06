@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/05 15:16:46 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:28:04 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	execute_or_operator(t_shell *shell, t_ast *original_ast)
 {
 	shell->ast = original_ast->left;
 	execute_ast(shell);
-	if (shell->exit_code != 0)
+	if ((shell->exit_code != 0 && shell->exit_code < 128) /*|| shell->exit_code == 131 */ ) // still has issue --------------------------
 	{
 		shell->ast = original_ast->right;
 		execute_ast(shell);
