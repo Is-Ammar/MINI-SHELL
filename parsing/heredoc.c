@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 13:54:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:52:10 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 			remove_token(tokens, curr->next);
 			add_mid_token(shell, tokens, curr, name);
 			remove_token(tokens, curr);
-			continue ;
 		}
 		curr = curr->next;
 	}
