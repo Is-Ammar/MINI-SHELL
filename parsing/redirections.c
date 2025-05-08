@@ -6,63 +6,62 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/06 15:52:35 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:04:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	out_fd(t_dll *token, int O_FLAG)
+int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 {
 	int	out_fd;
 
 	out_fd = 1;
+	if (token->expandable || token->wildcard)
+	{
+		if (expansion(shell, tokens, token))
+			return (1);
+	}
 	if (access(token->value, F_OK) == 0)
 	{
 		if (access(token->value, W_OK) == -1)
 		{
-			ft_printf("permission denied: %s\n", token->value);
+			ft_printf(B_RED"minishell: %s: permission denied\n"RESET, token->value);
 			return (1);
 		}
 	}
 	out_fd = open(token->value, O_CREAT | O_WRONLY | O_FLAG, 0644);
-	if (out_fd < 0)
-	{
-		perror(token->value);
-		return (1);
-	}
 	dup2(out_fd, 1);
 	close(out_fd);
 	return (0);
 }
 
-int	in_fd(t_dll *token)
+int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 {
 	int	in_fd;
 
 	in_fd = 0;
+	if (token->expandable || token->wildcard)
+	{
+		if (expansion(shell, tokens, token))
+			return (1);
+	}
 	if (access(token->value, F_OK) == -1)
 	{
-		ft_printf("no such file or directory: %s\n", token->value);
-		return (1);
+		return (ft_error(token->value, EDIRFILE));
 	}
 	if (access(token->value, R_OK) == -1)
 	{
-		ft_printf("permission denied: %s\n", token->value);
+		ft_printf(B_RED"minishell: %s: permission denied\n"RESET, token->value);
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
-	if (in_fd < 0)
-	{
-		perror(token->value);
-		return (1);
-	}
 	dup2(in_fd, 0);
 	close(in_fd);
 	return (0);
 }
 
-int	redirections(t_dll **tokens)
+int	redirections(t_shell *shell, t_dll **tokens)
 {
 	t_dll	*curr;
 
@@ -73,17 +72,17 @@ int	redirections(t_dll **tokens)
 	{
 		if (curr->redir_type == READ)
 		{
-			if (in_fd(curr))
+			if (in_fd(shell, tokens, curr))
 				return (1);
 		}
 		else if (curr->redir_type == WRITE)
 		{
-			if (out_fd(curr, O_TRUNC))
+			if (out_fd(shell, tokens, curr, O_TRUNC))
 				return (1);
 		}
 		else if (curr->redir_type == APPEND)
 		{
-			if (out_fd(curr, O_APPEND))
+			if (out_fd(shell, tokens, curr, O_APPEND))
 				return (1);
 		}
 		curr = curr->next;

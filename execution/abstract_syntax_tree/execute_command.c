@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/29 21:22:03 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/08 18:07:58 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void execute_command(t_shell *shell)
 {
     if (!shell->ast->token && !shell->ast->arguments)
         return;
-    if (!redirections(&shell->ast->token)&& !redirections(&shell->ast->arguments))
+    if (!redirections(shell, &shell->ast->token)
+		&& !redirections(shell, &shell->ast->arguments))
     {
+		handle_expansions(shell);
         if (shell->ast->arguments)
         {
             remove_redir_args(&shell->ast->arguments);
@@ -91,7 +93,6 @@ void	execute_simple_command(t_shell *shell)
 		shell->ast->token->token_type == REDIRECTION)))
 		return ;
 	save_restore_fds(&saved_stdout, &saved_stdin, 0);
-	handle_expansions(shell);
 	execute_command(shell);
 	save_restore_fds(&saved_stdout, &saved_stdin, 1);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 14:23:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:02:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ typedef enum e_error_type
 	EQUOTES,
 	EBRACKET,
 	ESYNTAX,
-	ECOMMAND
+	ECOMMAND,
+	EDIRFILE,
 }	t_error_type;
 
 typedef enum e_operator
@@ -86,14 +87,14 @@ typedef enum e_redirect
 	READ = 1,
 	WRITE = 2,
 	APPEND = 3,
-}	t_redicrect;
+}	t_redirect;
 
 typedef struct s_dll
 {
 	char			*value;
 	t_token_type	token_type;
 	t_quote_type	quote_type;
-	t_redicrect		redir_type;
+	t_redirect		redir_type;
 	int				inside_parentheses;
 	int				expandable;
 	int				direction;
@@ -101,6 +102,7 @@ typedef struct s_dll
 	int				heredoc;
 	int				wildcard;
 	int				operator;
+	int				ambiguous;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }	t_dll;
@@ -169,7 +171,7 @@ char	*ft_strdup_expand(t_shell *shell, char *value);
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
-void	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
+int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
 int		hidden_files(char *val, char *name);
 int		search_for_match(t_shell *shell, t_dll *curr, char *val, char *d_name);
 int		prefix(char *name, char *val, int *start);
@@ -187,10 +189,10 @@ void	last_check_doc(t_dll **tokens);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
 void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *nxt);
-int		redirections(t_dll **tokens);
+int		redirections(t_shell *shell, t_dll **tokens);
 void	identify_redirections(t_dll **tokens);
-int		in_fd(t_dll *token);
-int		out_fd(t_dll *token, int O_FLAG);
+int		in_fd(t_shell *shell, t_dll **tokens, t_dll *token);
+int		out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG);
 // ------------------------------------------------------------------ //
 /* ///////////////// address flushers \\\\\\\\\\\\\\\\\\\\\ */
 void	*ft_malloc(t_shell *shell, size_t size);

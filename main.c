@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 11:33:49 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/08 18:33:27 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,23 @@ int parsing(t_shell *shell, char *input)
     redirect(&shell->tokens);
     shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
-    // exit(0);
-    // t_dll   *curr;
+	// exit(0);
+	// t_dll   *curr;
+	// t_dll *tmp;
+	// tmp = shell->tokens;
+	// wildcard(shell, &shell->tokens, shell->tokens);
+	// while (tmp)
+    // {
+	// 	printf("Token --> : `%s', token type: %d\n", tmp->value, tmp->token_type);
+    //     tmp = tmp->next;
+    // }
     // curr = shell->tokens;
     // while (curr)
     // {
-    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->redir_type);
-    //     curr = curr->next;
+        // printf("Token --> : `%s', token type: %d\n", curr->value, curr->token_type);
+        // curr = curr->next;
     // }
+	// exit(0);
     // expansion(&shell->tokens, shell->env_list, shell->exit_code);
     // shell->ast = abstract_segment_tree(shell);
     // printtt(shell->ast);
@@ -118,12 +127,12 @@ char	*get_prompt(t_shell *shell)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		ft_strlcpy(cwd, "~",ft_strlen(cwd));
 
-	line1 = ft_strdup(shell, GREEN);
+	line1 = ft_strdup(shell, B_GREEN);
 	tmp = ft_strjoin(shell, line1, username);
 	line1 = tmp;
-	tmp = ft_strjoin_free(shell, line1, RESET "@" BLUE "minishell" RESET ":", 1, 0);
+	tmp = ft_strjoin_free(shell, line1, RESET B_WHITE"@"RESET B_BLUE "minishell" RESET ":", 1, 0);
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, CYAN);
+	tmp = ft_strjoin(shell, line1, B_CYAN);
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, cwd);
 	line1 = tmp;
@@ -153,7 +162,6 @@ void read_eval_print_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			// burn_garbage(&shell);
-			// free_shell(shell);
 			exit(0);
 		}
 		if (!*input)
@@ -183,6 +191,5 @@ int main(int ac, char **av, char **env)
 	create_env(shell, &shell.env_list, env);
 	read_eval_print_loop(&shell);
     // burn_garbage(&shell);
-	// free_shell(shell);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 14:28:56 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:02:25 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	hidden_files(char *val, char *name)
 	return (0);
 }
 
-void	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr)
+int	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr)
 {
 	DIR				*dir;
 	struct dirent	*dentry;
@@ -100,7 +100,7 @@ void	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr)
 	match_number = 0;
 	dir = opendir(".");
 	if (!dir)
-		return (perror("minishell: "));
+		return (perror("minishell: "), 1);
 	dentry = readdir(dir);
 	while (dentry != NULL)
 	{
@@ -110,7 +110,7 @@ void	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr)
 			match_number++;
 		dentry = readdir(dir);
 	}
-	if (match_number)
-		remove_token(tokens, curr);
+	remove_token(tokens, curr);
 	closedir(dir);
+	return (match_number);
 }
