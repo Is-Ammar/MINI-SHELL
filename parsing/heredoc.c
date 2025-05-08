@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/06 15:52:10 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:52:19 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,22 @@ void	expandable_doc(t_shell *shell, char *delim, char *name)
 {
 	char	*line;
 	int		fd;
+	int 	line_count;
 
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (fd == -1)
 		return (perror("minishell: "));
 	line = NULL;
+	line_count = 1;
 	while (1)
 	{
 		line = readline(PURPLE"heredoc> "RESET);
+		if(!line)
+		{
+			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", line_count , delim);
+		}
+		else 
+			line_count++;
 		if (!ft_strcmp(line, delim))
 			break ;
 		if (ft_strchr(line, '$'))
@@ -68,6 +76,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (nxt->quote_type == NONE)
 			expandable_doc(shell, nxt->value, name);
 		else if (nxt->quote_type != NONE)
@@ -75,9 +84,12 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 			nxt->value = remove_quotes(shell, nxt->value);
 			non_expandable_doc(nxt->value, name);
 		}
+		exit(0);
 	}
 	else
 		waitpid(pid, &state, 0);
+	if (WTERMSIG(state) == SIGINT)
+        write(STDERR_FILENO, "\n", 1);
 	return ;
 }
 
