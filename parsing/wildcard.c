@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 17:02:25 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 08:55:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr)
 			match_number++;
 		dentry = readdir(dir);
 	}
-	remove_token(tokens, curr);
+	if (match_number)
+		remove_token(tokens, curr);
 	closedir(dir);
 	return (match_number);
 }

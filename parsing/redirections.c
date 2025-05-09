@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 19:04:47 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 09:04:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	{
 		if (expansion(shell, tokens, token))
 			return (1);
+		if (token->next)
+			token = token->next;
 	}
 	if (access(token->value, F_OK) == -1)
 	{
-		return (ft_error(token->value, EDIRFILE));
+		return (ft_error(token->value, EDIRFILE), 1);
 	}
 	if (access(token->value, R_OK) == -1)
 	{

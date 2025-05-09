@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 19:02:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 08:47:50 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ char	*double_quote(t_shell *shell, char *val, int *i);
 char	*single_quote(t_shell *shell, char *value, int *i);
 char	*dollar_sign(t_shell *shell, char *value, int *i);
 int		expansion(t_shell *shell, t_dll **tokens, t_dll *curr);
+int		expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 char	*ft_strdup_expand(t_shell *shell, char *value);
