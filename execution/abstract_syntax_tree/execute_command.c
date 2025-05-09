@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/08 18:07:58 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:58:12 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void execute_command(t_shell *shell)
         {
             if (is_builtin(shell))
 			{
-                execute_builtin(shell);
 				set_last_cmd_env(shell);
+                execute_builtin(shell);
 			}
             else
                 execute_external(shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   smash.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 10:24:22 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 09:37:06 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_dll	t_dll;
 typedef	struct s_env	t_env;
 typedef struct s_ast    t_ast;
 typedef struct s_gc     t_gc;
-
+extern int g_received;
 typedef struct s_shell
 {
     t_env   *env_list;

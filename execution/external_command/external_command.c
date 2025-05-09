@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/08 18:58:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:36:04 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	int		status;
 	int		exit_code;
 
+	signal(SIGINT, SIG_IGN);
 	status = 0;
 	exit_code = 0;
 	pid = fork();
@@ -39,6 +40,7 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	else
 	{
 		waitpid(pid, &status, 0);
+		signal(SIGINT, SIG_IGN);
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
         {
             write(STDERR_FILENO, "Quit (core dumped)\n", 19);
@@ -106,10 +108,12 @@ void	execute_external(t_shell *shell)
 	if (path)
 	{
 		shell->exit_code = execute(cmd, path, args, env);
-		if(shell->exit_code == 0)
+		if(shell->exit_code == 0 && !ac)
 		{
 			set_env_var(shell, &shell->env_list,"_",path);
 		}
+		else
+		set_env_var(shell, &shell->env_list,"_", args[ac]);
 	}
 	else
 		shell->exit_code = ft_error(cmd, ECOMMAND);

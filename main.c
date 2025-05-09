@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 18:33:27 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:29:31 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smash.h" 
-
+ int g_received = 0;
 // void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
 // {
 //     if (!node) return;
@@ -34,17 +34,6 @@
 //         else if (node->token->token_type == WORD)
 //         {
 //             printf("CMD: %s", node->token->value);
-//             if(node->arguments)
-//             {
-//                 t_arg *arg = node->arguments;
-//                 printf(" [args:");
-//                 while (arg) 
-//                 {
-//                     printf(" %s", arg->argument);
-//                     arg = arg->next;
-//                 }
-//                 printf("]");
-//             }
 //             printf("\n");
 //         }   
 //     }
@@ -154,6 +143,7 @@ void read_eval_print_loop(t_shell *shell)
     
     input = NULL;
 	setup_signal_handlers();
+	
     while (1337)
     {
 		setup_signal_handlers();
@@ -174,6 +164,11 @@ void read_eval_print_loop(t_shell *shell)
 			shell->exit_code = 2;
             continue;
         }
+		if (g_received == SIGINT)
+		{
+    		shell->exit_code = 130;
+    		g_received = 0;
+		}
         add_history(input);
         execution(shell);
         free(input);

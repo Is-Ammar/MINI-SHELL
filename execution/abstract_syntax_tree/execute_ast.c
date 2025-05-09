@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/08 12:03:04 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/09 14:22:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ void execute_subshell(t_shell *shell)
 		reset_signal_handlers();
         execute_ast(shell);
         exit(shell->exit_code);
-    } 
-    else 
+    }
+    else
     {
         waitpid(pid, &status, 0);
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
         {
             write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+            shell->exit_code = 128 + WTERMSIG(status);
 		}
         if (WIFSIGNALED(status))
             shell->exit_code = 128 + WTERMSIG(status);
@@ -53,7 +54,7 @@ static void	execute_or_operator(t_shell *shell, t_ast *original_ast)
 {
 	shell->ast = original_ast->left;
 	execute_ast(shell);
-	if ((shell->exit_code != 0 && shell->exit_code < 128) /*|| shell->exit_code == 131*/) // still has issue --------------------------
+	if ((shell->exit_code != 0 && shell->exit_code < 128) || shell->exit_code == 131)
 	{
 		shell->ast = original_ast->right;
 		execute_ast(shell);

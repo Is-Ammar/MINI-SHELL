@@ -6,29 +6,41 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/29 09:39:45 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/09 14:43:59 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-static t_ast	*handle_bracket_content(t_dll **tokens, t_shell *shell)
+static t_ast *handle_bracket_content(t_dll **tokens, t_shell *shell)
 {
-	t_ast	*bracket_content;
-	t_dll	*current;
-
-	*tokens = (*tokens)->next;
-	current = *tokens;
-	while (current && !(current->bracket && current->value
-			&& ft_strcmp(current->value, ")") == 0))
-	{
-		current->inside_parentheses = TRUE;
-		current = current->next;
-	}
-	bracket_content = parse_logical_operators(tokens, shell);
-	if (*tokens && (*tokens)->bracket)
-		*tokens = (*tokens)->next;
-	return (bracket_content);
+    t_ast   *bracket_content;
+    t_dll   *current;
+    int     bracket_level;
+	
+	bracket_level = 1;
+    *tokens = (*tokens)->next;
+    current = *tokens;
+    while (current && bracket_level > 0)
+    {
+        current->inside_parentheses = TRUE;
+        if (current->bracket && current->value)
+        {
+            if (!ft_strcmp(current->value, "("))
+                bracket_level++;
+            else if (!ft_strcmp(current->value, ")"))
+                bracket_level--;
+        }
+        if (bracket_level)
+            current = current->next;
+        else
+            break;
+    }
+    bracket_content = parse_logical_operators(tokens, shell);
+    if (*tokens && (*tokens)->bracket)
+        *tokens = (*tokens)->next;
+        
+    return (bracket_content);
 }
 
 static void	copy_token_properties(t_dll *src, t_dll *dst)
