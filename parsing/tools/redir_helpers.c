@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:04:35 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:20:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	identify_redirections(t_dll **tokens)
 			curr->token_type = REDIRECTION;
 			curr->redir_type = READ;
 		}
-		if (curr->redir_type)
-			curr->token_type = REDIRECTION;
 		curr = curr->next;
 	}
 }

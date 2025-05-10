@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 13:42:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:45:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_dll	*find_token(t_dll *head, t_token_type token_type)
 	curr = head;
 	while (curr)
 	{
-		if (curr->token_type == token_type)
+		if (curr->token_type == token_type && !curr->expandable)
 			return (curr);
 		curr = curr->next;
 	}

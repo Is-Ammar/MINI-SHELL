@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 14:50:50 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:00:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*dollar_sign(t_shell *shell, char *value, int *i)
 	e_code = shell->exit_code;
 	start = *i + 1;
 	len = start;
-	if (value[len] == '\0' || value[len] == '$')
+	if (value[len] == '$' || value[len] == '\0')
 		return (*i = len, ft_strdup(shell, "$"));
 	if (value[len] == '?')
 		return (*i = len + 1, ft_itoa(shell, e_code));

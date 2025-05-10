@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/25 11:31:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:05:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ int	check_subshell(t_dll *tokens)
 	{
 		nxt = curr->next;
 		if (curr->token_type == REDIRECTION && nxt->bracket == RIGHT)
-			return (ft_error(nxt->value, ESYNTAX), 1);
+			return (parse_error(nxt->value, ESYNTAX), 1);
 		if (curr->bracket == RIGHT && nxt->bracket == LEFT)
-			return (ft_error(nxt->value, EBRACKET), 1);
+			return (parse_error(nxt->value, EBRACKET), 1);
 		if (curr->bracket == RIGHT && nxt->token_type != WORD
 			&& nxt->token_type != REDIRECTION && nxt->token_type != SYMBOL)
-			return (ft_error(nxt->value, ESYNTAX), 1);
+			return (parse_error(nxt->value, ESYNTAX), 1);
 		if (curr->bracket == LEFT && nxt->token_type == WORD)
-			return (ft_error(nxt->value, ESYNTAX), 1);
+			return (parse_error(nxt->value, ESYNTAX), 1);
 		if (curr->token_type != WORD && curr->token_type != SYMBOL
 			&& nxt->bracket == LEFT)
-			return (ft_error(nxt->value, ESYNTAX), 1);
+			return (parse_error(nxt->value, ESYNTAX), 1);
 		if (curr->token_type == REDIRECTION && nxt->bracket == LEFT)
-			return (ft_error(nxt->value, EBRACKET), 1);
+			return (parse_error(nxt->value, EBRACKET), 1);
 		curr = nxt;
 	}
 	return (0);
@@ -57,9 +57,9 @@ int	subshell_last(t_dll *tokens)
 			flag = 1;
 		if (flag && nxt->token_type == WORD && nxt->next
 			&& nxt->next->token_type == WORD)
-			return (ft_error(nxt->next->value, ESYNTAX), 1);
+			return (parse_error(nxt->next->value, ESYNTAX), 1);
 		if (curr->token_type == WORD && nxt->bracket == RIGHT)
-			return (ft_error(nxt->next->value, ESYNTAX), 1);
+			return (parse_error(nxt->next->value, ESYNTAX), 1);
 		curr = nxt;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/09 15:45:15 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:39:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,18 @@
 # include "../execution/execution.h"
 
 # define RESET	 "\001\033[0m\002"
-// # define BLACK	 "\001\033[0;30m\002"
 # define RED	 "\001\033[0;31m\002"
-// # define GREEN	 "\001\033[0;32m\002"
-// # define YELLOW  "\001\033[0;33m\002"
-// # define BLUE	 "\001\033[0;34m\002"
 # define PURPLE  "\001\033[0;35m\002"
 # define CYAN	 "\001\033[0;36m\002"
-// # define WHITE	 "\001\033[0;37m\002"
 
-# define B_RED    "\001\033[1;31m\002"
-# define B_GREEN  "\001\033[1;32m\002"
-# define B_YELLOW "\001\033[1;33m\002"
-# define B_BLUE   "\001\033[1;34m\002"
-# define B_PURPLE "\001\033[1;35m\002"
-# define B_CYAN   "\001\033[1;36m\002"
-# define B_WHITE  "\001\033[1;37m\002"
+# define B_RED		"\001\033[1;31m\002"
+# define B_GREEN	"\001\033[1;32m\002"
+# define B_YELLOW	"\001\033[1;33m\002"
+# define B_BLUE		"\001\033[1;34m\002"
+# define B_PURPLE	"\001\033[1;35m\002"
+# define B_CYAN		"\001\033[1;36m\002"
+# define B_WHITE	"\001\033[1;37m\002"
+# define B_GRAY		"\001\033[1;90m\002"
 
 # define FALSE	0
 # define TRUE	1
@@ -57,6 +53,8 @@ typedef enum e_error_type
 	ESYNTAX,
 	ECOMMAND,
 	EDIRFILE,
+	EPERMISS,
+	EAMBIGUO,
 }	t_error_type;
 
 typedef enum e_operator
@@ -102,7 +100,6 @@ typedef struct s_dll
 	int				heredoc;
 	int				wildcard;
 	int				operator;
-	int				ambiguous;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }	t_dll;
@@ -137,12 +134,14 @@ t_quote_type	get_quote_type(char *val);
 char	*get_token_val(t_shell *shell, char *input, int *index);
 int		ft_strlen(const char *s);
 int		ft_strlen_quotes(const char *s);
+int		ft_strlen_spaces(char *val, int *index);
 char	*ft_strduplen(t_shell *shell, char *input, int len);
 char	*ft_strdup_quotes(t_shell *shell, char *token);
 char	*remove_quotes(t_shell *shell, char *token);
 char	*ft_strchr(const char *s, int c);
-int		ft_error(char *val, t_error_type error);
 int		ft_printf(const char *format, ...);
+int		parse_error(char *val, t_error_type error);
+int		exec_error(char *val, t_error_type error);
 // ----------------------------------------------------------------- //
 
 // -------------------- Everything about Parsing -------------------- //
@@ -164,7 +163,7 @@ char	*expand_env_vars(t_shell *shell, char *value);
 char	*double_quote(t_shell *shell, char *val, int *i);
 char	*single_quote(t_shell *shell, char *value, int *i);
 char	*dollar_sign(t_shell *shell, char *value, int *i);
-int		expansion(t_shell *shell, t_dll **tokens, t_dll *curr);
+int		expansion(t_shell *shell, t_dll **tokens, t_dll **token);
 int		expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */

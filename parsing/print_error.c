@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handler.c                                    :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 19:04:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:52:20 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,36 @@ int	putlstr(char *s)
 	return (i);
 }
 
+int	putlnbr(int nb)
+{
+	long	nbl;
+	int		len;
+
+	nbl = nb;
+	len = 0;
+	if (nbl < 0)
+	{
+		nbl = -nbl;
+		putlchar('-');
+		len++;
+	}
+	if (nbl > 9)
+		len += putlnbr(nbl / 10);
+	putlchar(nbl % 10 + 48);
+	len++;
+	return (len);
+}
+
 int	check_format(va_list list, const char *format, int i)
 {
 	if (format[i] == 'c')
 		return (putlchar(va_arg(list, int)));
 	else if (format[i] == 's')
 		return (putlstr(va_arg(list, char *)));
+	else if (format[i] == 'd' || format[i] == 'i')
+		return (putlnbr(va_arg(list, int)));
+	else if (format[i] == '%')
+		return (putlchar('%'));
 	return (0);
 }
 
@@ -56,7 +80,7 @@ int	ft_printf(const char *format, ...)
 	va_start(list, format);
 	while (format[i])
 	{
-		if (format[i] == '%' && ft_strchr("cs\%", format[i + 1]))
+		if (format[i] == '%' && ft_strchr("csdi\%", format[i + 1]))
 		{
 			len += check_format(list, format, i + 1);
 			i += 2;
@@ -69,34 +93,4 @@ int	ft_printf(const char *format, ...)
 	}
 	va_end(list);
 	return (len);
-}
-
-int	ft_error(char *val, t_error_type error)
-{
-	if (error == EQUOTES)
-	{
-		ft_printf(B_RED"minishell: unexpected EOF while looking for matching");
-		ft_printf(" `%c'\n"RESET, *val);
-	}
-	else if (error == EBRACKET)
-	{
-		ft_printf(B_RED"minishell: syntax error near unexpected token ");
-		ft_printf("`)'\n"RESET);
-	}
-	else if (error == ESYNTAX)
-	{
-		ft_printf(B_RED"minishell: syntax error near unexpected token ");
-		ft_printf("`%s'\n"RESET, val);
-	}
-	else if (error == ECOMMAND)
-	{
-		ft_printf(B_WHITE"minishell: %s: command not found\n"RESET, val);
-		return (127);
-	}
-	else if (error == EDIRFILE)
-	{
-		ft_printf(B_WHITE"minishell: %s: No such file or directory\n"RESET, val);
-		return (127);
-	}
-	return (2);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/09 08:59:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:38:12 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,15 @@ void	remove_spaces(t_dll **tokens)
 	}
 }
 
-int	expansion(t_shell *shell, t_dll **tokens, t_dll *curr)
+int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 {
 	int		ambiguous;
+	t_dll	*curr;
 
 	if (!tokens || !*tokens)
 		return (0);
 	ambiguous = 0;
+	curr = *token;
 	if (curr->expandable == TRUE || curr->quote_type != NONE)
 	{
 		if (expand_execute(shell, tokens, curr))
@@ -121,10 +123,11 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll *curr)
 		curr->wildcard = FALSE;
 		if (curr->token_type == REDIRECTION && ambiguous > 1)
 		{
-			ft_printf(B_WHITE"minishell: %s: ambiguous redirect\n"RESET, curr->value);
-			curr->ambiguous = TRUE;
+			parse_error(curr->value, EAMBIGUO);
 			return (1);
 		}
+		if ((*token)->next)
+			(*token) = (*token)->next;
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/09 15:45:19 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:39:34 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 	out_fd = 1;
 	if (token->expandable || token->wildcard)
 	{
-		if (expansion(shell, tokens, token))
+		if (expansion(shell, tokens, &token))
 			return (1);
 	}
 	if (access(token->value, F_OK) == 0)
 	{
 		if (access(token->value, W_OK) == -1)
 		{
-			ft_printf(B_RED"minishell: %s: permission denied\n"RESET, token->value);
+			exec_error(token->value, EPERMISS);
 			return (1);
 		}
 	}
@@ -43,18 +43,17 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	in_fd = 0;
 	if (token->expandable || token->wildcard)
 	{
-		if (expansion(shell, tokens, token))
+		if (expansion(shell, tokens, &token))
 			return (1);
-		if (token->next)
-			token = token->next;
 	}
 	if (access(token->value, F_OK) == -1)
 	{
-		return (ft_error(token->value, EDIRFILE), 1);
+		exec_error(token->value, EDIRFILE);
+		return (1);
 	}
 	if (access(token->value, R_OK) == -1)
 	{
-		ft_printf(B_RED"minishell: %s: permission denied\n"RESET, token->value);
+		exec_error(token->value, EPERMISS);
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
@@ -126,7 +125,10 @@ void	redirect(t_dll **tokens)
 		if (curr->direction == LEFT || curr->direction == RIGHT)
 		{
 			if (handle_redirect(curr->value, nxt))
+			{
+				nxt->token_type = REDIRECTION;
 				remove_token(tokens, curr);
+			}
 		}
 		curr = nxt;
 	}

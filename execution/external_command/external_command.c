@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/09 15:36:04 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:57:37 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute(char *cmd, char *path, char **args, char **env)
 			execve(cmd, args, env);
 		else
 			execve(path, args, env);
-		ft_error(cmd, ECOMMAND);
+		exec_error(cmd, ECOMMAND);
 		exit(0);
 	}
 	else
@@ -113,9 +113,9 @@ void	execute_external(t_shell *shell)
 			set_env_var(shell, &shell->env_list,"_",path);
 		}
 		else
-		set_env_var(shell, &shell->env_list,"_", args[ac]);
+			set_env_var(shell, &shell->env_list,"_", args[ac]);
 	}
 	else
-		shell->exit_code = ft_error(cmd, ECOMMAND);
+		shell->exit_code = exec_error(cmd, ECOMMAND);
 	free_split(env);
 }

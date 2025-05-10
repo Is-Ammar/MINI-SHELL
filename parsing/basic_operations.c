@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 16:18:52 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:57:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_dll	*create_token_list(t_shell *shell)
 	head->heredoc = 0;
 	head->wildcard = 0;
 	head->operator = 0;
-	head->ambiguous = 0;
 	head->prev = NULL;
 	head->next = NULL;
 	return (head);

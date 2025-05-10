@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/09 14:58:12 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:53:44 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void	handle_expansions(t_shell *shell)
 	t_dll	*next;
 
 	if (shell->ast->token)
-		expansion(shell, &shell->ast->token, shell->ast->token);
+		expansion(shell, &shell->ast->token, &shell->ast->token);
 	curr = shell->ast->arguments;
 	while (curr)
 	{
 		next = curr->next;
-		expansion(shell, &shell->ast->arguments, curr);
+		expansion(shell, &shell->ast->arguments, &curr);
 		curr = next;
 	}
 }
