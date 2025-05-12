@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/09 10:29:31 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/12 09:01:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,6 @@ int parsing(t_shell *shell, char *input)
     //free_token_list(&tokens);
 }
 
-static char	*ft_strjoin_free(t_shell *shell, char *s1, char *s2, int free1, int free2)
-{
-	char	*result;
-
-	result = ft_strjoin(shell, s1, s2);
-	if (free1 && s1)
-		free(s1);
-	if (free2 && s2)
-		free(s2);
-	return (result);
-}
-
 char	*get_prompt(t_shell *shell)
 {
 	char	cwd[1024];
@@ -115,11 +103,10 @@ char	*get_prompt(t_shell *shell)
 		username = "user";
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		ft_strlcpy(cwd, "~",ft_strlen(cwd));
-
 	line1 = ft_strdup(shell, B_GREEN);
 	tmp = ft_strjoin(shell, line1, username);
 	line1 = tmp;
-	tmp = ft_strjoin_free(shell, line1, RESET B_WHITE"@"RESET B_BLUE "minishell" RESET ":", 1, 0);
+	tmp = ft_strjoin(shell, line1, RESET B_WHITE"@"RESET B_BLUE "minishell" RESET ":");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, B_CYAN);
 	line1 = tmp;
@@ -127,13 +114,10 @@ char	*get_prompt(t_shell *shell)
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, RESET);
 	line1 = tmp;
-	
 	line2 = ft_strdup(shell, YELLOW BOLD "➔ " RESET);
-
 	tmp = ft_strjoin(shell, line1, "\n");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, line2);
-	
 	return (tmp);
 }
 
@@ -148,10 +132,12 @@ void read_eval_print_loop(t_shell *shell)
     {
 		setup_signal_handlers();
         input = readline(get_prompt(shell));
-        if (!input)
+        shell->lines++;
+		if (!input)
 		{
 			printf("exit\n");
-			// burn_garbage(&shell);
+			rl_clear_history();
+			// burn_garbage(shell);
 			exit(0);
 		}
 		if (!*input)

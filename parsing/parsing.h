@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/10 18:39:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:09:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	add_mid_token(t_shell *shell, t_dll **head, t_dll *token, char *val);
 void	add_token(t_shell *shell, t_dll **head, char *val, t_token_type t_type);
 /* ///////////////// token navigation \\\\\\\\\\\\\\\\\\\\\ */
 t_dll	*find_token(t_dll *head, t_token_type token_type);
+t_dll	*find_command(t_shell *shell, t_dll *head);
 /* ///////////////// token & parsing modification \\\\\\\\\\\\\\\\\\\ */
 char	*ft_merge(t_shell *shell, char *first_val, char *second_val);
 void	merge_tokens(t_shell *shell, t_dll *first_token, t_dll *second_token);
@@ -183,7 +184,7 @@ void	heredoc(t_shell *shell, t_dll **tokens);
 void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name);
 void	expandable_doc(t_shell *shell, char *delim, char *name);
 char	*expand_in_heredoc(t_shell *shell, char *value);
-void	non_expandable_doc(char *delim, char *name);
+void	non_expandable_doc(t_shell *shell, char *delim, char *name);
 char	*ft_strnstr(const char *big, const char *little, int len);
 void	last_check_doc(t_dll **tokens);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */

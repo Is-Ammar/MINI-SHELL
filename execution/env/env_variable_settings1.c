@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/29 21:37:42 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/12 09:11:32 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void create_env(t_shell shell, t_env **env, char **environ)
             shlvl_value = 0;
         else if (shlvl_value >= 999)
         {
-            ft_putstr_fd("minishell: warning: shell level too high, resetting to 1\n",2);
+            ft_printf("minishell: warning: shell level (%d)", ++shlvl_value),
+            ft_printf(" too high, resetting to 1\n");
             shlvl_value = 0;
         }
         shlvl_value++;

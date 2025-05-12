@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/09 14:43:59 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/12 09:00:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void	process_command_arguments(t_dll **tokens, t_ast *cmd_node, t_dll **t
 		*tokens = (*tokens)->next;
 	}
 }
+
 t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
 {
     t_ast *cmd_node;
@@ -103,7 +104,7 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
         return (handle_bracket_content(tokens, shell));
     
     cmd_node = ft_malloc(shell, sizeof(t_ast));
-    cmd_node->token = find_token(*tokens, WORD);
+    cmd_node->token = find_command(shell, *tokens);
     
     cmd_node->arguments = NULL;
     cmd_node->left = NULL;
@@ -115,6 +116,5 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
     {
         cmd_node->token = first_token;
     }
-    
     return (cmd_node);
 }

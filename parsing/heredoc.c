@@ -6,24 +6,29 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/10 17:31:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/11 15:55:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	non_expandable_doc(char *delim, char *name)
+void	non_expandable_doc(t_shell *shell, char *delim, char *name)
 {
 	char	*line;
 	int		fd;
 
 	line = NULL;
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	if (fd == -1)
-		return (perror("minishell: "));
 	while (1)
 	{
-		line = readline(PURPLE"heredoc> "RESET);
+		line = readline(B_PURPLE"heredoc> "RESET);
+		if(!line)
+		{
+			ft_printf("minishell: warning: here-document at line %d", shell->lines);
+			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
+		}
+		else
+			shell->lines++;
 		if (!ft_strcmp(line, delim))
 			break ;
 		write(fd, line, ft_strlen(line));
@@ -38,25 +43,23 @@ void	expandable_doc(t_shell *shell, char *delim, char *name)
 {
 	char	*line;
 	int		fd;
-	int 	line_num;
 
+	line = NULL;
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	(1) && (line = NULL, line_num = 1);
 	while (1)
 	{
-		line = readline(PURPLE"heredoc> "RESET);
+		line = readline(B_PURPLE"heredoc> "RESET);
 		if(!line)
 		{
-			ft_printf("minishell: warning: here-document at line %d", line_num);
+			ft_printf("minishell: warning: here-document at line %d", shell->lines);
 			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
 		}
+		else
+			shell->lines++;
 		if (!ft_strcmp(line, delim))
 			break ;
 		if (ft_strchr(line, '$'))
-		{
 			line = expand_in_heredoc(shell, line);
-			line_num++;
-		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -79,7 +82,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 		else if (nxt->quote_type != NONE)
 		{
 			nxt->value = remove_quotes(shell, nxt->value);
-			non_expandable_doc(nxt->value, name);
+			non_expandable_doc(shell, nxt->value, name);
 		}
 		exit(0);
 	}

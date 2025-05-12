@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 09:13:59 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/11 18:44:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,23 @@ size_t	ft_strlcpy(char *dst, char *src, size_t len)
 	return (src_len);
 }
 
-char *ft_strcat(char *dest, const char *src)
+char	*ft_strcat(char *dest, const char *src)
 {
-    char *ptr;
-    
-    ptr = dest;
-    while (*ptr)
-        ptr++;
-    while (*src)
-        *ptr++ = *src++;
-    *ptr = '\0';
-    return dest;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!dest || !src)
+		return (NULL);
+	while (dest[i] != '\0')
+		i++;
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

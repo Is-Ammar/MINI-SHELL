@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/10 18:57:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/12 08:57:37 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,21 @@ int	execute(char *cmd, char *path, char **args, char **env)
 	else if (pid == 0)
 	{
 		reset_signal_handlers();
+		if (!*cmd)
+		{
+			exec_error("''", ECOMMAND);
+			exit(127);
+		}
 		if (ft_strchr(cmd, '/'))
+		{
 			execve(cmd, args, env);
+			exec_error(cmd, EDIRFILE);
+		}
 		else
+		{
 			execve(path, args, env);
-		exec_error(cmd, ECOMMAND);
+			exec_error(cmd, ECOMMAND);
+		}
 		exit(0);
 	}
 	else
@@ -95,7 +105,7 @@ void	execute_external(t_shell *shell)
 	char	*path;
 	int		ac;
 
-	cmd = shell->ast->token->value;
+	cmd = ft_strdup(shell, shell->ast->token->value);
 	ac = count_args(shell->ast->arguments);
 	args = prepare_command_args(shell, cmd, shell->ast->arguments, ac);
 	if (!args)
@@ -105,7 +115,7 @@ void	execute_external(t_shell *shell)
 	}
 	env = convert_env_to_array(shell, shell->env_list);
 	path = get_command_path(shell, cmd, shell->env_list);
-	if (path)
+	if (path || cmd)
 	{
 		shell->exit_code = execute(cmd, path, args, env);
 		if(shell->exit_code == 0 && !ac)
@@ -117,5 +127,4 @@ void	execute_external(t_shell *shell)
 	}
 	else
 		shell->exit_code = exec_error(cmd, ECOMMAND);
-	free_split(env);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/10 18:45:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/11 16:04:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,31 @@ t_dll	*find_token(t_dll *head, t_token_type token_type)
 	curr = head;
 	while (curr)
 	{
-		if (curr->token_type == token_type && !curr->expandable)
+		if (curr->token_type == token_type)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+t_dll	*find_command(t_shell *shell, t_dll *head)
+{
+	t_dll	*curr;
+	char	*tmp;
+
+	if (!head)
+		return (NULL);
+	curr = head;
+	tmp = NULL;
+	while (curr)
+	{
+		if (curr->expandable && curr->token_type == WORD)
+		{
+			tmp = expand_env_vars(shell, curr->value);
+			if (*tmp != '\0')
+				return (curr);
+		}
+		if (curr->token_type == WORD)
 			return (curr);
 		curr = curr->next;
 	}
