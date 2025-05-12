@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/12 09:00:08 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:26:00 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	process_command_arguments(t_dll **tokens, t_ast *cmd_node, t_dll **t
 	t_dll	*new_arg;
 
 	while (*tokens && (*tokens)->value && ((*tokens)->token_type == WORD
-			|| (*tokens)->token_type == REDIRECTION))
+			|| (*tokens)->redir_type == READ))
 	{
 		if (cmd_node->token == *tokens)
 			;

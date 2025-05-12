@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 14:49:49 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:52:43 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
     t_ast *result;
 	t_ast *pipe_node;
     
-    result  = parse_simple_command(tokens, shell);
+    result  = parse_redirections(tokens, shell);
     while (*tokens && (*tokens)->value && (*tokens)->token_type == PIPE)
     {
 		
@@ -64,10 +64,47 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
         pipe_node->token = *tokens;
         pipe_node->left = result;
         *tokens = (*tokens)->next;
-        pipe_node->right = parse_simple_command(tokens, shell);
+        pipe_node->right = parse_redirections(tokens, shell);
         if (!pipe_node->right)
             return NULL;
         result = pipe_node;
     }
+    return result;
+}
+
+t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
+{
+    t_ast *result;
+    t_ast *redir_node;
+    t_ast *command_node = NULL;
+    t_ast *prev_redir;
+    
+    result = parse_simple_command(tokens, shell);
+    command_node = result;
+    
+    while (*tokens && (*tokens)->value && (*tokens)->redir_type != 0)
+    {
+        redir_node = ft_malloc(shell, sizeof(t_ast));
+        if (!redir_node)
+            return NULL;
+            
+        redir_node->token = *tokens;
+        redir_node->left = command_node;
+        redir_node->right = NULL;
+        redir_node->arguments = NULL;
+        *tokens = (*tokens)->next;
+        if (result != command_node)
+        {
+            prev_redir = result;
+            while (prev_redir->right)
+                prev_redir = prev_redir->right;
+            prev_redir->right = redir_node;
+        }
+        else
+        {
+            result = redir_node;
+        }
+    }
+    
     return result;
 }

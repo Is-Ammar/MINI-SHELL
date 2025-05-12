@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/05 15:32:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/11 17:15:59 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void 					set_last_cmd_env(t_shell *shell);
 void					create_env(t_shell shell, t_env **env, char **environ);
 //-------------------abstract_tree---------------------------//
 t_ast 					*abstract_segment_tree(t_shell *shell);
-t_ast 					*parse_redirection(t_dll **tokens, t_shell *shell);
+t_ast 					*parse_redirections(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_logical_operators(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
@@ -101,5 +101,7 @@ char					*get_command_path(t_shell *shell, char *cmd, t_env *env_list);
 //----------------------signals---------------------//
 void 					setup_signal_handlers(void);
 void 					reset_signal_handlers(void);
+
+void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore);
 
 #endif

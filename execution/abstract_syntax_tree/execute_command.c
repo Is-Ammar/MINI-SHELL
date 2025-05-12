@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/10 18:53:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:49:47 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-static void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
+void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 {
 	if (restore == 0)
 	{
@@ -28,71 +28,69 @@ static void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 	}
 }
 
-static void	handle_expansions(t_shell *shell)
+int	handle_expansions(t_shell *shell)
 {
 	t_dll	*curr;
 	t_dll	*next;
 
 	if (shell->ast->token)
-		expansion(shell, &shell->ast->token, &shell->ast->token);
+	{
+		if (expansion(shell, &shell->ast->token, &shell->ast->token))
+			return (1);
+	}
 	curr = shell->ast->arguments;
 	while (curr)
 	{
 		next = curr->next;
-		expansion(shell, &shell->ast->arguments, &curr);
+		if (expansion(shell, &shell->ast->arguments, &curr))
+			return (1);
 		curr = next;
 	}
-}
-
-static void remove_redir_args(t_dll **args)
-{
-	t_dll *curr;
-	
-	curr = *args;
-	while(curr)
-	{
-		if(curr->token_type == REDIRECTION)
-			remove_token(args, curr);
-		curr = curr->next;
-	}
+	return (0);
 }
 
 void execute_command(t_shell *shell)
 {
     if (!shell->ast->token && !shell->ast->arguments)
-        return;
-    if (!redirections(shell, &shell->ast->token)
-		&& !redirections(shell, &shell->ast->arguments))
+	{
+    	return;
+	}
+	// printf("token:%s\n", shell->ast->token->value);
+	// printf("type:%d\n", shell->ast->token->token_type);
+    if (handle_expansions(shell))
+	{
+		shell->exit_code = 1;
+		return ;
+	}
+	// if (shell->ast->arguments)
+	// {
+	// 	remove_redir_args(&shell->ast->arguments);
+	// }
+	// t_dll	*curr = shell->ast->arguments;
+	// while(curr)
+	// {
+	// 	printf("args: %s\n", curr->value);
+	// 	printf("type: %d\n", curr->token_type);
+	// 	curr = curr->next;
+	// }
+	// exit(0);
+	
+    if (shell->ast->token && shell->ast->token->token_type == WORD)
     {
-		handle_expansions(shell);
-        if (shell->ast->arguments)
+        if (is_builtin(shell))
         {
-            remove_redir_args(&shell->ast->arguments);
+            set_last_cmd_env(shell);
+            execute_builtin(shell);
         }
-        if (shell->ast->token && shell->ast->token->token_type == WORD)
-        {
-            if (is_builtin(shell))
-			{
-				set_last_cmd_env(shell);
-                execute_builtin(shell);
-			}
-            else
-                execute_external(shell);
-        }
+        else
+            execute_external(shell);
     }
-    else
-        shell->exit_code = 1;
 }
 
 void	execute_simple_command(t_shell *shell)
 {
-	int	saved_stdout;
-	int	saved_stdin;
 
-	if (!(shell->ast->token && (shell->ast->token->token_type == WORD ||
-		shell->ast->token->token_type == REDIRECTION)))
+	if (!(shell->ast->token && (shell->ast->token->token_type == WORD)))
 		return ;
-	save_restore_fds(&saved_stdout, &saved_stdin, 0);
 	execute_command(shell);
-	save_restore_fds(&saved_stdout, &saved_stdin, 1);
 }
