@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/12 16:52:43 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/13 19:53:37 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
     while (*tokens && (*tokens)->value && (*tokens)->redir_type != 0)
     {
         redir_node = ft_malloc(shell, sizeof(t_ast));
-        if (!redir_node)
-            return NULL;
-            
         redir_node->token = *tokens;
         redir_node->left = command_node;
         redir_node->right = NULL;
