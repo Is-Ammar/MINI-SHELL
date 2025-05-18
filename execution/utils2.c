@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:03:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 10:36:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:18:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	free_split(char **result)
 	j = 0;
 	while (result[j])
 	{
-		free(result[j]);
+		// free(result[j]);
 		j++;
 	}
-	free(result);
+	// free(result);
 }
 
 char	**ft_split(t_shell *shell, char const *s, char c)

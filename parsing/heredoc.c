@@ -6,40 +6,55 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/11 15:55:13 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/18 14:59:16 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	non_expandable_doc(t_shell *shell, char *delim, char *name)
+void	copy_new_content(t_shell *shell, char *new_name, char *old_name)
 {
 	char	*line;
-	int		fd;
+	int		fd0;
+	int		fd1;
 
-	line = NULL;
-	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	while (1)
+	fd0 = open(new_name, O_RDONLY, 0600);
+	fd1 = open(old_name, O_WRONLY | O_TRUNC, 0600);
+	line = get_next_line(shell, fd0);
+	while (line != NULL)
 	{
-		line = readline(B_PURPLE"heredoc> "RESET);
-		if(!line)
-		{
-			ft_printf("minishell: warning: here-document at line %d", shell->lines);
-			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
-		}
-		else
-			shell->lines++;
-		if (!ft_strcmp(line, delim))
-			break ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		write(fd1, line, ft_strlen(line));
+		line = get_next_line(shell, fd0);
 	}
-	free(line);
-	close(fd);
+	close(fd0);
+	close(fd1);
+	unlink(new_name);
 }
 
-void	expandable_doc(t_shell *shell, char *delim, char *name)
+void	expand_heredoc(t_shell *shell, char *old_name)
+{
+	char	*line;
+	char	*name;
+	int		fd0;
+	int		fd1;
+
+	name = ft_strjoin(shell, old_name, ft_itoa(shell, shell->lines));
+	fd0 = open(old_name, O_RDONLY, 0600);
+	fd1 = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	line = get_next_line(shell, fd0);
+	while (line != NULL)
+	{
+		if (ft_strchr(line, '$'))
+			line = expand_in_heredoc(shell, line);
+		write(fd1, line, ft_strlen(line));
+		line = get_next_line(shell, fd0);
+	}
+	close(fd0);
+	close(fd1);
+	copy_new_content(shell, name, old_name);
+}
+
+void	open_heredoc(t_shell *shell, char *delim, char *name)
 {
 	char	*line;
 	int		fd;
@@ -58,8 +73,6 @@ void	expandable_doc(t_shell *shell, char *delim, char *name)
 			shell->lines++;
 		if (!ft_strcmp(line, delim))
 			break ;
-		if (ft_strchr(line, '$'))
-			line = expand_in_heredoc(shell, line);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -73,17 +86,15 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	pid_t		pid;
 	int			state;
 
+	if (nxt->quote_type != NONE)
+		nxt->value = remove_quotes(shell, nxt->value);
+	else if (nxt->quote_type == NONE)
+		nxt->expandable = TRUE;
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		if (nxt->quote_type == NONE)
-			expandable_doc(shell, nxt->value, name);
-		else if (nxt->quote_type != NONE)
-		{
-			nxt->value = remove_quotes(shell, nxt->value);
-			non_expandable_doc(shell, nxt->value, name);
-		}
+		open_heredoc(shell, nxt->value, name);
 		exit(0);
 	}
 	else
@@ -111,6 +122,7 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 			name = ft_strjoin(shell, ft_strdup(shell, "/tmp/.heredoc_") \
 			, ft_itoa(shell, count));
 			handle_herdoc(shell, curr->next, name);
+			curr->expandable = curr->next->expandable;
 			remove_token(tokens, curr->next);
 			add_mid_token(shell, tokens, curr, name);
 			remove_token(tokens, curr);

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 10:39:10 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:17:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_env_var(t_shell *shell, t_env **env_list, char *name, char *value)
 	{
 		if (ft_strcmp(current->env_name, name) == 0)
 		{
-			free(current->env_value);
+			// free(current->env_value);
 			current->env_value = ft_strdup(shell, value);
 			return ;
 		}
@@ -85,8 +85,8 @@ void	free_env_list(t_env *env_list)
 	current = env_list;
 	while (current)
 	{
-		free(current->env_name);
-		free(current->env_value);
+		// free(current->env_name);
+		// free(current->env_value);
 		current = current->next;
 	}
 }

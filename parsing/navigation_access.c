@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   navigation_access.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/12 16:03:20 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/17 09:52:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 			if (*tmp != '\0')
 				return (curr);
 		}
-		if (curr->token_type == WORD)
+		if (!curr->expandable && curr->token_type == WORD)
 			return (curr);
 		curr = curr->next;
 	}

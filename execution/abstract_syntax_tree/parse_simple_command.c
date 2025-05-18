@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/17 14:23:11 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/18 15:12:56 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	copy_token_properties(t_dll *src, t_dll *dst)
 	dst->next = NULL;
 }
 
-static void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
+void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
 {
 	if (*tail)
 		(*tail)->next = new_arg;
@@ -72,10 +72,16 @@ static void	process_command_arguments(t_dll **tokens, t_ast *cmd_node, t_dll **t
 {
 	t_dll	*new_arg;
 
-	while (*tokens && (*tokens)->value && ((*tokens)->token_type == WORD
-			|| ((*tokens)->redir_type == READ  && (*tokens)->next && (*tokens)->next->token_type != REDIRECTION)))
+	while (*tokens && ((*tokens)->token_type == WORD
+        || (*tokens)->token_type == REDIRECTION))
 	{
-		if (cmd_node->token == *tokens)
+        if ((*tokens)->token_type == REDIRECTION &&(*tokens)->redir_type != READ
+            && !(*tokens)->next)
+            return ;
+        else if ((*tokens)->redir_type == READ
+            && (*tokens)->next && (*tokens)->next->redir_type == READ)
+            ;
+		else if (cmd_node->token == *tokens)
 			;
 		else
 		{

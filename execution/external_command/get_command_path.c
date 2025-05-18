@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/27 12:03:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:16:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 		if (!temp)
 			return (NULL);
 		full_path = ft_strjoin(shell, paths[i], temp);
-		free(temp);
+		// free(temp);
 		if (full_path && is_executable(full_path))
 			return (full_path);
-		free(full_path);
+		// free(full_path);
 		i++;
 	}
 	return (NULL);
@@ -65,6 +65,6 @@ char	*get_command_path(t_shell *shell, char *cmd, t_env *env_list)
 		return (NULL);
 	paths = ft_split(shell, path_value, ':');
 	result = search_in_path(shell, cmd, paths);
-	free_split(paths);
+	// free_split(paths);
 	return (result);
 }

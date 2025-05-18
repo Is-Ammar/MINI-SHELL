@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/13 20:07:03 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/18 15:05:43 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,41 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 		close(*saved_stdin);
 	}
 }
-
+void add_arg(t_dll **args, t_dll *curr)
+{
+	t_dll *current = *args;
+	while(current)
+	{
+		current=current->next;
+	}
+	current = curr;
+}
 int	handle_expansions(t_shell *shell)
 {
 	t_dll	*curr;
-	t_dll	*next;
 
 	if (shell->ast->token)
 	{
 		if (expansion(shell, &shell->ast->token, &shell->ast->token))
-			return (1);
+			return (1);	
 	}
 	curr = shell->ast->arguments;
 	while (curr)
 	{
-		next = curr->next;
-		if (expansion(shell, &shell->ast->arguments, &curr))
-			return (1);
-		curr = next;
+		// ft_printf("token :%s | token type: %d\n", curr->value, curr->expandable);
+		if (shell->ast->token == curr)
+			;
+		else if (curr->heredoc)
+		{
+			if (curr->expandable)
+				expand_heredoc(shell, curr->value);
+		}
+		else
+		{
+			if (expansion(shell, &shell->ast->arguments, &curr))
+				return (1);
+		}
+		curr = curr->next;
 	}
 	return (0);
 }

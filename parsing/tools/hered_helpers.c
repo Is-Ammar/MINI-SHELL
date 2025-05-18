@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 14:02:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:21:45 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ char	*expand_in_heredoc(t_shell *shell, char *value)
 			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, &value[j] \
 			, i - j));
 		else if (value[i] == '$')
-			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value, &i));
+			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value, &i \
+			, FALSE));
 	}
 	return (new_val);
 }

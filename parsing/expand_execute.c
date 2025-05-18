@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/10 18:23:28 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:45:28 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,14 @@ int expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr)
 		return (1);
 	}
 	if (curr->quote_type != DQUOTE && curr->expandable)
+	{
 		curr->value = remove_too_much_spaces(shell, curr->value);
+		if (should_be_splited(curr->value))
+			split_token(shell, tokens, curr, curr->value);
+	}
 	if (curr->token_type == REDIRECTION && curr->expandable
 		&& is_ambiguous(curr->value))
-	{
-		parse_error(tmp, EAMBIGUO);
-		return (1);
-	}
+		return (parse_error(tmp, EAMBIGUO), 1);
 	if (curr->value[0] == '\0' && curr->expandable)
 		remove_token(tokens, curr);
 	curr->expandable = FALSE;

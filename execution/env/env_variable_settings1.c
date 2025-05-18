@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/12 09:11:32 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:17:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void unset_env_var(t_shell *shell, t_dll *token)
             else
                 shell->env_list = env->next;
             
-            free(env->env_name);
-            free(env->env_value);
-            free(env);
+            // free(env->env_name);
+            // free(env->env_value);
+            // free(env);
             return;
         }
         prev = env;
@@ -152,9 +152,9 @@ char **convert_env_to_array(t_shell *shell, t_env *env_list)
         env_array[i] = malloc(len);
         if (!env_array[i])
         {
-            while (--i >= 0)
-                free(env_array[i]);
-            free(env_array);
+            // while (--i >= 0)
+            //     free(env_array[i]);
+            // free(env_array);
             return NULL;
         }
         ft_strlcpy(env_array[i], current->env_name, ft_strlen(current->env_name) + 1);

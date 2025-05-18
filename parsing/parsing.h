@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/12 09:09:13 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:27:38 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,14 +163,18 @@ void	identify_tokens(t_dll *tokens);
 char	*expand_env_vars(t_shell *shell, char *value);
 char	*double_quote(t_shell *shell, char *val, int *i);
 char	*single_quote(t_shell *shell, char *value, int *i);
-char	*dollar_sign(t_shell *shell, char *value, int *i);
+char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote);
 int		expansion(t_shell *shell, t_dll **tokens, t_dll **token);
 int		expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr);
+void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input);
+t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 char	*ft_strdup_expand(t_shell *shell, char *value);
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n);
+int		should_be_splited(char *value);
+int		is_empty(char *val);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
 int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
 int		hidden_files(char *val, char *name);
@@ -182,9 +186,10 @@ int		suffix(char *name, char *val);
 /* ///////////////// heredoc \\\\\\\\\\\\\\\\\\\\\ */
 void	heredoc(t_shell *shell, t_dll **tokens);
 void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name);
-void	expandable_doc(t_shell *shell, char *delim, char *name);
+void	open_heredoc(t_shell *shell, char *delim, char *name);
+void	expand_heredoc(t_shell *shell, char *old_name);
+char	*get_next_line(t_shell *shell, int fd);
 char	*expand_in_heredoc(t_shell *shell, char *value);
-void	non_expandable_doc(t_shell *shell, char *delim, char *name);
 char	*ft_strnstr(const char *big, const char *little, int len);
 void	last_check_doc(t_dll **tokens);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
@@ -199,6 +204,6 @@ int		out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG);
 void	*ft_malloc(t_shell *shell, size_t size);
 void	add_to_garbage(t_shell *shell, void *ptr);
 void	burn_garbage(t_shell *shell);
-/* /////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+/* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
 #endif

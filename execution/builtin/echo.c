@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/11 17:04:00 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:09:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void execute_builtin_echo(t_shell *shell)
 {
     t_dll   *curr;
     int     flag;
-    // int     i;
 
     if (!shell->ast || !shell->ast->token || !shell->ast->arguments)
     {
@@ -48,7 +47,6 @@ void execute_builtin_echo(t_shell *shell)
     too_much_new_lines(&curr, &flag);
     while (curr)
     {
-		// i = 0;
         printf("%s", curr->value);
         if (curr->next)
             printf(" ");

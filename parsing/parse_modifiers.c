@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/10 18:38:12 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:56:57 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	operators_merge(t_shell *shell, t_dll **tokens)
 	while (curr && curr->next)
 	{
 		nxt = curr->next;
-		if (nxt && curr->value[0] == nxt->value[0])
+		if (nxt && curr && curr->value && nxt->value
+			&& curr->value[0] == nxt->value[0])
 		{
 			if (curr->value[0] == '&' || curr->value[0] == '|'
 				|| curr->value[0] == '<' || curr->value[0] == '>')
@@ -70,7 +71,7 @@ void	identify_tokens(t_dll *tokens)
 	curr = tokens;
 	while (curr)
 	{
-		if (!check_depth_to_expand(curr->value))
+		if (!check_depth_to_expand(curr->value) && !is_empty(curr->value))
 			curr->wildcard = TRUE;
 		if (ft_strchr(curr->value, '$'))
 			curr->expandable = TRUE;

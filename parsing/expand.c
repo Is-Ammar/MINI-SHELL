@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/12 08:25:49 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:56:30 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ char	*ft_strdup_expand(t_shell *shell, char *value)
 	env = shell->env_list;
 	name = ft_strdup(shell, value);
 	env_value = get_env_var(shell, env, name);
-	free(name);
 	if (!env_value)
 		return ("");
 	return (ft_strdup(shell, env_value));
 }
 
-char	*dollar_sign(t_shell *shell, char *value, int *i)
+char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
 {
 	int		len;
 	int		start;
@@ -42,6 +41,8 @@ char	*dollar_sign(t_shell *shell, char *value, int *i)
 	len = start;
 	if (value[len] == '?')
 		return (*i = len + 1, ft_itoa(shell, e_code));
+	if (value[start] == '"' && is_dquote == TRUE)
+		return (*i = len, ft_strdup(shell, "$"));
 	if (!ft_isalnum(value[len]) && value[len] != '_' &&
 		value[len] != '"' && value[len] != '\'')
 		return (*i = len, ft_strdup(shell, "$"));
@@ -72,7 +73,7 @@ char	*double_quote(t_shell *shell, char *val, int *i)
 			break ;
 		if (val[start] == '$')
 			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, val \
-			, &start));
+			, &start, TRUE));
 	}
 	*i = start + 1;
 	return (new_val);
@@ -114,7 +115,8 @@ char	*expand_env_vars(t_shell *shell, char *value)
 			new_val = ft_strjoin(shell, new_val, double_quote(shell, value \
 			, &i));
 		else if (value[i] == '$')
-			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value, &i));
+			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value \
+			, &i, FALSE));
 	}
 	return (new_val);
 }

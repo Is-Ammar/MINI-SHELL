@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/17 14:28:13 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/18 15:13:35 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smash.h" 
- int g_received = 0;
+
+int g_received = 0;
+
+
 //  void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
 //  {
 // 	 if (!node) return;
@@ -76,6 +79,7 @@ int parsing(t_shell *shell, char *input)
     heredoc(shell, &shell->tokens);
     redirect(&shell->tokens);
     shell->ast = abstract_segment_tree(shell);
+	// expand_heredoc(shell, shell->tokens->value);
     // printtt(shell->ast);
 	// exit(0);
 	// t_dll   *curr;
@@ -90,8 +94,8 @@ int parsing(t_shell *shell, char *input)
     // curr = shell->tokens;
     // while (curr)
     // {
-        // printf("Token --> : `%s', token type: %d\n", curr->value, curr->token_type);
-        // curr = curr->next;
+    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->token_type);
+    //     curr = curr->next;
     // }
 	// exit(0);
     // expansion(&shell->tokens, shell->env_list, shell->exit_code);
@@ -155,7 +159,7 @@ void read_eval_print_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			rl_clear_history();
-			// burn_garbage(shell);
+			burn_garbage(shell);
 			exit(0);
 		}
 		if (!*input)
@@ -166,6 +170,7 @@ void read_eval_print_loop(t_shell *shell)
 		if (parsing(shell, input))
         {
 			shell->exit_code = 2;
+			add_history(input);
             continue;
         }
 		if (g_received == SIGINT)
@@ -189,6 +194,5 @@ int main(int ac, char **av, char **env)
 	shell = (struct s_shell){0};
 	create_env(shell, &shell.env_list, env);
 	read_eval_print_loop(&shell);
-    // burn_garbage(&shell);
 	return (0);
 }

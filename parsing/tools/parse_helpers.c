@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 14:02:19 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:32:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,13 @@ char	*remove_quotes(t_shell *shell, char *token)
 	}
 	p[j] = '\0';
 	return (p);
+}
+
+int	is_empty(char *val)
+{
+	if (val[0] == '\'' && val[1] && val[1] == '\'')
+		return (1);
+	if (val[0] == '"' && val[1] && val[1] == '"')
+		return (1);
+	return (0);
 }

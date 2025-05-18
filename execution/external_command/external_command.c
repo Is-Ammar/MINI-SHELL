@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/12 08:57:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:15:01 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int	execute(char *cmd, char *path, char **args, char **env)
 		{
 			exec_error("''", ECOMMAND);
 			exit(127);
+		}
+		if (cmd[0] == '.' && cmd[1] && cmd[1] != '/')
+		{
+			exec_error(cmd, ECOMMAND);
+			exit(0);
 		}
 		if (ft_strchr(cmd, '/'))
 		{

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/04/27 13:27:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:34:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	burn_garbage(t_shell *shell)
 	curr = shell->g_collect;
 	if (!shell || !curr)
 		return ;
-	while (curr)
+	while (curr && curr->next)
 	{
 		nxt = curr->next;
 		if (curr->address)

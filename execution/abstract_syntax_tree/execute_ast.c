@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/12 16:30:06 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/17 10:12:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void execute_redirections(t_shell *shell, t_ast *original_ast)
 		if (redirect_result)
 		{
 			shell->exit_code = 1;
-			break;
+			break ;
 		}
 		redir = redir->right;
 	}

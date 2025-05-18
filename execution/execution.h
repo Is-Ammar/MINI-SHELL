@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/11 17:15:59 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:44:46 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,7 @@ void 					setup_signal_handlers(void);
 void 					reset_signal_handlers(void);
 
 void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore);
+
+void	add_arg_to_list(t_dll **tail, t_dll *new_arg);
 
 #endif
