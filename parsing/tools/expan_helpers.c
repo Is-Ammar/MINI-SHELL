@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/18 15:06:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:56:15 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,49 +36,6 @@ t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val)
 		nxt->prev = new_token;
 	return (new_token);
 }
-
-void	merge_operators(t_shell *shell, t_dll **tokens, int count)
-{
-	t_dll	*curr;
-	t_dll	*nxt;
-	int		i;
-
-	if (!tokens || !*tokens)
-		return ;
-	i = 0;
-	curr = *tokens;
-	while (curr && curr->next && i < count)
-	{
-		nxt = curr->next;
-		if (nxt && curr && curr->value && nxt->value
-			&& curr->value[0] == nxt->value[0])
-		{
-			if (curr->value[0] == '&' || curr->value[0] == '|'
-				|| curr->value[0] == '<' || curr->value[0] == '>')
-			{
-				merge_tokens(shell, curr, nxt);
-			}
-				
-		}
-		curr->token_type = WORD;
-		curr = nxt;
-	}
-}
-
-// void	remove_space(t_dll **tokens, int count)
-// {
-// 	t_dll	*curr;
-
-// 	if (!tokens || !*tokens)
-// 		return ;
-// 	curr = *tokens;
-// 	while (curr)
-// 	{
-// 		if (curr->token_type == WHITESPACE)
-// 			remove_token(tokens, curr);
-// 		curr = curr->next;
-// 	}
-// }
 
 int	should_be_splited(char *value)
 {
@@ -111,22 +68,19 @@ void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input)
 	t_dll	*token;
 	char	*token_val;
 	int		index;
-	// int		count;
+	int		start;
 
 	index = 0;
-	// count = 0;
 	token = curr;
 	while (input[index])
 	{
 		while (input[index] && input[index] == ' ')
 			index++;
-		token_val = get_token_val(shell, input, &index);
-		if (!token_val)
-			return ;
+		start = index;
+		while (input[index] && input[index] != ' ')
+			index++;
+		token_val = ft_strduplen(shell, &input[start], index - start);
 		token = add_to_tokens(shell, tokens, token, token_val);
-		// count++;
 	}
 	remove_token(tokens, curr);
-	// merge_operators(shell, tokens, count);
-	// remove_spaces(tokens);
 }
