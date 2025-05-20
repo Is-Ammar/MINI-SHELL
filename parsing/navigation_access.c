@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/17 09:52:22 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/19 08:11:34 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 		if (curr->expandable && curr->token_type == WORD)
 		{
 			tmp = expand_env_vars(shell, curr->value);
-			if (*tmp != '\0')
+			if (is_removable(curr->value) || *tmp != '\0')
 				return (curr);
 		}
 		if (!curr->expandable && curr->token_type == WORD)

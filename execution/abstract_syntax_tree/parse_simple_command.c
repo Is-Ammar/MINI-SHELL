@@ -68,7 +68,7 @@ void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
 	*tail = new_arg;
 }
 
-static void	process_command_arguments(t_dll **tokens, t_ast *cmd_node, t_dll **tail)
+static void	process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd_node, t_dll **tail)
 {
 	t_dll	*new_arg;
 
@@ -85,9 +85,7 @@ static void	process_command_arguments(t_dll **tokens, t_ast *cmd_node, t_dll **t
 			;
 		else
 		{
-			new_arg = malloc(sizeof(t_dll));
-			if (!new_arg)
-				return ;
+			new_arg = ft_malloc(shell, sizeof(t_dll));
 			copy_token_properties(*tokens, new_arg);
 			add_arg_to_list(tail, new_arg);
 			tail = &new_arg->next;
@@ -117,8 +115,9 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
     cmd_node->right = NULL;
     tail = &cmd_node->arguments;
     start_tokens = *tokens;
-    process_command_arguments(tokens, cmd_node, tail);
-    cmd_node->token->next = NULL;
+    process_command_arguments(shell, tokens, cmd_node, tail);
+    if (cmd_node->token)
+        cmd_node->token->next = NULL;
     if (!cmd_node->token && start_tokens && (start_tokens->token_type == REDIRECTION))
     {
         cmd_node->token = first_token;

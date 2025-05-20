@@ -98,7 +98,6 @@ void execute_command(t_shell *shell)
 		return ;
 	}
 	t_dll	*curr = shell->ast->token;
-	
 	if(shell->ast->token->next)
 	{
 		while(curr->next)
@@ -107,6 +106,15 @@ void execute_command(t_shell *shell)
 			add_arg(&shell->ast->arguments, curr->value);
 		}
 	}
+	// t_dll	*nxt;
+	// curr = shell->ast->arguments;
+	// while (curr)
+	// {
+	// 	nxt = curr->next;
+	// 	if (curr->token_type == REDIRECTION)
+	// 		remove_token(&shell->ast->arguments, curr);
+	// 	curr = nxt;
+	// }
 	// curr = shell->ast->token;
 	// while(curr)
 	// {
@@ -114,9 +122,9 @@ void execute_command(t_shell *shell)
 	// }
 	// if (shell->ast->arguments)
 	// {
-	// 	remove_redir_args(&shell->ast->arguments);
+		// remove_redir_args(&shell->ast->arguments);
 	// }
-	// curr = shell->ast->arguments;
+	// // curr = shell->ast->arguments;
 	// while(curr)
 	// {
 	// 	printf("\n\n\n\n\nargs: %s\n", curr->value);

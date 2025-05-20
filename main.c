@@ -136,7 +136,7 @@ char	*get_prompt(t_shell *shell)
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, RESET);
 	line1 = tmp;
-	line2 = ft_strdup(shell, YELLOW BOLD "➔ " RESET);
+	line2 = ft_strdup(shell, YELLOW BOLD "\001➔\002 \x7f" RESET);
 	tmp = ft_strjoin(shell, line1, "\n");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, line2);

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/18 11:27:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/19 08:09:24 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n);
 int		should_be_splited(char *value);
 int		is_empty(char *val);
+int		is_removable(char *val);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
 int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
 int		hidden_files(char *val, char *name);

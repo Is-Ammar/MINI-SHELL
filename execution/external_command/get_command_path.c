@@ -39,16 +39,12 @@ static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 	while (paths && paths[i])
 	{
 		temp = ft_strjoin(shell, "/", cmd);
-		if (!temp)
-			return (NULL);
 		full_path = ft_strjoin(shell, paths[i], temp);
-		// free(temp);
 		if (full_path && is_executable(full_path))
 			return (full_path);
-		// free(full_path);
 		i++;
 	}
-	return (NULL);
+	return (ft_strdup(shell, ""));
 }
 
 char	*get_command_path(t_shell *shell, char *cmd, t_env *env_list)
@@ -65,6 +61,5 @@ char	*get_command_path(t_shell *shell, char *cmd, t_env *env_list)
 		return (NULL);
 	paths = ft_split(shell, path_value, ':');
 	result = search_in_path(shell, cmd, paths);
-	// free_split(paths);
 	return (result);
 }
