@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/18 18:30:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:17:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char **convert_env_to_array(t_shell *shell, t_env *env_list)
     {
         len = ft_strlen(current->env_name) + ft_strlen(current->env_value) + 2;
 
-        env_array[i] = ft_malloc(shell, len);
+        env_array[i] = malloc(len);
         if (!env_array[i])
         {
             // while (--i >= 0)
@@ -160,6 +160,7 @@ char **convert_env_to_array(t_shell *shell, t_env *env_list)
         ft_strlcpy(env_array[i], current->env_name, ft_strlen(current->env_name) + 1);
         ft_strcat(env_array[i], "=");
         ft_strcat(env_array[i], current->env_value);
+
         i++;
         current = current->next;
     }

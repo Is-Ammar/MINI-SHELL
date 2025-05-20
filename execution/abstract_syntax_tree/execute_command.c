@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/19 14:21:57 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/20 13:37:40 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ int	handle_expansions(t_shell *shell)
 		}
 		curr = curr->next;
 	}
+	// curr = shell->ast->arguments;
+	// while (curr)
+	// {
+	// 	if (curr->wildcard)
+	// 		expansion(shell, &shell->ast->arguments, &curr);
+	// 	curr = curr->next;
+	// }
 	return (0);
 }
 
@@ -96,8 +103,8 @@ void execute_command(t_shell *shell)
 	{
 		while(curr->next)
 		{
-		curr = curr->next;
-		add_arg(&shell->ast->arguments, curr->value);
+			curr = curr->next;
+			add_arg(&shell->ast->arguments, curr->value);
 		}
 	}
 	// curr = shell->ast->token;
