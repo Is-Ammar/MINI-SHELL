@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/18 15:05:43 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:21:57 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 		close(*saved_stdout);
 		close(*saved_stdin);
 	}
-}
-void add_arg(t_dll **args, t_dll *curr)
-{
-	t_dll *current = *args;
-	while(current)
-	{
-		current=current->next;
-	}
-	current = curr;
 }
 int	handle_expansions(t_shell *shell)
 {
@@ -66,6 +57,26 @@ int	handle_expansions(t_shell *shell)
 	return (0);
 }
 
+void add_arg(t_dll **head, char *val)
+{
+	t_dll	*token;
+	t_dll	*curr;
+
+	token = malloc(sizeof(t_dll));
+	token->value = val;
+	if (!*head)
+	{
+		*head = token;
+		return ;
+	}
+	curr = *head;
+	while (curr->next)
+		curr = curr->next;
+	curr->next = token;
+	token->prev = curr;
+	token->next = NULL;
+}
+
 void execute_command(t_shell *shell)
 {
     if (!shell->ast->token && !shell->ast->arguments)
@@ -79,14 +90,29 @@ void execute_command(t_shell *shell)
 		shell->exit_code = 1;
 		return ;
 	}
+	t_dll	*curr = shell->ast->token;
+	
+	if(shell->ast->token->next)
+	{
+		while(curr->next)
+		{
+		curr = curr->next;
+		add_arg(&shell->ast->arguments, curr->value);
+		}
+	}
+	// curr = shell->ast->token;
+	// while(curr)
+	// {
+	// 	curr = curr->next;
+	// }
 	// if (shell->ast->arguments)
 	// {
 	// 	remove_redir_args(&shell->ast->arguments);
 	// }
-	// t_dll	*curr = shell->ast->arguments;
+	// curr = shell->ast->arguments;
 	// while(curr)
 	// {
-	// 	printf("args: %s\n", curr->value);
+	// 	printf("\n\n\n\n\nargs: %s\n", curr->value);
 	// 	printf("type: %d\n", curr->token_type);
 	// 	curr = curr->next;
 	// }

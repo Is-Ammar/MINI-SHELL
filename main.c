@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/18 15:13:35 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:27:31 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void read_eval_print_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			rl_clear_history();
-			burn_garbage(shell);
+			// burn_garbage(shell);
 			exit(0);
 		}
 		if (!*input)

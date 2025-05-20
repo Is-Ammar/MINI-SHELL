@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/17 15:44:46 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:06:35 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ void 					reset_signal_handlers(void);
 void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore);
 
 void	add_arg_to_list(t_dll **tail, t_dll *new_arg);
+void	copy_token_properties(t_dll *src, t_dll *dst);
 
 #endif

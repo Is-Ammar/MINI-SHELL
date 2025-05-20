@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/18 18:31:52 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:25:46 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_ast *handle_bracket_content(t_dll **tokens, t_shell *shell)
     return (bracket_content);
 }
 
-static void	copy_token_properties(t_dll *src, t_dll *dst)
+void	copy_token_properties(t_dll *src, t_dll *dst)
 {
 	dst->value = src->value;
 	dst->token_type = src->token_type;
