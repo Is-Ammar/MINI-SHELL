@@ -96,7 +96,7 @@ t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void 					free_ast(t_ast *node);
 void 					execute_simple_command(t_shell *shell);
-int						execute(char *cmd, char *path, char **args, char **env);
+int						execute(t_shell *shell, char *cmd, char *path, char **args);
 char					*get_command_path(t_shell *shell, char *cmd, t_env *env_list);
 //----------------------signals---------------------//
 void 					setup_signal_handlers(void);

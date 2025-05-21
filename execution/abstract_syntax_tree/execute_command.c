@@ -34,7 +34,7 @@ int	handle_expansions(t_shell *shell)
 	if (shell->ast->token)
 	{
 		if (expansion(shell, &shell->ast->token, &shell->ast->token))
-			return (1);	
+			return (1);
 	}
 	curr = shell->ast->arguments;
 	while (curr)
@@ -53,19 +53,14 @@ int	handle_expansions(t_shell *shell)
 		}
 		curr = curr->next;
 	}
-	// curr = shell->ast->arguments;
-	// while (curr)
-	// {
-	// 	if (curr->wildcard)
-	// 		expansion(shell, &shell->ast->arguments, &curr);
-	// 	curr = curr->next;
-	// }
 	return (0);
 }
 
 void execute_command(t_shell *shell)
 {
-    if (!shell->ast->token && !shell->ast->arguments)
+    t_dll	*curr;
+
+	if (!shell->ast->token && !shell->ast->arguments)
 	{
     	return;
 	}
@@ -76,11 +71,10 @@ void execute_command(t_shell *shell)
 		shell->exit_code = 1;
 		return ;
 	}
-	t_dll	*curr = shell->ast->token;
-	
+	curr = shell->ast->token;
 	if(shell->ast->token && shell->ast->token->next)
 	{
-		while(curr->next)
+		while(curr && curr->next)
 		{
 			curr = curr->next;
 			expansion(shell, &shell->ast->arguments, &curr);

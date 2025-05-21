@@ -33,7 +33,6 @@ void	set_env_var(t_shell *shell, t_env **env_list, char *name, char *value)
 	{
 		if (ft_strcmp(current->env_name, name) == 0)
 		{
-			// free(current->env_value);
 			current->env_value = ft_strdup(shell, value);
 			return ;
 		}

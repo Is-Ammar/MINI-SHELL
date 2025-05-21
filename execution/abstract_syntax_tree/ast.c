@@ -59,8 +59,6 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
     {
 		
         pipe_node = ft_malloc(shell, sizeof(t_ast));
-        if (!pipe_node)
-            return NULL;
         pipe_node->token = *tokens;
         pipe_node->left = result;
         *tokens = (*tokens)->next;
@@ -102,6 +100,5 @@ t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
             result = redir_node;
         }
     }
-    
     return result;
 }

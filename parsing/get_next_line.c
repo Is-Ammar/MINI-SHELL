@@ -95,3 +95,24 @@ char	*get_next_line(t_shell *shell, int fd)
 	contain = update(shell, contain);
 	return (line);
 }
+
+char	*my_readline(t_shell *shell)
+{
+    char *buff;
+	ssize_t bytes;
+    char    c[2];
+
+    buff = ft_malloc(shell, 1);
+	bytes = read(STDIN_FILENO, &c, 1);
+    while (bytes > 0)
+    {
+        c[1] = '\0';
+        if (c[0] == '\n')
+            break ;
+        buff = ft_strjoin(shell, buff, c);
+		bytes = read(STDIN_FILENO, &c, 1);
+    }
+	if (bytes <= 0)
+		return (NULL);
+    return (buff);
+}

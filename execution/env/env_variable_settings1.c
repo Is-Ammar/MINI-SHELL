@@ -96,10 +96,6 @@ void unset_env_var(t_shell *shell, t_dll *token)
                 prev->next = env->next;
             else
                 shell->env_list = env->next;
-            
-            // free(env->env_name);
-            // free(env->env_value);
-            // free(env);
             return;
         }
         prev = env;
@@ -149,22 +145,13 @@ char **convert_env_to_array(t_shell *shell, t_env *env_list)
     {
         len = ft_strlen(current->env_name) + ft_strlen(current->env_value) + 2;
 
-        env_array[i] = malloc(len);
-        if (!env_array[i])
-        {
-            // while (--i >= 0)
-            //     free(env_array[i]);
-            // free(env_array);
-            return NULL;
-        }
+        env_array[i] = ft_malloc(shell, len);
         ft_strlcpy(env_array[i], current->env_name, ft_strlen(current->env_name) + 1);
         ft_strcat(env_array[i], "=");
         ft_strcat(env_array[i], current->env_value);
-
         i++;
         current = current->next;
     }
-
     env_array[i] = NULL;
     return env_array;
 }

@@ -39,7 +39,6 @@ static t_ast *handle_bracket_content(t_dll **tokens, t_shell *shell)
     bracket_content = parse_logical_operators(tokens, shell);
     if (*tokens && (*tokens)->bracket)
         *tokens = (*tokens)->next;
-        
     return (bracket_content);
 }
 
@@ -103,10 +102,8 @@ t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
         return (NULL);
     if ((*tokens)->bracket)
         return (handle_bracket_content(tokens, shell));
-    
     cmd_node = ft_malloc(shell, sizeof(t_ast));
     cmd_node->token = find_command(shell, *tokens);
-    
     cmd_node->arguments = NULL;
     cmd_node->left = NULL;
     cmd_node->right = NULL;

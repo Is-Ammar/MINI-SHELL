@@ -12,11 +12,15 @@
 
 #include "parsing.h"
 
-int	exec_error(char *val, t_error_type error)
+int	exec_error(t_shell *shell, char *val, t_error_type error)
 {
 	if (error == ECOMMAND)
 	{
-		ft_printf(B_WHITE"minishell: %s: command not found\n"RESET, val);
+		if (shell->interactive)
+			ft_printf(B_WHITE"minishell: %s: command not found\n"RESET, val);
+		else
+			ft_printf(B_WHITE"minishell: line %d: %s: command not found\n"RESET \
+			, shell->lines, val);
 		return (127);
 	}
 	else if (error == EDIRFILE)

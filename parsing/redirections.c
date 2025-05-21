@@ -26,7 +26,7 @@ int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 	{
 		if (access(token->value, W_OK) == -1)
 		{
-			exec_error(token->value, EPERMISS);
+			exec_error(shell, token->value, EPERMISS);
 			return (1);
 		}
 	}
@@ -48,12 +48,12 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	}
 	if (access(token->value, F_OK) == -1)
 	{
-		exec_error(token->value, EDIRFILE);
+		exec_error(shell, token->value, EDIRFILE);
 		return (1);
 	}
 	if (access(token->value, R_OK) == -1)
 	{
-		exec_error(token->value, EPERMISS);
+		exec_error(shell, token->value, EPERMISS);
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);

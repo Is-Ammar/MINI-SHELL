@@ -12,12 +12,14 @@
 
 #include "../../smash.h"
 
-int	execute(char *cmd, char *path, char **args, char **env)
+int	execute(t_shell *shell, char *cmd, char *path, char **args)
 {
 	pid_t	pid;
+	char	**env;
 	int		status;
 	int		exit_code;
 
+	env = convert_env_to_array(shell, shell->env_list);
 	signal(SIGINT, SIG_IGN);
 	status = 0;
 	exit_code = 0;
@@ -32,23 +34,23 @@ int	execute(char *cmd, char *path, char **args, char **env)
 		reset_signal_handlers();
 		if (!*cmd)
 		{
-			exec_error("''", ECOMMAND);
+			exec_error(shell, "''", ECOMMAND);
 			exit(127);
 		}
 		if (cmd[0] == '.' && cmd[1] && cmd[1] != '/')
 		{
-			exec_error(cmd, ECOMMAND);
+			exec_error(shell, cmd, ECOMMAND);
 			exit(0);
 		}
 		if (ft_strchr(cmd, '/'))
 		{
 			execve(cmd, args, env);
-			exec_error(cmd, EDIRFILE);
+			exec_error(shell, cmd, EDIRFILE);
 		}
 		else
 		{
 			execve(path, args, env);
-			exec_error(cmd, ECOMMAND);
+			exec_error(shell, cmd, ECOMMAND);
 		}
 		exit(0);
 	}
@@ -106,7 +108,6 @@ void	execute_external(t_shell *shell)
 {
 	char	*cmd;
 	char	**args;
-	char	**env;
 	char	*path;
 	int		ac;
 
@@ -118,11 +119,10 @@ void	execute_external(t_shell *shell)
 		shell->exit_code = 1;
 		return ;
 	}
-	env = convert_env_to_array(shell, shell->env_list);
 	path = get_command_path(shell, cmd, shell->env_list);
 	if (path || cmd)
 	{
-		shell->exit_code = execute(cmd, path, args, env);
+		shell->exit_code = execute(shell, cmd, path, args);
 		if(shell->exit_code == 0 && !ac)
 		{
 			set_env_var(shell, &shell->env_list,"_",path);
@@ -131,5 +131,5 @@ void	execute_external(t_shell *shell)
 			set_env_var(shell, &shell->env_list,"_", args[ac]);
 	}
 	else
-		shell->exit_code = exec_error(cmd, ECOMMAND);
+		shell->exit_code = exec_error(shell, cmd, ECOMMAND);
 }

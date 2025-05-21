@@ -15,76 +15,76 @@
 int g_received = 0;
 
 
- void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
- {
-	 if (!node) return;
+//  void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
+//  {
+// 	 if (!node) return;
  
-	 printf("%s", prefix);
-	 printf(is_last ? "└── " : "├── ");
+// 	 printf("%s", prefix);
+// 	 printf(is_last ? "└── " : "├── ");
  
-	 if (node->token) 
-	 {
-		 if (node->token->operator == AND)
-			 printf("AND\n");
-		 else if (node->token->operator == OR)
-			 printf("OR\n");
-		 else if (node->token->token_type == PIPE)
-			 printf("PIPE\n");
-		 else if (node->token->redir_type != 0)
-		 {
-			 if (node->token->redir_type == READ)
-				 printf("REDIR: < (input from %s)\n", node->token->value);
-			 else if (node->token->redir_type == WRITE)
-				 printf("REDIR: > (output to %s)\n", node->token->value);
-			 else if (node->token->redir_type == APPEND)
-				 printf("REDIR: >> (append to %s)\n", node->token->value);
-			 else
-				 printf("REDIR: unknown type (%s)\n", node->token->value);
-		 }
-		 else if (node->token->token_type == WORD)
-		 {
-			 printf("CMD: %s", node->token->value);
-			 t_dll *arg = node->arguments;
-			 while (arg)
-			 {
-				 printf(" arg: %s ", arg->value);
-				 arg = arg->next;
-			 }
-			 printf("\n");
-		 }   
-	 }
-	 else
-	 {
-		 printf("EMPTY NODE\n");
-	 }
+// 	 if (node->token) 
+// 	 {
+// 		 if (node->token->operator == AND)
+// 			 printf("AND\n");
+// 		 else if (node->token->operator == OR)
+// 			 printf("OR\n");
+// 		 else if (node->token->token_type == PIPE)
+// 			 printf("PIPE\n");
+// 		 else if (node->token->redir_type != 0)
+// 		 {
+// 			 if (node->token->redir_type == READ)
+// 				 printf("REDIR: < (input from %s)\n", node->token->value);
+// 			 else if (node->token->redir_type == WRITE)
+// 				 printf("REDIR: > (output to %s)\n", node->token->value);
+// 			 else if (node->token->redir_type == APPEND)
+// 				 printf("REDIR: >> (append to %s)\n", node->token->value);
+// 			 else
+// 				 printf("REDIR: unknown type (%s)\n", node->token->value);
+// 		 }
+// 		 else if (node->token->token_type == WORD)
+// 		 {
+// 			 printf("CMD: %s", node->token->value);
+// 			 t_dll *arg = node->arguments;
+// 			 while (arg)
+// 			 {
+// 				 printf(" arg: %s ", arg->value);
+// 				 arg = arg->next;
+// 			 }
+// 			 printf("\n");
+// 		 }   
+// 	 }
+// 	 else
+// 	 {
+// 		 printf("EMPTY NODE\n");
+// 	 }
  
-	 char new_prefix[256];
-	 snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
-	 print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
-	 print_ast_tree(node->right, depth + 1, 1, new_prefix);
- }
+// 	 char new_prefix[256];
+// 	 snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
+// 	 print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
+// 	 print_ast_tree(node->right, depth + 1, 1, new_prefix);
+//  }
  
- void printtt(t_ast *root)
- {
-	 printf("AST Visualization:\n");
-	 print_ast_tree(root, 0, 1, "");
- }
+//  void printtt(t_ast *root)
+//  {
+// 	 printf("AST Visualization:\n");
+// 	 print_ast_tree(root, 0, 1, "");
+//  }
 
 
 int parsing(t_shell *shell, char *input)
 {
 	shell->tokens = tokenize_input(shell, input);
 	if (parse_input(shell, &shell->tokens))
-        return (1);
-    heredoc(shell, &shell->tokens);
-    redirect(&shell->tokens);
+		return (1);
+	heredoc(shell, &shell->tokens);
+	redirect(&shell->tokens);
+	shell->ast = abstract_segment_tree(shell);
 	// t_dll *curr = shell->tokens;
 	// while(curr)
 	// {
 	// 	printf("%s\n type: %d\n", curr->value,curr->token_type);
 	// 	curr = curr->next;
 	// }
-    shell->ast = abstract_segment_tree(shell);
 	// expand_heredoc(shell, shell->tokens->value);
     // printtt(shell->ast);
 	// exit(0);
@@ -165,19 +165,19 @@ void read_eval_print_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			rl_clear_history();
-			// burn_garbage(shell);
+			burn_garbage(shell);
 			exit(0);
 		}
 		if (!*input)
 		{
 			shell->exit_code = 0;
-			continue;
+			continue ;
 		}
 		if (parsing(shell, input))
         {
 			shell->exit_code = 2;
 			add_history(input);
-            continue;
+            continue ;
         }
 		if (g_received == SIGINT)
 		{
@@ -190,15 +190,41 @@ void read_eval_print_loop(t_shell *shell)
     }
 }
 
+void	non_interactive_mode(t_shell *shell)
+{
+	char    *input;
+    
+    input = NULL;
+    while (1337)
+    {
+		input = my_readline(shell);
+        shell->lines++;
+		if (!input)
+		{
+			burn_garbage(shell);
+			exit(shell->exit_code);
+		}
+		if (parsing(shell, input))
+        {
+			shell->exit_code = 2;
+            exit(2);
+        }
+        execution(shell);
+    }
+}
+
 int main(int ac, char **av, char **env)
 {
-    (void)av;
     t_shell shell;
-    if (ac != 1)
-		return (1);
+    (void)av;
+	(void)ac;
 
 	shell = (struct s_shell){0};
 	create_env(shell, &shell.env_list, env);
-	read_eval_print_loop(&shell);
+	shell.interactive = isatty(STDIN_FILENO);
+	if (shell.interactive)
+		read_eval_print_loop(&shell);
+	else
+		non_interactive_mode(&shell);
 	return (0);
 }

@@ -53,6 +53,7 @@ typedef struct s_shell
     int     subshell;
     int     exit_code;
     int     lines;
+    int     interactive;
 }   t_shell;
 
 #endif

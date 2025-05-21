@@ -55,6 +55,7 @@ typedef enum e_error_type
 	EDIRFILE,
 	EPERMISS,
 	EAMBIGUO,
+	ENINTCMD,
 }	t_error_type;
 
 typedef enum e_operator
@@ -141,8 +142,9 @@ char	*ft_strdup_quotes(t_shell *shell, char *token);
 char	*remove_quotes(t_shell *shell, char *token);
 char	*ft_strchr(const char *s, int c);
 int		ft_printf(const char *format, ...);
+char	*my_readline(t_shell *shell);
 int		parse_error(char *val, t_error_type error);
-int		exec_error(char *val, t_error_type error);
+int		exec_error(t_shell *shell, char *val, t_error_type error);
 // ----------------------------------------------------------------- //
 
 // -------------------- Everything about Parsing -------------------- //
