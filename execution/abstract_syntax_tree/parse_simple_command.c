@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/20 13:29:34 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:18:55 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,27 +71,24 @@ void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
 static void	process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd_node, t_dll **tail)
 {
 	t_dll	*new_arg;
+    t_dll   *curr ;
 
-	while (*tokens && ((*tokens)->token_type == WORD
-        || (*tokens)->token_type == REDIRECTION))
+    curr = *tokens;
+	while (curr && (curr->token_type == WORD || curr->token_type == REDIRECTION))
 	{
-        if ((*tokens)->token_type == REDIRECTION &&(*tokens)->redir_type != READ
-            && !(*tokens)->next)
-            return ;
-        else if ((*tokens)->redir_type == READ
-            && (*tokens)->next && (*tokens)->next->redir_type == READ)
-            ;
-		else if (cmd_node->token == *tokens)
+		if (cmd_node->token == curr)
 			;
-		else
+		else if(curr->token_type == WORD ||
+            (curr->redir_type == READ  && curr->next && curr->next->token_type != REDIRECTION))
 		{
 			new_arg = ft_malloc(shell, sizeof(t_dll));
-			copy_token_properties(*tokens, new_arg);
+			copy_token_properties(curr, new_arg);
 			add_arg_to_list(tail, new_arg);
 			tail = &new_arg->next;
 		}
-		*tokens = (*tokens)->next;
+        curr = curr->next;
 	}
+    *tokens = (*tokens)->next;
 }
 
 t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)

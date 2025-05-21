@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   navigation_access.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/19 08:11:34 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:32:42 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 		if (curr->expandable && curr->token_type == WORD)
 		{
 			tmp = expand_env_vars(shell, curr->value);
+			tmp = remove_too_much_spaces(shell, tmp);
 			if (is_removable(curr->value) || *tmp != '\0')
 				return (curr);
 		}

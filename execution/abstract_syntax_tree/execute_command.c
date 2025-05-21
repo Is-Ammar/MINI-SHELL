@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/20 13:37:40 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:34:04 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	handle_expansions(t_shell *shell)
 	curr = shell->ast->arguments;
 	while (curr)
 	{
-		// ft_printf("token :%s | token type: %d\n", curr->value, curr->expandable);
 		if (shell->ast->token == curr)
 			;
 		else if (curr->heredoc)
@@ -64,26 +63,6 @@ int	handle_expansions(t_shell *shell)
 	return (0);
 }
 
-void add_arg(t_dll **head, char *val)
-{
-	t_dll	*token;
-	t_dll	*curr;
-
-	token = malloc(sizeof(t_dll));
-	token->value = val;
-	if (!*head)
-	{
-		*head = token;
-		return ;
-	}
-	curr = *head;
-	while (curr->next)
-		curr = curr->next;
-	curr->next = token;
-	token->prev = curr;
-	token->next = NULL;
-}
-
 void execute_command(t_shell *shell)
 {
     if (!shell->ast->token && !shell->ast->arguments)
@@ -98,23 +77,16 @@ void execute_command(t_shell *shell)
 		return ;
 	}
 	t_dll	*curr = shell->ast->token;
-	if(shell->ast->token->next)
+	
+	if(shell->ast->token && shell->ast->token->next)
 	{
 		while(curr->next)
 		{
 			curr = curr->next;
-			add_arg(&shell->ast->arguments, curr->value);
+			expansion(shell, &shell->ast->arguments, &curr);
+			add_token(shell, &shell->ast->arguments, curr->value, WORD);
 		}
 	}
-	// t_dll	*nxt;
-	// curr = shell->ast->arguments;
-	// while (curr)
-	// {
-	// 	nxt = curr->next;
-	// 	if (curr->token_type == REDIRECTION)
-	// 		remove_token(&shell->ast->arguments, curr);
-	// 	curr = nxt;
-	// }
 	// curr = shell->ast->token;
 	// while(curr)
 	// {
@@ -122,9 +94,9 @@ void execute_command(t_shell *shell)
 	// }
 	// if (shell->ast->arguments)
 	// {
-		// remove_redir_args(&shell->ast->arguments);
+	// 	remove_redir_args(&shell->ast->arguments);
 	// }
-	// // curr = shell->ast->arguments;
+	// curr = shell->ast->arguments;
 	// while(curr)
 	// {
 	// 	printf("\n\n\n\n\nargs: %s\n", curr->value);

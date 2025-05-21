@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/19 13:27:31 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/21 16:44:47 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,60 +15,60 @@
 int g_received = 0;
 
 
-//  void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
-//  {
-// 	 if (!node) return;
+ void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
+ {
+	 if (!node) return;
  
-// 	 printf("%s", prefix);
-// 	 printf(is_last ? "└── " : "├── ");
+	 printf("%s", prefix);
+	 printf(is_last ? "└── " : "├── ");
  
-// 	 if (node->token) 
-// 	 {
-// 		 if (node->token->operator == AND)
-// 			 printf("AND\n");
-// 		 else if (node->token->operator == OR)
-// 			 printf("OR\n");
-// 		 else if (node->token->token_type == PIPE)
-// 			 printf("PIPE\n");
-// 		 else if (node->token->redir_type != 0)
-// 		 {
-// 			 if (node->token->redir_type == READ)
-// 				 printf("REDIR: < (input from %s)\n", node->token->value);
-// 			 else if (node->token->redir_type == WRITE)
-// 				 printf("REDIR: > (output to %s)\n", node->token->value);
-// 			 else if (node->token->redir_type == APPEND)
-// 				 printf("REDIR: >> (append to %s)\n", node->token->value);
-// 			 else
-// 				 printf("REDIR: unknown type (%s)\n", node->token->value);
-// 		 }
-// 		 else if (node->token->token_type == WORD)
-// 		 {
-// 			 printf("CMD: %s", node->token->value);
-// 			 t_dll *arg = node->arguments;
-// 			 while (arg)
-// 			 {
-// 				 printf(" %s", arg->value);
-// 				 arg = arg->next;
-// 			 }
-// 			 printf("\n");
-// 		 }   
-// 	 }
-// 	 else
-// 	 {
-// 		 printf("EMPTY NODE\n");
-// 	 }
+	 if (node->token) 
+	 {
+		 if (node->token->operator == AND)
+			 printf("AND\n");
+		 else if (node->token->operator == OR)
+			 printf("OR\n");
+		 else if (node->token->token_type == PIPE)
+			 printf("PIPE\n");
+		 else if (node->token->redir_type != 0)
+		 {
+			 if (node->token->redir_type == READ)
+				 printf("REDIR: < (input from %s)\n", node->token->value);
+			 else if (node->token->redir_type == WRITE)
+				 printf("REDIR: > (output to %s)\n", node->token->value);
+			 else if (node->token->redir_type == APPEND)
+				 printf("REDIR: >> (append to %s)\n", node->token->value);
+			 else
+				 printf("REDIR: unknown type (%s)\n", node->token->value);
+		 }
+		 else if (node->token->token_type == WORD)
+		 {
+			 printf("CMD: %s", node->token->value);
+			 t_dll *arg = node->arguments;
+			 while (arg)
+			 {
+				 printf(" arg: %s ", arg->value);
+				 arg = arg->next;
+			 }
+			 printf("\n");
+		 }   
+	 }
+	 else
+	 {
+		 printf("EMPTY NODE\n");
+	 }
  
-// 	 char new_prefix[256];
-// 	 snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
-// 	 print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
-// 	 print_ast_tree(node->right, depth + 1, 1, new_prefix);
-//  }
+	 char new_prefix[256];
+	 snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
+	 print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
+	 print_ast_tree(node->right, depth + 1, 1, new_prefix);
+ }
  
-//  void printtt(t_ast *root)
-//  {
-// 	 printf("AST Visualization:\n");
-// 	 print_ast_tree(root, 0, 1, "");
-//  }
+ void printtt(t_ast *root)
+ {
+	 printf("AST Visualization:\n");
+	 print_ast_tree(root, 0, 1, "");
+ }
 
 
 int parsing(t_shell *shell, char *input)
@@ -78,6 +78,12 @@ int parsing(t_shell *shell, char *input)
         return (1);
     heredoc(shell, &shell->tokens);
     redirect(&shell->tokens);
+	// t_dll *curr = shell->tokens;
+	// while(curr)
+	// {
+	// 	printf("%s\n type: %d\n", curr->value,curr->token_type);
+	// 	curr = curr->next;
+	// }
     shell->ast = abstract_segment_tree(shell);
 	// expand_heredoc(shell, shell->tokens->value);
     // printtt(shell->ast);
