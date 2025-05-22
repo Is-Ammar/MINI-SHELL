@@ -191,6 +191,7 @@ int		suffix(char *name, char *val);
 void	heredoc(t_shell *shell, t_dll **tokens);
 void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name);
 void	open_heredoc(t_shell *shell, char *delim, char *name);
+int		get_name_number(t_shell *shell, int count);
 void	expand_heredoc(t_shell *shell, char *old_name);
 char	*get_next_line(t_shell *shell, int fd);
 char	*expand_in_heredoc(t_shell *shell, char *value);

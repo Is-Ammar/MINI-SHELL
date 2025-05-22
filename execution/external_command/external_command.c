@@ -124,9 +124,7 @@ void	execute_external(t_shell *shell)
 	{
 		shell->exit_code = execute(shell, cmd, path, args);
 		if(shell->exit_code == 0 && !ac)
-		{
 			set_env_var(shell, &shell->env_list,"_",path);
-		}
 		else
 			set_env_var(shell, &shell->env_list,"_", args[ac]);
 	}

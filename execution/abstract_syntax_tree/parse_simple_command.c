@@ -84,6 +84,7 @@ static void	process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd
 			copy_token_properties(curr, new_arg);
 			add_arg_to_list(tail, new_arg);
 			tail = &new_arg->next;
+            remove_token(tokens, curr);
 		}
         curr = curr->next;
 	}

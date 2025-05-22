@@ -127,8 +127,8 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 			parse_error(curr->value, EAMBIGUO);
 			return (1);
 		}
-		if ((*token)->next)
-			(*token) = (*token)->next;
+		// if ((*token)->next)
+		// 	(*token) = (*token)->next;
 	}
 	return (0);
 }

@@ -202,11 +202,12 @@ void	non_interactive_mode(t_shell *shell)
 		if (!input)
 		{
 			burn_garbage(shell);
-			exit(shell->exit_code);
+			exit(127);
 		}
 		if (parsing(shell, input))
         {
 			shell->exit_code = 2;
+			burn_garbage(shell);
             exit(2);
         }
         execution(shell);

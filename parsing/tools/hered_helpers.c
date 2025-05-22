@@ -34,6 +34,23 @@ char	*ft_strnstr(const char *big, const char *little, int len)
 	return (NULL);
 }
 
+int get_name_number(t_shell *shell, int count)
+{
+	int		fd;
+	int		num;
+	char	*name;
+
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd < 0)
+		return (count);
+	name = ft_malloc(shell, 8);
+	name[7] = '\0';
+	read(fd, name, 7);
+	close(fd);
+	num = ft_atoi(name);
+	return (num);
+}
+
 char	*expand_in_heredoc(t_shell *shell, char *value)
 {
 	char	*new_val;

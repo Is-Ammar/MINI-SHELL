@@ -61,44 +61,30 @@ void execute_command(t_shell *shell)
     t_dll	*curr;
 
 	if (!shell->ast->token && !shell->ast->arguments)
-	{
     	return;
-	}
-	// printf("token:%s\n", shell->ast->token->value);
-	// printf("type:%d\n", shell->ast->token->token_type);
     if (handle_expansions(shell))
 	{
 		shell->exit_code = 1;
 		return ;
 	}
 	curr = shell->ast->token;
+	expansion(shell, &shell->ast->token, &shell->ast->token);
 	if(shell->ast->token && shell->ast->token->next)
 	{
 		while(curr && curr->next)
 		{
 			curr = curr->next;
-			expansion(shell, &shell->ast->arguments, &curr);
 			add_token(shell, &shell->ast->arguments, curr->value, WORD);
+			expansion(shell, &shell->ast->arguments, &curr);
 		}
 	}
-	// curr = shell->ast->token;
-	// while(curr)
-	// {
-	// 	curr = curr->next;
-	// }
-	// if (shell->ast->arguments)
-	// {
-	// 	remove_redir_args(&shell->ast->arguments);
-	// }
-	// curr = shell->ast->arguments;
-	// while(curr)
-	// {
-	// 	printf("\n\n\n\n\nargs: %s\n", curr->value);
-	// 	printf("type: %d\n", curr->token_type);
-	// 	curr = curr->next;
-	// }
-	// exit(0);
-	
+	curr = shell->ast->arguments;
+	while (curr)
+	{
+		if (curr->wildcard)
+			remove_token(&shell->ast->arguments, curr);
+		curr = curr->next;
+	}
     if (shell->ast->token && shell->ast->token->token_type == WORD)
     {
         if (is_builtin(shell))

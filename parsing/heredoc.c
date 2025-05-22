@@ -120,7 +120,7 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 		if (curr->heredoc == TRUE)
 		{
 			name = ft_strjoin(shell, ft_strdup(shell, "/tmp/.heredoc_") \
-			, ft_itoa(shell, count));
+			, ft_itoa(shell, get_name_number(shell, count)));
 			handle_herdoc(shell, curr->next, name);
 			curr->expandable = curr->next->expandable;
 			remove_token(tokens, curr->next);
