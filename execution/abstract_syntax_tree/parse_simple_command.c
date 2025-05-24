@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/21 18:18:55 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/24 15:37:57 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static void	process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd
 			copy_token_properties(curr, new_arg);
 			add_arg_to_list(tail, new_arg);
 			tail = &new_arg->next;
-            remove_token(tokens, curr);
 		}
         curr = curr->next;
 	}

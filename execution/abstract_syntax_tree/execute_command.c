@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/21 18:34:04 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/24 15:38:05 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 		close(*saved_stdin);
 	}
 }
+
 int	handle_expansions(t_shell *shell)
 {
 	t_dll	*curr;
@@ -57,9 +58,31 @@ int	handle_expansions(t_shell *shell)
 	return (0);
 }
 
+t_dll	*add(t_shell *shell, t_dll **head, char *val)
+{
+	t_dll	*token;
+	t_dll	*curr;
+
+	token = create_token_list(shell);
+	token->value = val;
+	if (!*head)
+	{
+		*head = token;
+		return token;
+	}
+	curr = *head;
+	while (curr->next)
+		curr = curr->next;
+	curr->next = token;
+	token->prev = curr;
+	token->next = NULL;
+	return token;
+}
+
 void execute_command(t_shell *shell)
 {
 	t_dll	*curr;
+	t_dll	*tmp;
 
 	if (!shell->ast->token && !shell->ast->arguments)
     	return;
@@ -75,16 +98,10 @@ void execute_command(t_shell *shell)
 		while(curr && curr->next)
 		{
 			curr = curr->next;
-			add_token(shell, &shell->ast->arguments, curr->value, WORD);
-			expansion(shell, &shell->ast->arguments, &curr);
+			tmp = add(shell, &shell->ast->arguments, curr->value);
+			identify_tokens(tmp);
+			expansion(shell, &shell->ast->arguments, &tmp);
 		}
-	}
-	curr = shell->ast->arguments;
-	while (curr)
-	{
-		if (curr->wildcard)
-			remove_token(&shell->ast->arguments, curr);
-		curr = curr->next;
 	}
     if (shell->ast->token && shell->ast->token->token_type == WORD)
     {
