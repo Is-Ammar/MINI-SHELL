@@ -88,7 +88,8 @@ static void	process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd
 		}
         curr = curr->next;
 	}
-    *tokens = (*tokens)->next;
+    if (*tokens)
+        *tokens = (*tokens)->next;
 }
 
 t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)

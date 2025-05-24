@@ -28,6 +28,13 @@ char	*ft_strdup_expand(t_shell *shell, char *value)
 	return (ft_strdup(shell, env_value));
 }
 
+// int	expand_non_quotes(t_shell *shell, char *value, int i)
+// {
+// 	char	*result;
+
+// 	result = dollar_sign(shell, value, i, FALSE);
+// }
+
 char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
 {
 	int		len;
@@ -39,13 +46,20 @@ char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
 	e_code = shell->exit_code;
 	start = *i + 1;
 	len = start;
-	if (value[len] == '?')
-		return (*i = len + 1, ft_itoa(shell, e_code));
-	if (value[start] == '"' && is_dquote == TRUE)
-		return (*i = len, ft_strdup(shell, "$"));
-	if (!ft_isalnum(value[len]) && value[len] != '_' &&
-		value[len] != '"' && value[len] != '\'')
-		return (*i = len, ft_strdup(shell, "$"));
+	// if (is_dquote == FALSE)
+	// {
+	// 	*i = expand_non_quotes(shell, value, *i);
+	// }
+	// else
+	// {
+		if (value[len] == '?')
+			return (*i = len + 1, ft_itoa(shell, e_code));
+		if (value[start] == '"' && is_dquote == TRUE)
+			return (*i = len, ft_strdup(shell, "$"));
+		if (!ft_isalnum(value[len]) && value[len] != '_'
+			&& value[len] != '"' && value[len] != '\'')
+			return (*i = len, ft_strdup(shell, "$"));
+	// }
 	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
 		len++;
 	*i = len;

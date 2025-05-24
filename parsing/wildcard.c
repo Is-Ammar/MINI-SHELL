@@ -12,54 +12,38 @@
 
 #include "parsing.h"
 
-int	double_quote_check(char *val, int i)
+static void	single_double_checks(char *val, int *start, char c)
 {
-	i += 1;
-	while (val[i] && val[i] != '"')
-	{
-		if (val[i] == '*')
-			return (1);
-		i++;
-	}
-	return (0);
-}
+	int	i;
 
-int	single_quote_check(char *val, int i)
-{
-	i += 1;
-	while (val[i] && val[i] != '\'')
-	{
-		if (val[i] == '*')
-			return (1);
+	i = *start;
+	i++;
+	while (val[i] && val[i] != c)
 		i++;
-	}
-	return (0);
+	if (val[i])
+		i++;
+	*start = i;
 }
 
 int	check_depth_to_expand(char *val)
 {
 	int	i;
 
-	if (!ft_strchr(val, '*'))
-		return (1);
-	if (!ft_strchr(val, '\'') && !ft_strchr(val, '"'))
-		return (0);
 	i = 0;
+	if (!ft_strchr(val, '*'))
+		return (0);
 	while (val[i])
 	{
-		if (val[i] == '\'' || val[i] == '"')
-		{
-			if (val[i] == '\'' && !single_quote_check(val, i))
-				return (0);
-			if (val[i] == '"' && !double_quote_check(val, i))
-				return (0);
-			i += 1;
-			while (val[i] && (val[i] != '\'' || val[i] != '"'))
-				i++;
-		}
-		i++;
+		if (val[i] == '\'')
+			single_double_checks(val, &i, '\'');
+		else if (val[i] == '"')
+			single_double_checks(val, &i, '"');
+		else if (val[i] == '*')
+			return (1);
+		else
+			i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	hidden_files(char *val, char *name)

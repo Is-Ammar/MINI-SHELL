@@ -41,7 +41,6 @@ void	add_token(t_shell *shell, t_dll **head, char *val, t_token_type t_type)
 	token = create_token_list(shell);
 	token->value = val;
 	token->token_type = t_type;
-	identify_tokens(token);
 	if (!*head)
 	{
 		*head = token;

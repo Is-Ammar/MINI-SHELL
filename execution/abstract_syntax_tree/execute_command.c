@@ -35,6 +35,7 @@ int	handle_expansions(t_shell *shell)
 	{
 		if (expansion(shell, &shell->ast->token, &shell->ast->token))
 			return (1);
+		identify_tokens(shell->ast->token);
 	}
 	curr = shell->ast->arguments;
 	while (curr)
@@ -58,7 +59,7 @@ int	handle_expansions(t_shell *shell)
 
 void execute_command(t_shell *shell)
 {
-    t_dll	*curr;
+	t_dll	*curr;
 
 	if (!shell->ast->token && !shell->ast->arguments)
     	return;

@@ -40,7 +40,6 @@ int	var_check(char *val, t_shell *shell)
 		name = ft_strduplen(shell, val, i);
 		i += 1;
 		set_env_var(shell, &shell->env_list, name, &val[i]);
-		// free(name);
 	}
 	return (0);
 }

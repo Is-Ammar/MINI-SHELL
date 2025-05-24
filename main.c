@@ -134,7 +134,7 @@ char	*get_prompt(t_shell *shell)
 	line1 = ft_strdup(shell, B_GREEN);
 	tmp = ft_strjoin(shell, line1, username);
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, RESET B_WHITE"@"RESET B_BLUE "minishell" RESET ":");
+	tmp = ft_strjoin(shell, line1, RESET B_GRAY"@"RESET B_BLUE "minishell" RESET ":");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, B_CYAN);
 	line1 = tmp;
@@ -202,7 +202,7 @@ void	non_interactive_mode(t_shell *shell)
 		if (!input)
 		{
 			burn_garbage(shell);
-			exit(127);
+			exit(shell->exit_code );
 		}
 		if (parsing(shell, input))
         {

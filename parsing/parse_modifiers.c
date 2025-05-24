@@ -71,7 +71,7 @@ void	identify_tokens(t_dll *tokens)
 	curr = tokens;
 	while (curr)
 	{
-		if (!check_depth_to_expand(curr->value) && !is_empty(curr->value))
+		if (check_depth_to_expand(curr->value))
 			curr->wildcard = TRUE;
 		if (ft_strchr(curr->value, '$'))
 			curr->expandable = TRUE;
@@ -127,8 +127,8 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 			parse_error(curr->value, EAMBIGUO);
 			return (1);
 		}
-		// if ((*token)->next)
-		// 	(*token) = (*token)->next;
+		if (curr->token_type == REDIRECTION && (*token)->next)
+			(*token) = (*token)->next;
 	}
 	return (0);
 }

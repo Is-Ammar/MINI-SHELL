@@ -125,7 +125,7 @@ int expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr)
 			split_token(shell, tokens, curr, curr->value);
 	}
 	if (curr->token_type == REDIRECTION && curr->expandable
-		&& is_ambiguous(curr->value))
+		&& curr->quote_type == NONE && is_ambiguous(curr->value))
 		return (parse_error(tmp, EAMBIGUO), 1);
 	if (!is_removable(tmp) && curr->value[0] == '\0' && curr->expandable)
 		remove_token(tokens, curr);
