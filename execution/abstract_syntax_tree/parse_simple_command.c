@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/24 15:37:57 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/25 17:38:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,33 @@ void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
 	*tail = new_arg;
 }
 
-static void	process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd_node, t_dll **tail)
+static void process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd_node, t_dll **tail)
 {
-	t_dll	*new_arg;
-    t_dll   *curr ;
+    t_dll *curr;
+    t_dll *new_arg;
 
     curr = *tokens;
-	while (curr && (curr->token_type == WORD || curr->token_type == REDIRECTION))
-	{
-		if (cmd_node->token == curr)
-			;
-		else if(curr->token_type == WORD ||
-            (curr->redir_type == READ  && curr->next && curr->next->token_type != REDIRECTION))
-		{
-			new_arg = ft_malloc(shell, sizeof(t_dll));
-			copy_token_properties(curr, new_arg);
-			add_arg_to_list(tail, new_arg);
-			tail = &new_arg->next;
-		}
+    while (curr && (curr->token_type == WORD || curr->token_type == REDIRECTION))
+    {          
+        if (curr->token_type == REDIRECTION)
+        {
+            if (curr)
+                curr = curr->next;
+            continue;
+        }
+        
+        if (cmd_node->token == curr)
+            ;
+        else
+        {
+            new_arg = ft_malloc(shell, sizeof(t_dll));
+            copy_token_properties(curr, new_arg);
+            add_arg_to_list(tail, new_arg);
+            remove_token(tokens, curr);
+            tail = &new_arg->next;
+        }
         curr = curr->next;
-	}
+    }
     if (*tokens)
         *tokens = (*tokens)->next;
 }

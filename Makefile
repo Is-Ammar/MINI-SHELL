@@ -2,6 +2,9 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 
+ifeq ($(d),1)
+    CFLAGS += -DDEBUG
+endif
 # -------------------------------- habdella -------------------------------- #
 
 PARS_SRC = 	parsing/navigation_access.c parsing/basic_operations.c  parsing/tokenizer.c \
