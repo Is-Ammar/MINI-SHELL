@@ -9,10 +9,11 @@ endif
 
 PARS_SRC = 	parsing/navigation_access.c parsing/basic_operations.c  parsing/tokenizer.c \
 			parsing/tools/token_helpers.c parsing/parse_checkers.c parsing/parse_modifiers.c \
-			parsing/tools/parse_helpers.c parsing/logic_check.c parsing/expand.c parsing/expand_execute.c \
+			parsing/tools/parse_helpers.c parsing/logic_check.c parsing/expand_string.c  \
+			parsing/tools/expan_helpers.c parsing/expand_mask.c parsing/expand_execute.c \
 			parsing/tools/wcard_helpers.c parsing/wildcard.c parsing/heredoc.c parsing/print_error.c \
 			parsing/tools/hered_helpers.c parsing/redirections.c parsing/garbage_collector.c \
-			parsing/tools/redir_helpers.c parsing/tools/expan_helpers.c parsing/errors_handler.c \
+			parsing/tools/redir_helpers.c parsing/errors_handler.c \
 			parsing/get_next_line.c
 
 # -------------------------------------------------------------------------- #

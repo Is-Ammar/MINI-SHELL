@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/18 17:56:15 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:48:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,49 +37,27 @@ t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val)
 	return (new_token);
 }
 
-int	should_be_splited(char *value)
-{
-	int	i;
-
-	i = 0;
-	while (value[i])
-	{
-		if (value[i] == '\'')
-		{
-			i++;
-			while (value[i] && value[i] != '\'')
-				i++;
-		}
-		if (value[i] == '"')
-		{
-			i++;
-			while (value[i] && value[i] != '"')
-				i++;
-		}
-		if (value[i] == ' ')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input)
+void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input, char *mask)
 {
 	t_dll	*token;
 	char	*token_val;
-	int		index;
+	int		i;
 	int		start;
 
-	index = 0;
+	i = 0;
 	token = curr;
-	while (input[index])
+	while (input[i])
 	{
-		while (input[index] && input[index] == ' ')
-			index++;
-		start = index;
-		while (input[index] && input[index] != ' ')
-			index++;
-		token_val = ft_strduplen(shell, &input[start], index - start);
+		while (input[i] && input[i] == ' ' && mask[i] == '1')
+			i++;
+		start = i;
+		while (input[i])
+		{
+			if (input[i] == ' ' && mask[i] == '1')
+				break;
+			i++;
+		}
+		token_val = ft_strduplen(shell, &input[start], i - start);
 		token = add_to_tokens(shell, tokens, token, token_val);
 	}
 	remove_token(tokens, curr);

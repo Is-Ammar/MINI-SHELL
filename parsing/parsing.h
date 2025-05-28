@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/21 18:31:53 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/28 19:59:17 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@
 # define B_WHITE	"\001\033[1;37m\002"
 # define B_GRAY		"\001\033[1;90m\002"
 
-# define FALSE	0
-# define TRUE	1
-# define METACHARS	"( )\t\n<|&>'\"$"
-# define LEFT	1
-# define RIGHT	2
+# define FALSE			0
+# define TRUE			1
+# define METACHARS		"( )\t\n<|&>'\"$"
+# define WHITESPACES	"\t \n"
+# define LEFT			1
+# define RIGHT			2
 
 typedef enum e_error_type
 {
@@ -162,13 +163,15 @@ void	operators_merge(t_shell *shell, t_dll **tokens);
 void	merge_quotes(t_shell *shell, t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
 void	identify_tokens(t_dll *tokens);
-char	*expand_env_vars(t_shell *shell, char *value);
+/* ///////////////// expansion \\\\\\\\\\\\\\\\\\\\\ */
+char	*expand_env_str(t_shell *shell, char *value);
 char	*double_quote(t_shell *shell, char *val, int *i);
 char	*single_quote(t_shell *shell, char *value, int *i);
+void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input, char *mask);
 char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote);
 int		expansion(t_shell *shell, t_dll **tokens, t_dll **token);
 int		expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr);
-void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input);
+char	*expanding(t_shell *shell, t_dll **tokens, t_dll *curr, char *value);
 t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val);
 int		check_depth_to_expand(char *val);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
@@ -176,7 +179,6 @@ char	*remove_too_much_spaces(t_shell *shell, char *val);
 char	*ft_strdup_expand(t_shell *shell, char *value);
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n);
-int		should_be_splited(char *value);
 int		is_empty(char *val);
 int		is_removable(char *val);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */

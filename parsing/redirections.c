@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/24 15:26:34 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:39:34 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 	out_fd = 1;
 	if (token->expandable || token->wildcard)
 	{
-		if (expansion(shell, tokens, &token))
-			return (1);
-		identify_tokens(token);
 		if (expansion(shell, tokens, &token))
 			return (1);
 	}
@@ -46,9 +43,6 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	in_fd = 0;
 	if (token->expandable || token->wildcard)
 	{
-		if (expansion(shell, tokens, &token))
-			return (1);
-		identify_tokens(token);
 		if (expansion(shell, tokens, &token))
 			return (1);
 	}

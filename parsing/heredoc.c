@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/21 18:25:21 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/28 19:52:28 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	open_heredoc(t_shell *shell, char *delim, char *name)
 	while (1)
 	{
 		line = readline(B_PURPLE"heredoc> "RESET);
-		if(!line)
+		if (!line)
 		{
 			ft_printf("minishell: warning: here-document at line %d", shell->lines);
 			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
@@ -100,7 +100,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	else
 		waitpid(pid, &state, 0);
 	if (WTERMSIG(state) == SIGINT)
-        write(STDERR_FILENO, "\n", 1);
+		write(STDERR_FILENO, "\n", 1);
 	return ;
 }
 

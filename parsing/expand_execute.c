@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/19 08:06:45 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:47:21 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*remove_too_much_spaces(t_shell *shell, char *val)
 
 	(1) && (i = 0, j = 0);
 	p = ft_malloc(shell, ft_strlen_spaces(val, &len) + 1);
-	while (val[i] && val[i] == ' ')
+	while (val && val[i] && val[i] == ' ')
 		i++;
 	while (i <= len)
 	{
@@ -107,22 +107,16 @@ int	is_removable(char *val)
 
 int expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr)
 {
-    char	*tmp;
+	char	*tmp;
 
-    tmp = curr->value;
-    curr->value = expand_env_vars(shell, curr->value);
+	tmp = curr->value;
+	curr->value = expanding(shell, tokens, curr, curr->value);
 	if (curr->token_type == REDIRECTION && ft_strchr(tmp, '$')
-        && curr->value[0] == '\0')
+		 && curr->value[0] == '\0')
 	{
 		parse_error(tmp, EAMBIGUO);
 		remove_token(tokens, curr);
 		return (1);
-	}
-	if (curr->quote_type != DQUOTE && curr->expandable)
-	{
-		curr->value = remove_too_much_spaces(shell, curr->value);
-		if (should_be_splited(curr->value))
-			split_token(shell, tokens, curr, curr->value);
 	}
 	if (curr->token_type == REDIRECTION && curr->expandable
 		&& curr->quote_type == NONE && is_ambiguous(curr->value))

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_string.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/17 10:56:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:20:19 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,9 @@ char	*ft_strdup_expand(t_shell *shell, char *value)
 	name = ft_strdup(shell, value);
 	env_value = get_env_var(shell, env, name);
 	if (!env_value)
-		return ("");
+		return (NULL);
 	return (ft_strdup(shell, env_value));
 }
-
-// int	expand_non_quotes(t_shell *shell, char *value, int i)
-// {
-// 	char	*result;
-
-// 	result = dollar_sign(shell, value, i, FALSE);
-// }
 
 char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
 {
@@ -46,20 +39,13 @@ char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
 	e_code = shell->exit_code;
 	start = *i + 1;
 	len = start;
-	// if (is_dquote == FALSE)
-	// {
-	// 	*i = expand_non_quotes(shell, value, *i);
-	// }
-	// else
-	// {
-		if (value[len] == '?')
-			return (*i = len + 1, ft_itoa(shell, e_code));
-		if (value[start] == '"' && is_dquote == TRUE)
-			return (*i = len, ft_strdup(shell, "$"));
-		if (!ft_isalnum(value[len]) && value[len] != '_'
-			&& value[len] != '"' && value[len] != '\'')
-			return (*i = len, ft_strdup(shell, "$"));
-	// }
+	if (value[len] == '?')
+		return (*i = len + 1, ft_itoa(shell, e_code));
+	if (value[start] == '"' && is_dquote == TRUE)
+		return (*i = len, ft_strdup(shell, "$"));
+	if (!ft_isalnum(value[len]) && value[len] != '_'
+		&& value[len] != '"' && value[len] != '\'')
+		return (*i = len, ft_strdup(shell, "$"));
 	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
 		len++;
 	*i = len;
@@ -106,7 +92,7 @@ char	*single_quote(t_shell *shell, char *value, int *i)
 	return (ft_strduplen(shell, &value[start], len - start));
 }
 
-char	*expand_env_vars(t_shell *shell, char *value)
+char	*expand_env_str(t_shell *shell, char *value)
 {
 	char	*new_val;
 	int		i;
@@ -120,17 +106,17 @@ char	*expand_env_vars(t_shell *shell, char *value)
 		while (value[i] && !ft_strchr("\"$'", value[i]))
 			i++;
 		if (j != i)
-			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, &value[j] \
-			, i - j));
+			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, \
+			&value[j], i - j));
 		if (value[i] == '\'')
-			new_val = ft_strjoin(shell, new_val, single_quote(shell, value \
-			, &i));
+			new_val = ft_strjoin(shell, new_val, single_quote(shell, \
+			value, &i));
 		else if (value[i] == '"')
-			new_val = ft_strjoin(shell, new_val, double_quote(shell, value \
-			, &i));
+			new_val = ft_strjoin(shell, new_val, double_quote(shell, \
+			value, &i));
 		else if (value[i] == '$')
-			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value \
-			, &i, FALSE));
+			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, \
+			value, &i, FALSE));
 	}
 	return (new_val);
 }

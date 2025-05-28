@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/17 15:56:57 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:21:37 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	identify_tokens(t_dll *tokens)
 			curr->operator = AND;
 		if (!ft_strcmp(curr->value, "<<"))
 			curr->heredoc = TRUE;
-		if (curr->value[0] == '<')
+		if (curr->value && curr->value[0] == '<')
 			(curr->direction = LEFT);
-		if (curr->value[0] == '>')
+		if (curr->value && curr->value[0] == '>')
 			(curr->direction = RIGHT);
 		curr = curr->next;
 	}
