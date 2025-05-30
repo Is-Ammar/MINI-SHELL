@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/08 11:28:52 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 09:00:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int execute_pipe(t_shell *shell)
         
         shell->ast = original_ast->left;
         execute_ast(shell);
-        exit(shell->exit_code);
+        clean_exit(shell, shell->exit_code);
     }
     
     pid2 = fork();
@@ -67,7 +67,7 @@ int execute_pipe(t_shell *shell)
         
         shell->ast = original_ast->right;
         execute_ast(shell);
-        exit(shell->exit_code);
+        clean_exit(shell, shell->exit_code);
     }
 
     close(pipefd[0]);

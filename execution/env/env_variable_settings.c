@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/29 13:09:52 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:03:31 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	set_env_var(t_shell *shell, t_env **env_list, char *name, char *value)
 	t_env	*current;
 	t_env	*new_var;
 
+	if (!name)
+		return ;
 	current = *env_list;
 	while (current)
 	{
@@ -47,10 +49,12 @@ char	*get_env_var(t_shell *shell, t_env *env_list, char *name)
 {
 	t_env	*current;
 
+	if (!name)
+		return (NULL);
 	current = env_list;
 	while (current)
 	{
-		if (ft_strcmp(current->env_name, name) == 0)
+		if (current && ft_strcmp(current->env_name, name) == 0)
 			return (ft_strdup(shell, current->env_value));
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/08 18:01:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:37:57 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,6 @@ int	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-int	ft_strlen_quotes(const char *s)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-	{
-		if (s[i] != '"' && s[i] != '\'')
-			len++;
-		i++;
-	}
-	return (len);
 }
 
 char	*ft_strchr(const char *s, int c)

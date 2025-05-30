@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 13:27:42 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:15:44 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,18 @@ int parsing(t_shell *shell, char *input)
 		return (1);
 	heredoc(shell, &shell->tokens);
 	if (g_received == SIGINT)
-	{
 		return (1);
-	}
 	redirect(&shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
+	// shell->tokens->value = expanding(shell, &shell->tokens ,shell->tokens ,shell->tokens->value);
+	// printf("token : %s | type: %d\n",shell->tokens->value, shell->tokens->token_type);
 	// t_dll *curr = shell->tokens;
 	// while(curr)
 	// {
-	// 	printf("%s\n type: %d\n", curr->value,curr->token_type);
+	// 	printf("token : %s | type: %d\n",curr->value,curr->token_type);
 	// 	curr = curr->next;
 	// }
+	// exit(0);
 	// expand_heredoc(shell, shell->tokens->value);
 	#ifdef DEBUG
     printtt(shell->ast);
@@ -170,8 +171,8 @@ void read_eval_print_loop(t_shell *shell)
 		{
 			printf("exit\n");
 			rl_clear_history();
-			burn_garbage(shell);
-			exit(0);
+			clean_exit(shell, 0);
+			free(input);
 		}
 		if (!*input)
 		{
@@ -197,6 +198,7 @@ void read_eval_print_loop(t_shell *shell)
         }
         add_history(input);
         execution(shell);
+		// burn_garbage(shell); /* /!\ */
         free(input);
     }
 }
@@ -211,15 +213,11 @@ void	non_interactive_mode(t_shell *shell)
 		input = my_readline(shell);
         shell->lines++;
 		if (!input)
-		{
-			burn_garbage(shell);
-			exit(shell->exit_code );
-		}
+			clean_exit(shell, shell->exit_code);
 		if (parsing(shell, input))
-        {
+		{
 			shell->exit_code = 2;
-			burn_garbage(shell);
-            exit(2);
+            clean_exit(shell, 2);
         }
         execution(shell);
     }
@@ -231,8 +229,8 @@ int main(int ac, char **av, char **env)
     (void)av;
 	(void)ac;
 
-	shell = (struct s_shell){0};
-	create_env(shell, &shell.env_list, env);
+	memset(&shell, 0, sizeof(shell));
+	create_env(&shell, &shell.env_list, env);
 	shell.interactive = isatty(STDIN_FILENO);
 	if (shell.interactive)
 		read_eval_print_loop(&shell);

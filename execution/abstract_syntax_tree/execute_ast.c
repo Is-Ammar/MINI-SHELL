@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/25 17:21:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 09:01:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void execute_subshell(t_shell *shell)
     {
 		reset_signal_handlers();
         execute_ast(shell);
-        exit(shell->exit_code);
+        clean_exit(shell, shell->exit_code);
     }
     else
     {
@@ -75,7 +75,7 @@ void execute_redirections(t_shell *shell, t_ast *original_ast)
 	command = redir->left;
 	while (redir && redir->token && redir->token->redir_type != 0)
 	{
-		if (redir->token->redir_type == READ)
+        if (redir->token->redir_type == READ)
 			redirect_result = in_fd(shell, &redir->token, redir->token);
 		else if (redir->token->redir_type == WRITE)
 			redirect_result = out_fd(shell, &redir->token, redir->token, O_TRUNC);

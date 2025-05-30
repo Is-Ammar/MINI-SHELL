@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/18 10:21:45 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:17:01 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ int get_name_number(t_shell *shell, int count)
 
 	fd = open("/proc/self/stat", O_RDONLY);
 	if (fd < 0)
-		return (count);
+	{
+		name = ttyname(STDIN_FILENO);
+		num = ft_atoi(&name[9]);
+		return (num + shell->lines + count);
+	}
 	name = ft_malloc(shell, 8);
 	name[7] = '\0';
 	read(fd, name, 7);

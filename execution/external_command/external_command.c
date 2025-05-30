@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/16 15:15:01 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 08:59:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 		if (!*cmd)
 		{
 			exec_error(shell, "''", ECOMMAND);
-			exit(127);
+			clean_exit(shell, 127);
 		}
 		if (cmd[0] == '.' && cmd[1] && cmd[1] != '/')
 		{
 			exec_error(shell, cmd, ECOMMAND);
-			exit(0);
+			clean_exit(shell, 0);
 		}
 		if (ft_strchr(cmd, '/'))
 		{
@@ -52,7 +52,7 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 			execve(path, args, env);
 			exec_error(shell, cmd, ECOMMAND);
 		}
-		exit(0);
+		clean_exit(shell, 0);
 	}
 	else
 	{

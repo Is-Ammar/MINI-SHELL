@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/19 08:09:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:42:11 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,13 @@ char	*remove_quotes(t_shell *shell, char *token)
 
 	if (!token)
 		return (NULL);
-	len = ft_strlen_quotes(token);
+	len = ft_strlen(token) - 2;
 	p = ft_malloc(shell, len + 1);
-	i = 0;
+	i = 1;
 	j = 0;
-	while (token[i])
+	while (i < len + 1)
 	{
-		if (token[i] != '"' && token[i] != '\'')
-			p[j++] = token[i];
+		p[j++] = token[i];
 		i++;
 	}
 	p[j] = '\0';

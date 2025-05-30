@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 19:59:17 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 08:58:09 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_dll
 	int				direction;
 	int				bracket;
 	int				heredoc;
+	int				expandoc;
 	int				wildcard;
 	int				operator;
 	struct s_dll	*prev;
@@ -211,6 +212,7 @@ int		out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG);
 void	*ft_malloc(t_shell *shell, size_t size);
 void	add_to_garbage(t_shell *shell, void *ptr);
 void	burn_garbage(t_shell *shell);
+void	clean_exit(t_shell *shell, int exit_code);
 /* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
 #endif

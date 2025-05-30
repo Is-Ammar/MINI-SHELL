@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/17 10:17:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:46:57 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,38 @@ t_env *find_env_var(t_env *env_list, char *name)
     return NULL;
 }
 
-void create_env(t_shell shell, t_env **env, char **environ)
+void create_env(t_shell *shell, t_env **env, char **environ)
 {
-    int     i;
-    char    *equals_sign;
-    char    *name;
-    char    *value;
-    int     name_len;
-    char   *shlvl_entry;
-    int     shlvl_value;
-    char    *new_shlvl;
+    int     i= 0;
+    char    *equals_sign = NULL;
+    char    *name = NULL;
+    char    *value  = NULL;
+    int     name_len = 0;
+    char   *shlvl_entry = NULL;
+    int     shlvl_value = 0;
+    char    *new_shlvl  = NULL;
 
     i = 0;
     *env = NULL;
     while (environ[i])
     {
-        equals_sign = ft_strchr((const char *)environ[i], '=');
+        equals_sign = ft_strchr(environ[i], '=');
         if (equals_sign)
         {
             name_len = equals_sign - environ[i];
-            name = ft_malloc(&shell, name_len + 1);
+            name = ft_malloc(shell, name_len + 1);
             ft_strlcpy(name, environ[i], name_len + 1);
             name[name_len] = '\0';
-            value = ft_strdup(&shell, equals_sign + 1);
-            add_env_var(&shell, env, name, value);
+            value = ft_strdup(shell, equals_sign + 1);
+            add_env_var(shell, env, name, value);
         }
         i++;
     }
 
-    shlvl_entry = get_env_var(&shell, *env, "SHLVL");
+    shlvl_entry = get_env_var(shell, *env, "SHLVL");
     if (!shlvl_entry)
     {
-        set_env_var(&shell, env, ft_strdup(&shell, "SHLVL"), ft_strdup(&shell, "1"));
+        set_env_var(shell, env, ft_strdup(shell, "SHLVL"), ft_strdup(shell, "1"));
     }
     else
     {
@@ -71,10 +71,10 @@ void create_env(t_shell shell, t_env **env, char **environ)
             shlvl_value = 0;
         }
         shlvl_value++;
-        new_shlvl = ft_itoa(&shell, shlvl_value);
+        new_shlvl = ft_itoa(shell, shlvl_value);
         if (new_shlvl)
         {
-            set_env_var(&shell, env, ft_strdup(&shell, "SHLVL"), new_shlvl);
+            set_env_var(shell, env, ft_strdup(shell, "SHLVL"), new_shlvl);
         }
     }
 }

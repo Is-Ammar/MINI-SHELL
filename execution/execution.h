@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/19 14:06:35 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 09:49:43 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char 					**convert_env_to_array(t_shell *shell, t_env *env_list);
 void 					set_last_cmd_env(t_shell *shell);
 
 //-------------------Create-new-env--------------------------//
-void					create_env(t_shell shell, t_env **env, char **environ);
+void					create_env(t_shell *shell, t_env **env, char **environ);
 //-------------------abstract_tree---------------------------//
 t_ast 					*abstract_segment_tree(t_shell *shell);
 t_ast 					*parse_redirections(t_dll **tokens, t_shell *shell);

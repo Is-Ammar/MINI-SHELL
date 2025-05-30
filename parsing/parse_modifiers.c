@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/27 08:21:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 08:11:55 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ void	operators_merge(t_shell *shell, t_dll **tokens)
 	while (curr && curr->next)
 	{
 		nxt = curr->next;
-		if (nxt && curr && curr->value && nxt->value
-			&& curr->value[0] == nxt->value[0])
+		if (curr && curr->value && nxt && nxt->value
+			&& !ft_strcmp(curr->value, nxt->value))
 		{
-			if (curr->value[0] == '&' || curr->value[0] == '|'
-				|| curr->value[0] == '<' || curr->value[0] == '>')
+			if (!ft_strcmp(curr->value, "&") || !ft_strcmp(curr->value, "|")
+				|| !ft_strcmp(curr->value, "<") || !ft_strcmp(curr->value, ">"))
 			{
 				merge_tokens(shell, curr, nxt);
 				curr->token_type = get_token_type(curr->value);
+				continue ;
 			}
 		}
 		curr = nxt;

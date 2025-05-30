@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 16:20:19 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:49:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 char	*ft_strdup_expand(t_shell *shell, char *value)
 {
-	t_env	*env;
 	char	*name;
 	char	*env_value;
 
 	if (!value)
 		return (NULL);
-	env = shell->env_list;
 	name = ft_strdup(shell, value);
-	env_value = get_env_var(shell, env, name);
+	env_value = get_env_var(shell, shell->env_list, name);
 	if (!env_value)
 		return (NULL);
 	return (ft_strdup(shell, env_value));

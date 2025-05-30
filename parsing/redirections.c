@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/10 18:39:34 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:11:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	int	in_fd;
 
 	in_fd = 0;
+	if (token->expandoc)
+        expand_heredoc(shell, token->value);
 	if (token->expandable || token->wildcard)
 	{
 		if (expansion(shell, tokens, &token))
@@ -57,8 +59,9 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
-	dup2(in_fd, 0);
-	close(in_fd);
+	(dup2(in_fd, 0), close(in_fd));
+	if (token->heredoc)
+		return (unlink(token->value), 0);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/24 15:38:05 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 14:40:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 	}
 	else
 	{
-		dup2(*saved_stdout, STDOUT_FILENO); 
+		dup2(*saved_stdout, STDOUT_FILENO);
 		dup2(*saved_stdin, STDIN_FILENO);
 		close(*saved_stdout);
 		close(*saved_stdin);
@@ -31,6 +31,7 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 int	handle_expansions(t_shell *shell)
 {
 	t_dll	*curr;
+	t_dll	*nxt;
 
 	if (shell->ast->token)
 	{
@@ -41,19 +42,15 @@ int	handle_expansions(t_shell *shell)
 	curr = shell->ast->arguments;
 	while (curr)
 	{
+		nxt = curr->next;
 		if (shell->ast->token == curr)
 			;
-		else if (curr->heredoc)
-		{
-			if (curr->expandable)
-				expand_heredoc(shell, curr->value);
-		}
 		else
 		{
 			if (expansion(shell, &shell->ast->arguments, &curr))
 				return (1);
 		}
-		curr = curr->next;
+		curr = nxt;
 	}
 	return (0);
 }
@@ -92,7 +89,8 @@ void execute_command(t_shell *shell)
 		return ;
 	}
 	curr = shell->ast->token;
-	expansion(shell, &shell->ast->token, &shell->ast->token);
+	if (curr && curr->wildcard)
+		expansion(shell, &shell->ast->token, &shell->ast->token);
 	if(shell->ast->token && shell->ast->token->next)
 	{
 		while(curr && curr->next)

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 18:48:39 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 08:27:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input, char 
 			i++;
 		}
 		token_val = ft_strduplen(shell, &input[start], i - start);
+		if (!token_val)
+			continue ;
 		token = add_to_tokens(shell, tokens, token, token_val);
+		token->quote_type = get_quote_type(token_val);
 	}
 	remove_token(tokens, curr);
 }

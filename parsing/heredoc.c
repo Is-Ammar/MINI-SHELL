@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 13:01:15 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:13:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	open_heredoc(t_shell *shell, char *delim, char *name)
 		{
 			ft_printf("minishell: warning: here-document at line %d", shell->lines);
 			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
+			break ;
 		}
 		else
 			shell->lines++;
@@ -89,23 +90,23 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	if (nxt->quote_type != NONE)
 		nxt->value = remove_quotes(shell, nxt->value);
 	else if (nxt->quote_type == NONE)
-		nxt->expandable = TRUE;
+		nxt->expandoc = TRUE;
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		open_heredoc(shell, nxt->value, name);
-		exit(0);
+		clean_exit(shell, 0);
 	}
 	else
 		waitpid(pid, &state, 0);
 	if (WIFEXITED(state) && WEXITSTATUS(state) == 130)
-		{
-			shell->exit_code = 130;
-			g_received = SIGINT;
-			write(STDERR_FILENO, "\n", 1);
-			return;
-		}
+	{
+		shell->exit_code = 130;
+		g_received = SIGINT;
+		write(STDERR_FILENO, "\n", 1);
+		return;
+	}
 	return ;
 }
 
@@ -125,13 +126,11 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 		if (curr->heredoc == TRUE)
 		{
 			name = ft_strjoin(shell, ft_strdup(shell, "/tmp/.heredoc_") \
-			, ft_itoa(shell, /*get_name_number(shell, count)*/count));
+			, ft_itoa(shell, get_name_number(shell, count)));
 			handle_herdoc(shell, curr->next, name);
 			if (g_received == SIGINT)
-			{
-				return;
-			}
-			curr->expandable = curr->next->expandable;
+				return ;
+			curr->expandoc = curr->next->expandoc;
 			remove_token(tokens, curr->next);
 			add_mid_token(shell, tokens, curr, name);
 			remove_token(tokens, curr);

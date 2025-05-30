@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 15:54:41 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:13:55 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_dll	*create_token_list(t_shell *shell)
 	head->quote_type = NONE;
 	head->inside_parentheses = 0;
 	head->redir_type = 0;
+	head->expandable = 0;
 	head->expandable = 0;
 	head->direction = 0;
 	head->bracket = 0;
@@ -63,6 +64,7 @@ void	add_mid_token(t_shell *shell, t_dll **head, t_dll *token, char *val)
 	new_token->value = ft_strdup(shell, val);
 	new_token->token_type = token->token_type;
 	new_token->expandable = token->expandable;
+	new_token->expandoc = token->expandoc;
 	if (!*head)
 	{
 		*head = new_token;

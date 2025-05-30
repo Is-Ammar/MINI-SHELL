@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/11 18:44:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:41:25 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (-1);
 	while (s1[i] || s2[i])
 	{
 		if (s1[i] != s2[i])

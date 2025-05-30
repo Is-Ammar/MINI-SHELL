@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/17 10:17:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:53:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	declare(t_shell *shell)
 		return ;
 	while (env)
 	{
-		printf("declare -x %s=\"%s\"\n", env->env_name, env->env_value);
+		if (ft_strcmp(env->env_name, "_"))
+			printf("declare -x %s=\"%s\"\n", env->env_name, env->env_value);
 		env = env->next;
 	}
 }
