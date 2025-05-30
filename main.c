@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/24 21:45:06 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/29 13:27:42 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ int parsing(t_shell *shell, char *input)
 	if (parse_input(shell, &shell->tokens))
 		return (1);
 	heredoc(shell, &shell->tokens);
+	if (g_received == SIGINT)
+	{
+		return (1);
+	}
 	redirect(&shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
 	// t_dll *curr = shell->tokens;
@@ -156,7 +160,6 @@ void read_eval_print_loop(t_shell *shell)
     char    *input;
     
     input = NULL;
-	setup_signal_handlers();
 	
     while (1337)
     {
@@ -175,17 +178,23 @@ void read_eval_print_loop(t_shell *shell)
 			shell->exit_code = 0;
 			continue ;
 		}
+		if (g_received == SIGINT)
+		{
+			shell->exit_code = 130;
+			g_received = 0;
+		}
 		if (parsing(shell, input))
         {
-			shell->exit_code = 2;
+			if(g_received == SIGINT)
+			{
+				shell->exit_code = 130;
+				g_received = 0;
+			}
+			else
+				shell->exit_code = 2;
 			add_history(input);
             continue ;
         }
-		if (g_received == SIGINT)
-		{
-    		shell->exit_code = 130;
-    		g_received = 0;
-		}
         add_history(input);
         execution(shell);
         free(input);

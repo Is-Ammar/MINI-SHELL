@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:56:08 by iammar            #+#    #+#             */
-/*   Updated: 2025/03/27 21:11:05 by iammar           ###   ########.fr       */
+/*   Updated: 2025/05/29 13:12:10 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void execute_builtin_unset(t_shell *shell)
 {
     t_dll *current;
     
-    if (!shell->tokens->next)
+    if (!shell->ast->arguments)
     {
         shell->exit_code = 0;
         return;
     }
     
-    current = shell->tokens->next;
+    current = shell->ast->arguments;
     while (current)
     {
         if (is_valid_identifier(current->value))

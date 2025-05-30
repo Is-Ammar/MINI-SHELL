@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/17 10:17:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:09:52 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,4 @@ void	add_env_var(t_shell *shell, t_env **env_list, char *name, char *value)
 		current = current->next;
 	current->next = new_var;
 	return ;
-}
-
-void	free_env_list(t_env *env_list)
-{
-	t_env	*current;
-
-	current = env_list;
-	while (current)
-	{
-		// free(current->env_name);
-		// free(current->env_value);
-		current = current->next;
-	}
 }

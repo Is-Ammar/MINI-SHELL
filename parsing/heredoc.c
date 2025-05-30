@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 19:52:28 by habdella         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:01:15 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,13 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	}
 	else
 		waitpid(pid, &state, 0);
-	if (WTERMSIG(state) == SIGINT)
-		write(STDERR_FILENO, "\n", 1);
+	if (WIFEXITED(state) && WEXITSTATUS(state) == 130)
+		{
+			shell->exit_code = 130;
+			g_received = SIGINT;
+			write(STDERR_FILENO, "\n", 1);
+			return;
+		}
 	return ;
 }
 
@@ -122,6 +127,10 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 			name = ft_strjoin(shell, ft_strdup(shell, "/tmp/.heredoc_") \
 			, ft_itoa(shell, /*get_name_number(shell, count)*/count));
 			handle_herdoc(shell, curr->next, name);
+			if (g_received == SIGINT)
+			{
+				return;
+			}
 			curr->expandable = curr->next->expandable;
 			remove_token(tokens, curr->next);
 			add_mid_token(shell, tokens, curr, name);
