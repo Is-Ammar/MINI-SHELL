@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/30 08:11:55 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:29:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 	curr = *token;
 	if (curr->expandable == TRUE || curr->quote_type != NONE)
 	{
-		if (expand_execute(shell, tokens, curr))
+		if (expanding(shell, tokens, curr, curr->value))
 			return (1);
 	}
 	if (curr->wildcard == TRUE)

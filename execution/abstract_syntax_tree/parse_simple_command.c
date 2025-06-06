@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/25 17:38:32 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/06 15:55:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,11 @@ static void process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd
                 curr = curr->next;
             continue;
         }
-        
         if (cmd_node->token == curr)
             ;
         else
         {
-            new_arg = ft_malloc(shell, sizeof(t_dll));
+            new_arg = ft_malloc(shell, sizeof(t_dll), 0);
             copy_token_properties(curr, new_arg);
             add_arg_to_list(tail, new_arg);
             remove_token(tokens, curr);
@@ -98,31 +97,30 @@ static void process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd
         *tokens = (*tokens)->next;
 }
 
-t_ast *parse_simple_command(t_dll **tokens, t_shell *shell)
+t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 {
-    t_ast *cmd_node;
-    t_dll **tail;
-    t_dll *first_token;
-	t_dll *start_tokens;
-	
+	t_ast	*cmd_node;
+	t_dll	**tail;
+	t_dll	*first_token;
+	t_dll	*start_tokens;
+
 	first_token = *tokens;
-    if (!*tokens || !(*tokens)->value)
-        return (NULL);
-    if ((*tokens)->bracket)
-        return (handle_bracket_content(tokens, shell));
-    cmd_node = ft_malloc(shell, sizeof(t_ast));
-    cmd_node->token = find_command(shell, *tokens);
-    cmd_node->arguments = NULL;
-    cmd_node->left = NULL;
-    cmd_node->right = NULL;
-    tail = &cmd_node->arguments;
-    start_tokens = *tokens;
-    process_command_arguments(shell, tokens, cmd_node, tail);
-    if (cmd_node->token)
-        cmd_node->token->next = NULL;
-    if (!cmd_node->token && start_tokens && (start_tokens->token_type == REDIRECTION))
-    {
-        cmd_node->token = first_token;
-    }
-    return (cmd_node);
+	if (!*tokens || !(*tokens)->value)
+		return (NULL);
+	if ((*tokens)->bracket)
+		return (handle_bracket_content(tokens, shell));
+	cmd_node = ft_malloc(shell, sizeof(t_ast), 0);
+	cmd_node->token = find_command(shell, *tokens);
+	cmd_node->arguments = NULL;
+	cmd_node->left = NULL;
+	cmd_node->right = NULL;
+	tail = &cmd_node->arguments;
+	start_tokens = *tokens;
+	process_command_arguments(shell, tokens, cmd_node, tail);
+	if (cmd_node->token)
+		cmd_node->token->next = NULL;
+	if (!cmd_node->token && start_tokens
+        && (start_tokens->token_type == REDIRECTION))
+		cmd_node->token = first_token;
+	return (cmd_node);
 }

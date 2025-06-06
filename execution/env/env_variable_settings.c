@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 15:03:31 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:15:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_env	*create_env_var(t_shell *shell, char *name, char *value)
 {
 	t_env	*new_var;
 
-	new_var = ft_malloc(shell, sizeof(t_env));
-	new_var->env_name = ft_strdup(shell, name);
-	new_var->env_value = ft_strdup(shell, value);
+	new_var = ft_malloc(shell, sizeof(t_env), 1);
+	new_var->env_name = env_strdup(shell, name);
+	new_var->env_value = env_strdup(shell, value);
 	new_var->next = NULL;
 	return (new_var);
 }
@@ -35,7 +35,7 @@ void	set_env_var(t_shell *shell, t_env **env_list, char *name, char *value)
 	{
 		if (ft_strcmp(current->env_name, name) == 0)
 		{
-			current->env_value = ft_strdup(shell, value);
+			current->env_value = env_strdup(shell, value);
 			return ;
 		}
 		current = current->next;
@@ -55,7 +55,7 @@ char	*get_env_var(t_shell *shell, t_env *env_list, char *name)
 	while (current)
 	{
 		if (current && ft_strcmp(current->env_name, name) == 0)
-			return (ft_strdup(shell, current->env_value));
+			return (env_strdup(shell, current->env_value));
 		current = current->next;
 	}
 	return (NULL);

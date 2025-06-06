@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 11:42:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:08:56 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ char	*ft_strjoin(t_shell *shell, char *s1, char *s2)
 	int		len;
 	char	*p;
 
-	if (!s1 && !s2)
-		return (NULL);
+	if (!s1)
+		return (ft_strdup(shell, s2));
+	else if (!s2)
+		return (ft_strdup(shell, s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
-	p = ft_malloc(shell, len + 1);
+	p = ft_malloc(shell, len + 1, 0);
 	i = 0;
 	while (s1 && s1[i])
 	{
@@ -64,7 +66,7 @@ static void	helper(long nb, char *p)
 	p[--j] = '\0';
 }
 
-char	*ft_itoa(t_shell *shell, int n)
+char	*ft_itoa(t_shell *shell, int n, int is_env)
 {
 	long	nb;
 	char	*itoa;
@@ -79,7 +81,7 @@ char	*ft_itoa(t_shell *shell, int n)
 		size++;
 		n /= 10;
 	}
-	itoa = ft_malloc(shell, size + 2);
+	itoa = ft_malloc(shell, size + 2, is_env);
 	helper(nb, itoa);
 	return (itoa);
 }
@@ -94,7 +96,7 @@ char	*remove_quotes(t_shell *shell, char *token)
 	if (!token)
 		return (NULL);
 	len = ft_strlen(token) - 2;
-	p = ft_malloc(shell, len + 1);
+	p = ft_malloc(shell, len + 1, 0);
 	i = 1;
 	j = 0;
 	while (i < len + 1)
@@ -106,11 +108,22 @@ char	*remove_quotes(t_shell *shell, char *token)
 	return (p);
 }
 
-int	is_empty(char *val)
+char	*env_strdup(t_shell *shell, const char *s)
 {
-	if (val[0] == '\'' && val[1] && val[1] == '\'')
-		return (1);
-	if (val[0] == '"' && val[1] && val[1] == '"')
-		return (1);
-	return (0);
+	char	*p;
+	int		i;
+	int		len;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
+	p = ft_malloc(shell, len + 1, 1);
+	i = 0;
+	while (i < len)
+	{
+		p[i] = s[i];
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
 }

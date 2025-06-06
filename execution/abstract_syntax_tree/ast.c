@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/25 17:57:05 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/06 08:24:51 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_ast *parse_logical_operators(t_dll **tokens, t_shell *shell)
     while (*tokens && (*tokens)->value && (*tokens)->token_type == OPERATOR)
     {
         
-        logical_node = ft_malloc(shell, sizeof(t_ast));
+        logical_node = ft_malloc(shell, sizeof(t_ast), 0);
         if (!logical_node)
             return NULL;
         logical_node->token = *tokens;
@@ -58,7 +58,7 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
     while (*tokens && (*tokens)->value && (*tokens)->token_type == PIPE)
     {
 		
-        pipe_node = ft_malloc(shell, sizeof(t_ast));
+        pipe_node = ft_malloc(shell, sizeof(t_ast), 0);
         pipe_node->token = *tokens;
         pipe_node->left = result;
         *tokens = (*tokens)->next;
@@ -81,7 +81,7 @@ t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
     
     while (*tokens && (*tokens)->token_type == REDIRECTION)
     {
-        redir_node = ft_malloc(shell, sizeof(t_ast));
+        redir_node = ft_malloc(shell, sizeof(t_ast), 0);
         redir_node->token = *tokens;
         redir_node->left = NULL;
         redir_node->right = NULL;
@@ -112,7 +112,7 @@ t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
     }
     while (*tokens && (*tokens)->token_type == REDIRECTION)
     {
-        redir_node = ft_malloc(shell, sizeof(t_ast));
+        redir_node = ft_malloc(shell, sizeof(t_ast), 0);
         redir_node->token = *tokens;
         redir_node->left = command_node;
         redir_node->right = NULL;

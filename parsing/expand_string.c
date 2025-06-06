@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/30 14:49:13 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:58:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
 	start = *i + 1;
 	len = start;
 	if (value[len] == '?')
-		return (*i = len + 1, ft_itoa(shell, e_code));
-	if (value[start] == '"' && is_dquote == TRUE)
+		return (*i = len + 1, ft_itoa(shell, e_code, 0));
+	if (is_dquote == TRUE && (value[start] == '"' || value[start] == '\''))
 		return (*i = len, ft_strdup(shell, "$"));
 	if (!ft_isalnum(value[len]) && value[len] != '_'
 		&& value[len] != '"' && value[len] != '\'')
@@ -84,6 +84,8 @@ char	*single_quote(t_shell *shell, char *value, int *i)
 
 	start = *i + 1;
 	len = start;
+	if (value[len] == '\'')
+		return (*i = len + 1, ft_strdup(shell, ""));
 	while (value[len] && value[len] != '\'')
 		len++;
 	*i = len + 1;
@@ -97,21 +99,21 @@ char	*expand_env_str(t_shell *shell, char *value)
 	int		j;
 
 	i = 0;
-	new_val = ft_strdup(shell, "");
+	new_val = NULL;
 	while (value[i])
 	{
 		j = i;
 		while (value[i] && !ft_strchr("\"$'", value[i]))
 			i++;
 		if (j != i)
-			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, \
-			&value[j], i - j));
+			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell \
+			, &value[j], i - j));
 		if (value[i] == '\'')
-			new_val = ft_strjoin(shell, new_val, single_quote(shell, \
-			value, &i));
+			new_val = ft_strjoin(shell, new_val, single_quote(shell \
+			, value, &i));
 		else if (value[i] == '"')
-			new_val = ft_strjoin(shell, new_val, double_quote(shell, \
-			value, &i));
+			new_val = ft_strjoin(shell, new_val, double_quote(shell \
+			, value, &i));
 		else if (value[i] == '$')
 			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, \
 			value, &i, FALSE));

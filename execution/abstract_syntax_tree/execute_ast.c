@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 09:01:07 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:54:59 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void execute_subshell(t_shell *shell)
     }
     else
     {
-        waitpid(pid, &status, 0);
+        waitpid(pid, &status, 2);
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
         {
             write(STDERR_FILENO, "Quit (core dumped)\n", 19);

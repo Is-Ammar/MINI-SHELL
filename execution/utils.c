@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 14:41:25 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:05:52 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strdup(t_shell *shell, const char *s)
 	if (!s)
 		return (NULL);
 	len = ft_strlen(s);
-	p = ft_malloc(shell, len + 1);
+	p = ft_malloc(shell, len + 1, 0);
 	i = 0;
 	while (i < len)
 	{

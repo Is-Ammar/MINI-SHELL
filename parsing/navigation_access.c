@@ -6,13 +6,13 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 14:53:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:57:02 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_quote_type	get_quote_type(char *val)
+int	get_quote_type(char *val)
 {
 	if (ft_strchr(val, '\''))
 		return (SQUOTE);
@@ -29,7 +29,7 @@ char	*ft_merge(t_shell *shell, char *first_val, char *second_val)
 	int		j;
 
 	len = ft_strlen(first_val) + ft_strlen(second_val);
-	merge = ft_malloc(shell, len + 1);
+	merge = ft_malloc(shell, len + 1, 0);
 	if (!merge)
 		return (NULL);
 	i = 0;
@@ -92,8 +92,7 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 		if (curr->expandable && curr->token_type == WORD)
 		{
 			tmp = expand_env_str(shell, curr->value);
-			tmp = remove_too_much_spaces(shell, tmp);
-			if (is_removable(curr->value) || *tmp != '\0')
+			if (tmp && check_spaces(tmp))
 				return (curr);
 		}
 		if (!curr->expandable && curr->token_type == WORD)

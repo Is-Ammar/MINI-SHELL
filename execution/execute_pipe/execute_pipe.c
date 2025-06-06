@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 09:00:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:46:18 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int execute_pipe(t_shell *shell)
         perror("fork");
         close(pipefd[0]);
         close(pipefd[1]);
-        waitpid(pid1, NULL, 0);
+        waitpid(pid1, NULL, 2);
         return 1;
     }
     
@@ -69,12 +69,11 @@ int execute_pipe(t_shell *shell)
         execute_ast(shell);
         clean_exit(shell, shell->exit_code);
     }
-
     close(pipefd[0]);
     close(pipefd[1]);
     
-    waitpid(pid1, NULL, 0);
-    waitpid(pid2, &status, 0);
+    waitpid(pid1, NULL, 2);
+    waitpid(pid2, &status, 2);
     if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
     {
         write(STDERR_FILENO, "Quit (core dumped)\n", 19);

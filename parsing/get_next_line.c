@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/28 18:47:05 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:12:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strdupnl(t_shell *shell, char *contain)
 		i++;
 	if (contain[i] != '\0')
 		i++;
-	line = ft_malloc(shell, i + 1);
+	line = ft_malloc(shell, i + 1, 0);
 	j = 0;
 	while (j < i)
 	{
@@ -87,7 +87,7 @@ char	*get_next_line(t_shell *shell, int fd)
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	buff = ft_malloc(shell, BUFFER_SIZE + 1);
+	buff = ft_malloc(shell, BUFFER_SIZE + 1, 0);
 	contain = get_container(shell, contain, buff, fd);
 	if (!contain || !ft_strlen(contain))
 		return (NULL);
@@ -98,21 +98,21 @@ char	*get_next_line(t_shell *shell, int fd)
 
 char	*my_readline(t_shell *shell)
 {
-    char *buff;
-	ssize_t bytes;
-    char    c[2];
+	char	*buff;
+	ssize_t	bytes;
+	char	c[2];
 
-    buff = ft_malloc(shell, 1);
+	buff = ft_malloc(shell, 1, 0);
 	bytes = read(STDIN_FILENO, &c, 1);
-    while (bytes > 0)
-    {
-        c[1] = '\0';
-        if (c[0] == '\n')
-            break ;
-        buff = ft_strjoin(shell, buff, c);
+	while (bytes > 0)
+	{
+		c[1] = '\0';
+		if (c[0] == '\n')
+			break ;
+		buff = ft_strjoin(shell, buff, c);
 		bytes = read(STDIN_FILENO, &c, 1);
-    }
+	}
 	if (bytes <= 0)
 		return (NULL);
-    return (buff);
+	return (buff);
 }

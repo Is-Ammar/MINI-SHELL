@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 08:59:22 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:55:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &status, 2);
 		signal(SIGINT, SIG_IGN);
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
         {
@@ -91,7 +91,7 @@ static char	**prepare_command_args(t_shell *shell, char *cmd, t_dll *args_list, 
 	t_dll	*tmp;
 	int		i;
 
-	args = ft_malloc(shell, (ac + 2) * sizeof(char *));
+	args = ft_malloc(shell, (ac + 2) * sizeof(char *), 0);
 	args[0] = cmd;
 	i = 1;
 	tmp = args_list;

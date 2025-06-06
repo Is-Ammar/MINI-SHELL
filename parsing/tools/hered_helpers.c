@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 10:17:01 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:06:56 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strnstr(const char *big, const char *little, int len)
 	return (NULL);
 }
 
-int get_name_number(t_shell *shell, int count)
+int	get_name_number(t_shell *shell, int count)
 {
 	int		fd;
 	int		num;
@@ -47,7 +47,7 @@ int get_name_number(t_shell *shell, int count)
 		num = ft_atoi(&name[9]);
 		return (num + shell->lines + count);
 	}
-	name = ft_malloc(shell, 8);
+	name = ft_malloc(shell, 8, 0);
 	name[7] = '\0';
 	read(fd, name, 7);
 	close(fd);

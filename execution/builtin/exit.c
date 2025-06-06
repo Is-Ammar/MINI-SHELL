@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 09:00:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:01:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,5 @@ void execute_builtin_exit(t_shell *shell)
             status = (int) long_status;
         }
     }
-    burn_garbage(shell);
     clean_exit(shell, status);
 }

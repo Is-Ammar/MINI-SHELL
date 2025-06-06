@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 14:46:57 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:56:49 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void create_env(t_shell *shell, t_env **env, char **environ)
         if (equals_sign)
         {
             name_len = equals_sign - environ[i];
-            name = ft_malloc(shell, name_len + 1);
+            name = ft_malloc(shell, name_len + 1, 1);
             ft_strlcpy(name, environ[i], name_len + 1);
             name[name_len] = '\0';
-            value = ft_strdup(shell, equals_sign + 1);
+            value = env_strdup(shell, equals_sign + 1);
             add_env_var(shell, env, name, value);
         }
         i++;
@@ -57,7 +57,7 @@ void create_env(t_shell *shell, t_env **env, char **environ)
     shlvl_entry = get_env_var(shell, *env, "SHLVL");
     if (!shlvl_entry)
     {
-        set_env_var(shell, env, ft_strdup(shell, "SHLVL"), ft_strdup(shell, "1"));
+        set_env_var(shell, env, env_strdup(shell, "SHLVL"), env_strdup(shell, "1"));
     }
     else
     {
@@ -71,10 +71,10 @@ void create_env(t_shell *shell, t_env **env, char **environ)
             shlvl_value = 0;
         }
         shlvl_value++;
-        new_shlvl = ft_itoa(shell, shlvl_value);
+        new_shlvl = ft_itoa(shell, shlvl_value, 1);
         if (new_shlvl)
         {
-            set_env_var(shell, env, ft_strdup(shell, "SHLVL"), new_shlvl);
+            set_env_var(shell, env, env_strdup(shell, "SHLVL"), new_shlvl);
         }
     }
 }
@@ -139,13 +139,13 @@ char **convert_env_to_array(t_shell *shell, t_env *env_list)
         count++;
         current = current->next;
     }
-    env_array = ft_malloc(shell, (count + 1) * sizeof(char *));
+    env_array = ft_malloc(shell, (count + 1) * sizeof(char *), 0);
     current = env_list;
     while (current)
     {
         len = ft_strlen(current->env_name) + ft_strlen(current->env_value) + 2;
 
-        env_array[i] = ft_malloc(shell, len);
+        env_array[i] = ft_malloc(shell, len, 0);
         ft_strlcpy(env_array[i], current->env_name, ft_strlen(current->env_name) + 1);
         ft_strcat(env_array[i], "=");
         ft_strcat(env_array[i], current->env_value);

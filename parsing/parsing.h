@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/30 08:58:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:20:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@
 
 # define FALSE			0
 # define TRUE			1
-# define METACHARS		"( )\t\n<|&>'\"$"
-# define WHITESPACES	"\t \n"
+# define METACHARS		"( \t\n\v\f\r)<|&>'\"$"
+# define WHITESPACES	" \t\n\v\f\r"
+# define WS				WHITESPACES
 # define LEFT			1
 # define RIGHT			2
 
@@ -97,6 +98,7 @@ typedef struct s_dll
 	t_redirect		redir_type;
 	int				inside_parentheses;
 	int				expandable;
+	int				is_splited;
 	int				direction;
 	int				bracket;
 	int				heredoc;
@@ -107,9 +109,16 @@ typedef struct s_dll
 	struct s_dll	*next;
 }	t_dll;
 
+typedef struct s_expand
+{
+	char	*str;
+	char	*mask;
+}	t_expand;
+
 typedef struct s_gc
 {
 	void				*address;
+	int					is_env;
 	struct s_gc			*next;
 }	t_gc;
 
@@ -118,13 +127,12 @@ typedef struct s_env	t_env;
 typedef struct s_ast	t_ast;
 
 // -------------------- Everything about tokens -------------------- //
-
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */
 t_dll	*create_token_list(t_shell *shell);
-void	free_token_list(t_dll **head);
-void	remove_token(t_dll **head, t_dll *token);
-void	add_mid_token(t_shell *shell, t_dll **head, t_dll *token, char *val);
 void	add_token(t_shell *shell, t_dll **head, char *val, t_token_type t_type);
+void	add_mid_token(t_shell *shell, t_dll **head, t_dll *token, char *val);
+void	remove_token(t_dll **head, t_dll *token);
+void	free_node(t_gc **head, t_gc *remove);
 /* ///////////////// token navigation \\\\\\\\\\\\\\\\\\\\\ */
 t_dll	*find_token(t_dll *head, t_token_type token_type);
 t_dll	*find_command(t_shell *shell, t_dll *head);
@@ -133,14 +141,13 @@ char	*ft_merge(t_shell *shell, char *first_val, char *second_val);
 void	merge_tokens(t_shell *shell, t_dll *first_token, t_dll *second_token);
 t_dll	*tokenize_input(t_shell *shell, char *input);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
-t_token_type	get_token_type(char *val);
-t_quote_type	get_quote_type(char *val);
+int		get_token_type(char *val);
+int		get_quote_type(char *val);
 char	*get_token_val(t_shell *shell, char *input, int *index);
 int		ft_strlen(const char *s);
-int		ft_strlen_quotes(const char *s);
-int		ft_strlen_spaces(char *val, int *index);
 char	*ft_strduplen(t_shell *shell, char *input, int len);
 char	*ft_strdup_quotes(t_shell *shell, char *token);
+char	*env_strdup(t_shell *shell, const char *s);
 char	*remove_quotes(t_shell *shell, char *token);
 char	*ft_strchr(const char *s, int c);
 int		ft_printf(const char *format, ...);
@@ -165,22 +172,20 @@ void	merge_quotes(t_shell *shell, t_dll **tokens);
 void	remove_spaces(t_dll **tokens);
 void	identify_tokens(t_dll *tokens);
 /* ///////////////// expansion \\\\\\\\\\\\\\\\\\\\\ */
+int		check_depth_to_expand(char *val);
 char	*expand_env_str(t_shell *shell, char *value);
 char	*double_quote(t_shell *shell, char *val, int *i);
 char	*single_quote(t_shell *shell, char *value, int *i);
-void	split_token(t_shell *shell, t_dll **tokens, t_dll *curr, char *input, char *mask);
 char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote);
 int		expansion(t_shell *shell, t_dll **tokens, t_dll **token);
-int		expand_execute(t_shell *shell, t_dll **tokens, t_dll *curr);
-char	*expanding(t_shell *shell, t_dll **tokens, t_dll *curr, char *value);
+int		expanding(t_shell *shell, t_dll **tokens, t_dll *curr, char *value);
 t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val);
-int		check_depth_to_expand(char *val);
+t_dll	*split_tok(t_shell *shell, t_dll **tokens, t_dll *curr, t_expand *exp);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
-char	*remove_too_much_spaces(t_shell *shell, char *val);
+int		check_spaces(char *val);
 char	*ft_strdup_expand(t_shell *shell, char *value);
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
-char	*ft_itoa(t_shell *shell, int n);
-int		is_empty(char *val);
+char	*ft_itoa(t_shell *shell, int n, int is_env);
 int		is_removable(char *val);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
 int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
@@ -209,9 +214,10 @@ int		in_fd(t_shell *shell, t_dll **tokens, t_dll *token);
 int		out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG);
 // ------------------------------------------------------------------ //
 /* ///////////////// address flushers \\\\\\\\\\\\\\\\\\\\\ */
-void	*ft_malloc(t_shell *shell, size_t size);
-void	add_to_garbage(t_shell *shell, void *ptr);
+void	*ft_malloc(t_shell *shell, size_t size, int is_env);
+void	add_to_garbage(t_shell *shell, void *ptr, int is_env);
 void	burn_garbage(t_shell *shell);
+void	clear_non_env(t_shell *shell);
 void	clean_exit(t_shell *shell, int exit_code);
 /* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 

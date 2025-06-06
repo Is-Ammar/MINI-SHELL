@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 11:11:47 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:04:18 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 	int	out_fd;
 
 	out_fd = 1;
-	if (token->expandable || token->wildcard)
+	if (token && (token->expandable || token->wildcard))
 	{
 		if (expansion(shell, tokens, &token))
 			return (1);
@@ -41,13 +41,11 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	int	in_fd;
 
 	in_fd = 0;
-	if (token->expandoc)
-        expand_heredoc(shell, token->value);
-	if (token->expandable || token->wildcard)
-	{
+	if (token && token->expandoc)
+		expand_heredoc(shell, token->value);
+	if (token && (token->expandable || token->wildcard))
 		if (expansion(shell, tokens, &token))
 			return (1);
-	}
 	if (access(token->value, F_OK) == -1)
 	{
 		exec_error(shell, token->value, EDIRFILE);
@@ -59,9 +57,10 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
-	(dup2(in_fd, 0), close(in_fd));
+	dup2(in_fd, 0);
+	close(in_fd);
 	if (token->heredoc)
-		return (unlink(token->value), 0);
+		unlink(token->value);
 	return (0);
 }
 

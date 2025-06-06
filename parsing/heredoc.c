@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/30 15:13:08 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:24:41 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	expand_heredoc(t_shell *shell, char *old_name)
 	int		fd0;
 	int		fd1;
 
-	name = ft_strjoin(shell, old_name, ft_itoa(shell, shell->lines));
+	name = ft_strjoin(shell, old_name, ft_itoa(shell, shell->lines, 0));
 	fd0 = open(old_name, O_RDONLY, 0600);
 	fd1 = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	line = get_next_line(shell, fd0);
@@ -66,7 +66,8 @@ void	open_heredoc(t_shell *shell, char *delim, char *name)
 		line = readline(B_PURPLE"heredoc> "RESET);
 		if (!line)
 		{
-			ft_printf("minishell: warning: here-document at line %d", shell->lines);
+			ft_printf("minishell: warning: here-document at line %d" \
+			, shell->lines);
 			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
 			break ;
 		}
@@ -89,7 +90,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 
 	if (nxt->quote_type != NONE)
 		nxt->value = remove_quotes(shell, nxt->value);
-	else if (nxt->quote_type == NONE)
+	if (nxt->quote_type == NONE)
 		nxt->expandoc = TRUE;
 	pid = fork();
 	if (pid == 0)
@@ -99,15 +100,14 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 		clean_exit(shell, 0);
 	}
 	else
-		waitpid(pid, &state, 0);
+		waitpid(pid, &state, 2);
 	if (WIFEXITED(state) && WEXITSTATUS(state) == 130)
 	{
 		shell->exit_code = 130;
 		g_received = SIGINT;
 		write(STDERR_FILENO, "\n", 1);
-		return;
+		return ;
 	}
-	return ;
 }
 
 void	heredoc(t_shell *shell, t_dll **tokens)
@@ -126,7 +126,7 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 		if (curr->heredoc == TRUE)
 		{
 			name = ft_strjoin(shell, ft_strdup(shell, "/tmp/.heredoc_") \
-			, ft_itoa(shell, get_name_number(shell, count)));
+			, ft_itoa(shell, get_name_number(shell, count), 0));
 			handle_herdoc(shell, curr->next, name);
 			if (g_received == SIGINT)
 				return ;
@@ -137,5 +137,4 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 		}
 		curr = curr->next;
 	}
-	last_check_doc(tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/30 15:15:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:09:24 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ int parsing(t_shell *shell, char *input)
 	heredoc(shell, &shell->tokens);
 	if (g_received == SIGINT)
 		return (1);
+	last_check_doc(&shell->tokens);
 	redirect(&shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
-	// shell->tokens->value = expanding(shell, &shell->tokens ,shell->tokens ,shell->tokens->value);
 	// printf("token : %s | type: %d\n",shell->tokens->value, shell->tokens->token_type);
-	// t_dll *curr = shell->tokens;
+	// expansion(shell, &shell->ast->token, &shell->ast->token);
+	// t_dll *curr = shell->ast->token;
 	// while(curr)
 	// {
 	// 	printf("token : %s | type: %d\n",curr->value,curr->token_type);
@@ -156,77 +157,83 @@ char	*get_prompt(t_shell *shell)
 	return (tmp);
 }
 
-void read_eval_print_loop(t_shell *shell)
+int	check_input(t_shell *shell, char *input)
 {
-    char    *input;
-    
-    input = NULL;
-	
-    while (1337)
-    {
-		setup_signal_handlers();
-        input = readline(get_prompt(shell));
-        shell->lines++;
-		if (!input)
-		{
-			printf("exit\n");
-			rl_clear_history();
-			clean_exit(shell, 0);
-			free(input);
-		}
-		if (!*input)
-		{
-			shell->exit_code = 0;
-			continue ;
-		}
-		if (g_received == SIGINT)
+	if (!*input)
+	{
+		shell->exit_code = 0;
+		return (1);
+	}
+	if (g_received == SIGINT)
+	{
+		shell->exit_code = 130;
+		g_received = 0;
+	}
+	if (parsing(shell, input))
+	{
+		if(g_received == SIGINT)
 		{
 			shell->exit_code = 130;
 			g_received = 0;
 		}
-		if (parsing(shell, input))
-        {
-			if(g_received == SIGINT)
-			{
-				shell->exit_code = 130;
-				g_received = 0;
-			}
-			else
-				shell->exit_code = 2;
-			add_history(input);
-            continue ;
-        }
-        add_history(input);
-        execution(shell);
-		// burn_garbage(shell); /* /!\ */
-        free(input);
-    }
+		else
+			shell->exit_code = 2;
+		add_history(input);
+		return (1);
+	}
+	return (0);
+}
+
+void	read_eval_print_loop(t_shell *shell)
+{
+	char	*input;
+	
+	input = NULL;
+	while (1337)
+	{
+		setup_signal_handlers();
+		input = readline(get_prompt(shell));
+		shell->lines++;
+		if (!input)
+		{
+			printf("exit\n");
+			free(input);
+			rl_clear_history();
+			clean_exit(shell, 0);
+		}
+		if (check_input(shell, input))
+			continue ;
+		add_history(input);
+		execution(shell);
+		clear_non_env(shell);
+		free(input);
+	}
 }
 
 void	non_interactive_mode(t_shell *shell)
 {
-	char    *input;
-    
-    input = NULL;
-    while (1337)
-    {
+	char	*input;
+
+	input = NULL;
+	while (1337)
+	{
 		input = my_readline(shell);
-        shell->lines++;
+		shell->lines++;
 		if (!input)
 			clean_exit(shell, shell->exit_code);
 		if (parsing(shell, input))
 		{
 			shell->exit_code = 2;
-            clean_exit(shell, 2);
-        }
-        execution(shell);
-    }
+			clean_exit(shell, 2);
+		}
+		execution(shell);
+	}
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-    t_shell shell;
-    (void)av;
+	t_shell shell;
+	(void)av;
 	(void)ac;
 
 	memset(&shell, 0, sizeof(shell));

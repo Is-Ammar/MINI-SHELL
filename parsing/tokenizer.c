@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/16 15:28:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:44:03 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_token_val(t_shell *shell, char *input, int *index)
 	return (token);
 }
 
-t_token_type	get_token_type(char *val)
+int	get_token_type(char *val)
 {
 	if ((val[0] == '|' && val[1] == '|')
 		|| (val[0] == '&' && val[1] == '&'))

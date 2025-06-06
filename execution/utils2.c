@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:03:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/17 10:18:39 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:27:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_next_word(t_shell *shell, const char **s, char c)
 	while (**s && **s != c)
 		(*s)++;
 	length = *s - start;
-	word = ft_malloc(shell, length + 1);
+	word = ft_malloc(shell, length + 1, 0);
 	i = 0;
 	while (i < length)
 	{
@@ -57,19 +57,6 @@ char	*get_next_word(t_shell *shell, const char **s, char c)
 	}
 	word[i] = '\0';
 	return (word);
-}
-
-void	free_split(char **result)
-{
-	int	j;
-
-	j = 0;
-	while (result[j])
-	{
-		// free(result[j]);
-		j++;
-	}
-	// free(result);
 }
 
 char	**ft_split(t_shell *shell, char const *s, char c)
@@ -82,15 +69,12 @@ char	**ft_split(t_shell *shell, char const *s, char c)
 	if (!s)
 		return (NULL);
 	word_count = count_words(s, c);
-	result = ft_malloc(shell, (word_count + 1) * sizeof(char *));
+	result = ft_malloc(shell, (word_count + 1) * sizeof(char *), 0);
 	while (i < word_count)
 	{
 		result[i] = get_next_word(shell, &s, c);
 		if (!result[i])
-		{
-			free_split(result);
 			return (NULL);
-		}
 		i++;
 	}
 	result[word_count] = NULL;

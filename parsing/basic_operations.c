@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 10:13:55 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:05:12 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@ t_dll	*create_token_list(t_shell *shell)
 {
 	t_dll	*head;
 
-	head = ft_malloc(shell, sizeof(t_dll));
+	head = ft_malloc(shell, sizeof(t_dll), 0);
 	head->value = NULL;
 	head->token_type = WHITESPACE;
 	head->quote_type = NONE;
 	head->inside_parentheses = 0;
 	head->redir_type = 0;
 	head->expandable = 0;
-	head->expandable = 0;
+	head->is_splited = 0;
 	head->direction = 0;
 	head->bracket = 0;
 	head->heredoc = 0;
+	head->expandoc = 0;
 	head->wildcard = 0;
 	head->operator = 0;
 	head->prev = NULL;
@@ -99,19 +100,23 @@ void	remove_token(t_dll **head, t_dll *remove)
 	}
 }
 
-void	free_token_list(t_dll **head)
+void	free_node(t_gc **head, t_gc *remove)
 {
-	t_dll	*curr;
-	t_dll	*nxt;
+	t_gc	*curr;
 
 	if (!head || !*head)
 		return ;
 	curr = *head;
-	while (curr)
+	if (curr == remove)
 	{
-		nxt = curr->next;
-		remove_token(head, curr);
-		curr = nxt;
+		*head = curr->next;
+		free(curr->address);
+		free(curr);
+		free_node(head, remove);
 	}
-	*head = NULL;
+	else
+	{
+		curr = *head;
+		free_node(&curr->next, remove);
+	}
 }

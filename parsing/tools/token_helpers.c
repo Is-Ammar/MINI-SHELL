@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/29 11:37:57 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:09:46 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strduplen(t_shell *shell, char *input, int len)
 
 	if (!input || len <= 0)
 		return (NULL);
-	p = ft_malloc(shell, len + 1);
+	p = ft_malloc(shell, len + 1, 0);
 	i = 0;
 	while (i < len)
 	{
@@ -72,7 +72,7 @@ char	*ft_strdup_quotes(t_shell *shell, char *token)
 	i = 0;
 	j = 0;
 	len = ft_strlen(token) - 1;
-	p = ft_malloc(shell, len);
+	p = ft_malloc(shell, len, 0);
 	while (token[i])
 	{
 		if (i != 0 && i != len)
