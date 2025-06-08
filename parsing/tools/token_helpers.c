@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 08:09:46 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:07:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,24 @@ int	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+int	ft_strlen_char127(const char *s)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+	{
+		if (s[i] != '\x7f')
+			len++;
+		i++;
+	}
+	return (len);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -60,7 +78,7 @@ char	*ft_strduplen(t_shell *shell, char *input, int len)
 	return (p);
 }
 
-char	*ft_strdup_quotes(t_shell *shell, char *token)
+char	*remove_char127(t_shell *shell, char *token)
 {
 	int		i;
 	int		j;
@@ -69,13 +87,13 @@ char	*ft_strdup_quotes(t_shell *shell, char *token)
 
 	if (!token)
 		return (NULL);
+	len = ft_strlen_char127(token);
+	p = ft_malloc(shell, len + 1, 0);
 	i = 0;
 	j = 0;
-	len = ft_strlen(token) - 1;
-	p = ft_malloc(shell, len, 0);
 	while (token[i])
 	{
-		if (i != 0 && i != len)
+		if (token[i] != '\x7f')
 			p[j++] = token[i];
 		i++;
 	}

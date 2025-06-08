@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/03 16:29:08 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:35:59 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	identify_tokens(t_dll *tokens)
 	curr = tokens;
 	while (curr)
 	{
+		if (curr->token_type == WORD)
+			curr->expandable = TRUE;
 		if (check_depth_to_expand(curr->value))
 			curr->wildcard = TRUE;
-		if (ft_strchr(curr->value, '$'))
-			curr->expandable = TRUE;
 		if (!ft_strcmp(curr->value, "||"))
 			curr->operator = OR;
 		if (!ft_strcmp(curr->value, "&&"))
@@ -114,11 +114,9 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 		return (0);
 	ambiguous = 0;
 	curr = *token;
-	if (curr->expandable == TRUE || curr->quote_type != NONE)
-	{
+	if (curr->expandable == TRUE)
 		if (expanding(shell, tokens, curr, curr->value))
 			return (1);
-	}
 	if (curr->wildcard == TRUE)
 	{
 		ambiguous = wildcard(shell, tokens, curr);
@@ -128,7 +126,7 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 			parse_error(curr->value, EAMBIGUO);
 			return (1);
 		}
-		if (curr->token_type == REDIRECTION && (*token)->next)
+		if (ambiguous != 0 && (*token)->next)
 			(*token) = (*token)->next;
 	}
 	return (0);

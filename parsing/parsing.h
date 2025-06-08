@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 10:20:23 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:15:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,7 @@ int		get_quote_type(char *val);
 char	*get_token_val(t_shell *shell, char *input, int *index);
 int		ft_strlen(const char *s);
 char	*ft_strduplen(t_shell *shell, char *input, int len);
-char	*ft_strdup_quotes(t_shell *shell, char *token);
 char	*env_strdup(t_shell *shell, const char *s);
-char	*remove_quotes(t_shell *shell, char *token);
 char	*ft_strchr(const char *s, int c);
 int		ft_printf(const char *format, ...);
 char	*my_readline(t_shell *shell);
@@ -181,16 +179,17 @@ int		expansion(t_shell *shell, t_dll **tokens, t_dll **token);
 int		expanding(t_shell *shell, t_dll **tokens, t_dll *curr, char *value);
 t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val);
 t_dll	*split_tok(t_shell *shell, t_dll **tokens, t_dll *curr, t_expand *exp);
+void	remove_additonal_chars(t_shell *shell, t_dll *token, t_dll *last_token);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
-int		check_spaces(char *val);
+int		ft_strlen_char127(const char *s);
+char	*remove_char127(t_shell *shell, char *token);
 char	*ft_strdup_expand(t_shell *shell, char *value);
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n, int is_env);
-int		is_removable(char *val);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
 int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
 int		hidden_files(char *val, char *name);
-int		search_for_match(t_shell *shell, t_dll *curr, char *val, char *d_name);
+int		search_for_match(char *val, char *d_name);
 int		prefix(char *name, char *val, int *start);
 int		infix(char *val, char *name, int i);
 int		last_infix_check(char *val, char *name, int i, int j);
@@ -205,6 +204,9 @@ char	*get_next_line(t_shell *shell, int fd);
 char	*expand_in_heredoc(t_shell *shell, char *value);
 char	*ft_strnstr(const char *big, const char *little, int len);
 void	last_check_doc(t_dll **tokens);
+char	*expand_delim(t_shell *shell, char *value);
+char	*delim_dquote(t_shell *shell, char *val, int *i);
+char	*delim_dollar(t_shell *shell, char *value, int *i, int is_dquote);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
 void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *nxt);

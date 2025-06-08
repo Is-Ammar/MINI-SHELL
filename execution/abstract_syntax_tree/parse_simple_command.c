@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/06 15:55:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 11:43:56 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	copy_token_properties(t_dll *src, t_dll *dst)
 	dst->redir_type = src->redir_type;
 	dst->inside_parentheses = src->inside_parentheses;
 	dst->expandable = src->expandable;
+	dst->expandoc = src->expandoc;
+	dst->is_splited = src->is_splited;
 	dst->direction = src->direction;
 	dst->bracket = src->bracket;
 	dst->heredoc = src->heredoc;
@@ -69,32 +71,32 @@ void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
 
 static void process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd_node, t_dll **tail)
 {
-    t_dll *curr;
-    t_dll *new_arg;
+	t_dll	*curr;
+	t_dll	*new_arg;
 
-    curr = *tokens;
-    while (curr && (curr->token_type == WORD || curr->token_type == REDIRECTION))
-    {          
-        if (curr->token_type == REDIRECTION)
-        {
-            if (curr)
-                curr = curr->next;
-            continue;
-        }
-        if (cmd_node->token == curr)
-            ;
-        else
-        {
-            new_arg = ft_malloc(shell, sizeof(t_dll), 0);
-            copy_token_properties(curr, new_arg);
-            add_arg_to_list(tail, new_arg);
-            remove_token(tokens, curr);
-            tail = &new_arg->next;
-        }
-        curr = curr->next;
-    }
-    if (*tokens)
-        *tokens = (*tokens)->next;
+	curr = *tokens;
+	while (curr && (curr->token_type == WORD || curr->token_type == REDIRECTION))
+	{
+		if (curr->token_type == REDIRECTION)
+		{
+			if (curr)
+				curr = curr->next;
+			continue ;
+		}
+		if (cmd_node->token == curr)
+			;
+		else
+		{
+			new_arg = ft_malloc(shell, sizeof(t_dll), 0);
+			copy_token_properties(curr, new_arg);
+			add_arg_to_list(tail, new_arg);
+			remove_token(tokens, curr);
+			tail = &new_arg->next;
+		}
+		curr = curr->next;
+	}
+	if (*tokens)
+		*tokens = (*tokens)->next;
 }
 
 t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
@@ -120,7 +122,7 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 	if (cmd_node->token)
 		cmd_node->token->next = NULL;
 	if (!cmd_node->token && start_tokens
-        && (start_tokens->token_type == REDIRECTION))
+		&& (start_tokens->token_type == REDIRECTION))
 		cmd_node->token = first_token;
 	return (cmd_node);
 }

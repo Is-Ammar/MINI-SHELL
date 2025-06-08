@@ -1,57 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_string.c                                    :+:      :+:    :+:   */
+/*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/08 14:35:06 by habdella         ###   ########.fr       */
+/*   Created: 2025/06/07 11:26:40 by habdella          #+#    #+#             */
+/*   Updated: 2025/06/08 14:42:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*ft_strdup_expand(t_shell *shell, char *value)
-{
-	char	*name;
-	char	*env_value;
-
-	if (!value)
-		return (NULL);
-	name = ft_strdup(shell, value);
-	env_value = get_env_var(shell, shell->env_list, name);
-	if (!env_value)
-		return (NULL);
-	return (ft_strdup(shell, env_value));
-}
-
-char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote)
+char	*delim_dollar(t_shell *shell, char *value, int *i, int is_dquote)
 {
 	int		len;
+	int		flag;
 	int		start;
-	int		e_code;
 	char	*p;
 
 	p = NULL;
-	e_code = shell->exit_code;
+	flag = 0;
 	start = *i + 1;
 	len = start;
-	if (value[len] == '?')
-		return (*i = len + 1, ft_itoa(shell, e_code, 0));
 	if (is_dquote == TRUE && (value[start] == '"' || value[start] == '\''))
 		return (*i = len, ft_strdup(shell, "$"));
 	if (!ft_isalnum(value[len]) && value[len] != '_'
 		&& value[len] != '"' && value[len] != '\'')
 		return (*i = len, ft_strdup(shell, "$"));
-	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
+	while (value[len] && !ft_strchr("$\"'", value[len]))
+	{
+		flag = 1;
 		len++;
+	}
 	*i = len;
-	p = ft_strduplen(shell, &value[start], len - start);
-	return (ft_strdup_expand(shell, p));
+	if (flag)
+		len++;
+	p = ft_strduplen(shell, &value[start - 1], len - start);
+	return (p);
 }
 
-char	*double_quote(t_shell *shell, char *val, int *i)
+char	*delim_dquote(t_shell *shell, char *val, int *i)
 {
 	int		j;
 	int		start;
@@ -62,7 +51,7 @@ char	*double_quote(t_shell *shell, char *val, int *i)
 	while (val[start] && val[start] != '"')
 	{
 		j = start;
-		while (val[start] && !ft_strchr("\"$", val[start]))
+		while (val[start] && val[start] != '"')
 			start++;
 		if (j != start)
 			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, &val[j] \
@@ -70,31 +59,27 @@ char	*double_quote(t_shell *shell, char *val, int *i)
 		if (val[start] == '"')
 			break ;
 		if (val[start] == '$')
-			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, val \
+			new_val = ft_strjoin(shell, new_val, delim_dollar(shell, val \
 			, &start, TRUE));
 	}
-	if (new_val && !*new_val)
-		return (*i = start + 1, ft_strdup(shell, "\x7f"));
 	*i = start + 1;
 	return (new_val);
 }
 
-char	*single_quote(t_shell *shell, char *value, int *i)
+char	*delim_squote(t_shell *shell, char *value, int *i)
 {
 	int	len;
 	int	start;
 
 	start = *i + 1;
 	len = start;
-	if (value[len] == '\'')
-		return (*i = len + 1, ft_strdup(shell, "\x7f"));
 	while (value[len] && value[len] != '\'')
 		len++;
 	*i = len + 1;
 	return (ft_strduplen(shell, &value[start], len - start));
 }
 
-char	*expand_env_str(t_shell *shell, char *value)
+char	*expand_delim(t_shell *shell, char *value)
 {
 	char	*new_val;
 	int		i;
@@ -111,13 +96,13 @@ char	*expand_env_str(t_shell *shell, char *value)
 			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell \
 			, &value[j], i - j));
 		if (value[i] == '\'')
-			new_val = ft_strjoin(shell, new_val, single_quote(shell \
+			new_val = ft_strjoin(shell, new_val, delim_squote(shell \
 			, value, &i));
 		else if (value[i] == '"')
-			new_val = ft_strjoin(shell, new_val, double_quote(shell \
+			new_val = ft_strjoin(shell, new_val, delim_dquote(shell \
 			, value, &i));
 		else if (value[i] == '$')
-			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, \
+			new_val = ft_strjoin(shell, new_val, delim_dollar(shell, \
 			value, &i, FALSE));
 	}
 	return (new_val);

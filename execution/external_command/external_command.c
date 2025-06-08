@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/06 10:55:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 10:01:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 		reset_signal_handlers();
 		if (!*cmd)
 		{
-			exec_error(shell, "''", ECOMMAND);
+			exec_error(shell, "", ECOMMAND);
 			clean_exit(shell, 127);
 		}
 		if (cmd[0] == '.' && cmd[1] && cmd[1] != '/')
@@ -58,14 +58,14 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 	{
 		waitpid(pid, &status, 2);
 		signal(SIGINT, SIG_IGN);
-        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-        {
-            write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-        }
-        if (WIFSIGNALED(status))
-            exit_code = 128 + WTERMSIG(status);
-        else
-            exit_code = WEXITSTATUS(status);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+	{
+		write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+	}
+	if (WIFSIGNALED(status))
+		exit_code = 128 + WTERMSIG(status);
+	else
+		exit_code = WEXITSTATUS(status);
 	}
 	return (exit_code);
 }
@@ -123,10 +123,10 @@ void	execute_external(t_shell *shell)
 	if (path || cmd)
 	{
 		shell->exit_code = execute(shell, cmd, path, args);
-		if(shell->exit_code == 0 && !ac)
-			set_env_var(shell, &shell->env_list,"_",path);
+		if (shell->exit_code == 0 && !ac)
+			set_env_var(shell, &shell->env_list, "_", path);
 		else
-			set_env_var(shell, &shell->env_list,"_", args[ac]);
+			set_env_var(shell, &shell->env_list, "_", args[ac]);
 	}
 	else
 		shell->exit_code = exec_error(shell, cmd, ECOMMAND);

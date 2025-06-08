@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/09 08:55:14 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:15:26 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ int	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr)
 	{
 		if (hidden_files(curr->value, ft_strdup(shell, dentry->d_name)))
 			;
-		else if (!search_for_match(shell, curr, curr->value, dentry->d_name))
+		else if (!search_for_match(curr->value, dentry->d_name))
+		{
+			add_mid_token(shell, tokens, curr, dentry->d_name);
 			match_number++;
+		}
 		dentry = readdir(dir);
 	}
 	if (match_number)

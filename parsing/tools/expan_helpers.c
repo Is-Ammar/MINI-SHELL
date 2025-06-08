@@ -6,42 +6,26 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 15:50:53 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:41:06 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-int	check_spaces(char *val)
+void	remove_additonal_chars(t_shell *shell, t_dll *token, t_dll *last_token)
 {
-	int	i;
+	t_dll	*curr;
 
-	if (!val)
-		return (0);
-	if (!*val)
-		return (1);
-	i = 0;
-	while (val[i] && ft_strchr(WHITESPACES, val[i]))
-		i++;
-	if (val[i] == '\0')
-		return (0);
-	return (1);
-}
-
-int	is_removable(char *val)
-{
-	int	i;
-
-	i = 0;
-	while (val[i])
+	if (!token)
+		return ;
+	if (token == last_token)
+		return ;
+	curr = token;
+	while (curr && curr != last_token->next)
 	{
-		if (val[i] == '\'' && val[i + 1] && val[i + 1] == '\'')
-			return (1);
-		if (val[i] == '"' && val[i + 1] && val[i + 1] == '"')
-			return (1);
-		i++;
+		curr->value = remove_char127(shell, curr->value);
+		curr = curr->next;
 	}
-	return (0);
 }
 
 t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val)
@@ -52,7 +36,8 @@ t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val)
 	new_token = create_token_list(shell);
 	new_token->value = ft_strdup(shell, val);
 	new_token->token_type = WORD;
-	identify_tokens(new_token);
+	if (check_depth_to_expand(new_token->value))
+		new_token->wildcard = TRUE;
 	if (!*head)
 	{
 		*head = new_token;

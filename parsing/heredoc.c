@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 16:24:41 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/07 12:09:09 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	pid_t		pid;
 	int			state;
 
-	if (nxt->quote_type != NONE)
-		nxt->value = remove_quotes(shell, nxt->value);
+	nxt->value = expand_delim(shell, nxt->value);
 	if (nxt->quote_type == NONE)
 		nxt->expandoc = TRUE;
 	pid = fork();

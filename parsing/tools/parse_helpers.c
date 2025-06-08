@@ -6,11 +6,20 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 10:08:56 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 17:01:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
+
+int	get_quote_type(char *val)
+{
+	if (ft_strchr(val, '\''))
+		return (SQUOTE);
+	if (ft_strchr(val, '"'))
+		return (DQUOTE);
+	return (NONE);
+}
 
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2)
 {
@@ -84,28 +93,6 @@ char	*ft_itoa(t_shell *shell, int n, int is_env)
 	itoa = ft_malloc(shell, size + 2, is_env);
 	helper(nb, itoa);
 	return (itoa);
-}
-
-char	*remove_quotes(t_shell *shell, char *token)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*p;
-
-	if (!token)
-		return (NULL);
-	len = ft_strlen(token) - 2;
-	p = ft_malloc(shell, len + 1, 0);
-	i = 1;
-	j = 0;
-	while (i < len + 1)
-	{
-		p[j++] = token[i];
-		i++;
-	}
-	p[j] = '\0';
-	return (p);
 }
 
 char	*env_strdup(t_shell *shell, const char *s)

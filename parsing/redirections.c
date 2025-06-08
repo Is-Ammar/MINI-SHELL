@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 16:04:18 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:01:17 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@ int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 	int	out_fd;
 
 	out_fd = 1;
-	if (token && (token->expandable || token->wildcard))
-	{
-		if (expansion(shell, tokens, &token))
-			return (1);
-	}
+	if (expansion(shell, tokens, &token))
+		return (1);
 	if (access(token->value, F_OK) == 0)
 	{
 		if (access(token->value, W_OK) == -1)
@@ -43,9 +40,8 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	in_fd = 0;
 	if (token && token->expandoc)
 		expand_heredoc(shell, token->value);
-	if (token && (token->expandable || token->wildcard))
-		if (expansion(shell, tokens, &token))
-			return (1);
+	if (expansion(shell, tokens, &token))
+		return (1);
 	if (access(token->value, F_OK) == -1)
 	{
 		exec_error(shell, token->value, EDIRFILE);

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 14:40:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:32:30 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	handle_expansions(t_shell *shell)
 
 	if (shell->ast->token)
 	{
+		identify_tokens(shell->ast->token);
 		if (expansion(shell, &shell->ast->token, &shell->ast->token))
 			return (1);
-		identify_tokens(shell->ast->token);
 	}
 	curr = shell->ast->arguments;
 	while (curr)
@@ -65,7 +65,7 @@ t_dll	*add(t_shell *shell, t_dll **head, char *val)
 	if (!*head)
 	{
 		*head = token;
-		return token;
+		return (token);
 	}
 	curr = *head;
 	while (curr->next)
@@ -73,17 +73,17 @@ t_dll	*add(t_shell *shell, t_dll **head, char *val)
 	curr->next = token;
 	token->prev = curr;
 	token->next = NULL;
-	return token;
+	return (token);
 }
 
-void execute_command(t_shell *shell)
+void	execute_command(t_shell *shell)
 {
 	t_dll	*curr;
 	t_dll	*tmp;
 
 	if (!shell->ast->token && !shell->ast->arguments)
-    	return;
-    if (handle_expansions(shell))
+		return ;
+	if (handle_expansions(shell))
 	{
 		shell->exit_code = 1;
 		return ;
@@ -91,9 +91,9 @@ void execute_command(t_shell *shell)
 	curr = shell->ast->token;
 	if (curr && curr->wildcard)
 		expansion(shell, &shell->ast->token, &shell->ast->token);
-	if(shell->ast->token && shell->ast->token->next)
+	if (shell->ast->token && shell->ast->token->next)
 	{
-		while(curr && curr->next)
+		while (curr && curr->next)
 		{
 			curr = curr->next;
 			tmp = add(shell, &shell->ast->arguments, curr->value);
@@ -101,16 +101,16 @@ void execute_command(t_shell *shell)
 			expansion(shell, &shell->ast->arguments, &tmp);
 		}
 	}
-    if (shell->ast->token && shell->ast->token->token_type == WORD)
-    {
-        if (is_builtin(shell))
-        {
-            set_last_cmd_env(shell);
-            execute_builtin(shell);
-        }
-        else
-            execute_external(shell);
-    }
+	if (shell->ast->token && shell->ast->token->token_type == WORD)
+	{
+		if (is_builtin(shell))
+		{
+			set_last_cmd_env(shell);
+			execute_builtin(shell);
+		}
+		else
+			execute_external(shell);
+	}
 }
 
 void	execute_simple_command(t_shell *shell)
