@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 16:09:24 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:41:11 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,15 +142,15 @@ char	*get_prompt(t_shell *shell)
 	line1 = ft_strdup(shell, B_GREEN);
 	tmp = ft_strjoin(shell, line1, username);
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, RESET B_GRAY"@"RESET B_BLUE "minishell" RESET ":");
+	tmp = ft_strjoin(shell, line1, RESET B_WHITE"@"B_GRAY"minishell"B_WHITE" ❯ ");
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, B_CYAN);
+	tmp = ft_strjoin(shell, line1, B_BLUE "┃" B_CYAN BG_BLACK);
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, cwd);
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, RESET);
+	tmp = ft_strjoin(shell, line1, RESET B_BLUE "┃" RESET);
 	line1 = tmp;
-	line2 = ft_strdup(shell, YELLOW BOLD "\001➔\002 \x7f" RESET);
+	line2 = ft_strdup(shell, B_YELLOW "\001➔\002 \x7f" RESET);
 	tmp = ft_strjoin(shell, line1, "\n");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, line2);
