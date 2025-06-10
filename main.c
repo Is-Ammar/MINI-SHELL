@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/09 15:41:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:46:33 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,19 @@ int parsing(t_shell *shell, char *input)
 	redirect(&shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
 	// printf("token : %s | type: %d\n",shell->tokens->value, shell->tokens->token_type);
-	// expansion(shell, &shell->ast->token, &shell->ast->token);
 	// t_dll *curr = shell->ast->token;
+	// expansion(shell, &shell->ast->token, &shell->ast->token);
+	// printf("token : %s | type: %d\n",curr->value,curr->token_type);
+	// curr = shell->ast->arguments;
 	// while(curr)
 	// {
-	// 	printf("token : %s | type: %d\n",curr->value,curr->token_type);
+	// 	expansion(shell, &shell->ast->arguments, &shell->ast->arguments);
+	// 	curr = curr->next;
+	// }
+	// curr = shell->ast->arguments;
+	// while (curr)
+	// {
+	// 	printf("arg : %s | type: %d\n",curr->value,curr->token_type);
 	// 	curr = curr->next;
 	// }
 	// exit(0);

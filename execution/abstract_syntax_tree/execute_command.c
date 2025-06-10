@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/08 16:32:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:00:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,16 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 int	handle_expansions(t_shell *shell)
 {
 	t_dll	*curr;
-	t_dll	*nxt;
 
+	curr = shell->ast->token;
 	if (shell->ast->token)
 	{
-		identify_tokens(shell->ast->token);
-		if (expansion(shell, &shell->ast->token, &shell->ast->token))
+		if (expansion(shell, &shell->ast->token, &curr))
 			return (1);
 	}
 	curr = shell->ast->arguments;
 	while (curr)
 	{
-		nxt = curr->next;
 		if (shell->ast->token == curr)
 			;
 		else
@@ -50,7 +48,7 @@ int	handle_expansions(t_shell *shell)
 			if (expansion(shell, &shell->ast->arguments, &curr))
 				return (1);
 		}
-		curr = nxt;
+		curr = curr->next;
 	}
 	return (0);
 }
@@ -61,7 +59,10 @@ t_dll	*add(t_shell *shell, t_dll **head, char *val)
 	t_dll	*curr;
 
 	token = create_token_list(shell);
-	token->value = val;
+	token->value = ft_strdup(shell, val);
+	token->token_type = WORD;
+	if (check_depth_to_expand(token->value))
+		token->wildcard = TRUE;
 	if (!*head)
 	{
 		*head = token;
@@ -89,15 +90,13 @@ void	execute_command(t_shell *shell)
 		return ;
 	}
 	curr = shell->ast->token;
-	if (curr && curr->wildcard)
-		expansion(shell, &shell->ast->token, &shell->ast->token);
 	if (shell->ast->token && shell->ast->token->next)
 	{
 		while (curr && curr->next)
 		{
 			curr = curr->next;
 			tmp = add(shell, &shell->ast->arguments, curr->value);
-			identify_tokens(tmp);
+			remove_token(&shell->ast->token, curr);
 			expansion(shell, &shell->ast->arguments, &tmp);
 		}
 	}

@@ -7,6 +7,7 @@
    fun:rl_expand_prompt
    ...
 }
+
 {
    readline_funmap_leak
    Memcheck:Leak
@@ -16,6 +17,7 @@
    fun:rl_initialize_funmap
    ...
 }
+
 {
    readline_definite_leak
    Memcheck:Leak
@@ -25,6 +27,7 @@
    obj:*/libreadline.so*
    ...
 }
+
 {
    libtinfo_leak
    Memcheck:Leak
@@ -32,6 +35,7 @@
    obj:*/libtinfo.so*
    ...
 }
+
 {
    readline_definite_leak
    Memcheck:Leak
@@ -41,6 +45,17 @@
    fun:readline
    ...
 }
+
+{
+   readline_definite_leak
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   ...
+   fun:readline
+   ...
+}
+
 {
    readline_history_leak
    Memcheck:Leak
