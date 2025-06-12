@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/08 16:15:05 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:56:29 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_dll
 	int				expandoc;
 	int				wildcard;
 	int				operator;
+	int				fake_cmd;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }	t_dll;

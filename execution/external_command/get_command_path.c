@@ -6,16 +6,11 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/29 11:32:59 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:44:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
-
-static int is_executable(const char *path)
-{
-    return (access(path, X_OK) == 0);
-}
 
 static char	*handle_absolute_path(t_shell *shell, char *cmd)
 {
@@ -23,7 +18,7 @@ static char	*handle_absolute_path(t_shell *shell, char *cmd)
 
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
-		if (stat(cmd, &sb) == 0 && is_executable(cmd))
+		if (stat(cmd, &sb) == 0 && access(cmd, X_OK) == 0)
 			return (ft_strdup(shell, cmd));
 	}
 	return (NULL);
@@ -40,11 +35,40 @@ static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 	{
 		temp = ft_strjoin(shell, "/", cmd);
 		full_path = ft_strjoin(shell, paths[i], temp);
-		if (full_path && is_executable(full_path))
+		if (full_path && access(full_path, X_OK) == 0)
 			return (full_path);
 		i++;
 	}
-	return (ft_strdup(shell, ""));
+	return (NULL);
+}
+
+int	check_valid_cmd(t_shell *shell, char *cmd)
+{
+	struct stat	stats;
+
+	if (ft_strchr(cmd, '/'))
+	{
+		if (stat(cmd, &stats) != 0)
+		{
+			shell->exit_code = exec_error(shell, cmd, EDIRFILE);
+			return (1);
+		}
+		if (S_ISDIR(stats.st_mode))
+		{
+			ft_printf(B_WHITE"minishell: %s Is a directory\n"RESET, cmd);
+			return (shell->exit_code = 126, 1);	
+		}
+	}
+	if (cmd[0] == '.' && cmd[1] && cmd[1] == '/')
+	{
+		if (stat(cmd, &stats) == 0 && S_ISREG(stats.st_mode)
+			&& access(cmd, X_OK) != 0)
+		{
+			exec_error(shell, cmd, EPERMISS);
+			return (shell->exit_code = 126, 1);
+		}
+	}
+	return (0);
 }
 
 char	*get_command_path(t_shell *shell, char *cmd, t_env *env_list)
@@ -61,5 +85,7 @@ char	*get_command_path(t_shell *shell, char *cmd, t_env *env_list)
 		return (NULL);
 	paths = ft_split(shell, path_value, ':');
 	result = search_in_path(shell, cmd, paths);
+	if (!result)
+		shell->exit_code = exec_error(shell, cmd, ECOMMAND);
 	return (result);
 }

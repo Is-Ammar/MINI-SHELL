@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/30 09:49:43 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/12 08:41:03 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,8 @@ int						is_valid_identifier(const char *str);
 char 					*get_current_dir_safe(t_shell *shell);
 char 					*ft_strcat(char *dest, const char *src);
 char					**ft_split(t_shell *shell, char const *s, char c);
-void					free_split(char **result);
 void					ft_putchar_fd(char c, int fd);
 //---------------------Env-settings-------------------------//
-void					free_env_list(t_env *env_list);
 char					*get_env_var(t_shell *shell, t_env *env_list, char *name);
 void					set_env_var(t_shell *shell, t_env **env_list, char *name,
 								char *value);
@@ -94,10 +92,10 @@ t_ast 					*parse_logical_operators(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast 					*parse_simple_command(t_dll **tokens, t_shell *shell);
-void 					free_ast(t_ast *node);
 void 					execute_simple_command(t_shell *shell);
 int						execute(t_shell *shell, char *cmd, char *path, char **args);
 char					*get_command_path(t_shell *shell, char *cmd, t_env *env_list);
+int						check_valid_cmd(t_shell *shell, char *cmd);
 //----------------------signals---------------------//
 void 					setup_signal_handlers(void);
 void 					reset_signal_handlers(void);

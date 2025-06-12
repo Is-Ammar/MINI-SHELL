@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/08 16:34:56 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:55:52 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 		}
 		curr = curr->next;
 	}
-	return (NULL);
+	head->fake_cmd = TRUE;
+	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/10 13:46:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:16:06 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,14 @@ int parsing(t_shell *shell, char *input)
 	// wildcard(shell, &shell->tokens, shell->tokens);
 	// while (tmp)
     // {
-	// 	printf("Token --> : `%s', token type: %d\n", tmp->value, tmp->token_type);
+	// 	if (check_depth_to_expand(tmp->value))
+	// 		tmp->wildcard = TRUE;
     //     tmp = tmp->next;
     // }
     // curr = shell->tokens;
     // while (curr)
     // {
-    //     printf("Token --> : `%s', token type: %d\n", curr->value, curr->token_type);
+    //     printf("Token --> : `%s', token is wildcard: %d\n", curr->value, curr->wildcard);
     //     curr = curr->next;
     // }
 	// exit(0);

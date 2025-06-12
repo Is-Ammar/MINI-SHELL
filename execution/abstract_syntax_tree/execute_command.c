@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/10 11:00:05 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:57:01 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	handle_expansions(t_shell *shell)
 			if (expansion(shell, &shell->ast->arguments, &curr))
 				return (1);
 		}
-		curr = curr->next;
+		if (curr)
+			curr = curr->next;
 	}
 	return (0);
 }
@@ -100,7 +101,8 @@ void	execute_command(t_shell *shell)
 			expansion(shell, &shell->ast->arguments, &tmp);
 		}
 	}
-	if (shell->ast->token && shell->ast->token->token_type == WORD)
+	if (shell->ast->token && shell->ast->token->token_type == WORD
+		&& shell->ast->token->fake_cmd == FALSE)
 	{
 		if (is_builtin(shell))
 		{

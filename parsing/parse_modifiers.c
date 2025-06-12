@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/10 10:49:48 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:23:21 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,7 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 		ambiguous = wildcard(shell, tokens, curr);
 		curr->wildcard = FALSE;
 		if (curr->token_type == REDIRECTION && ambiguous > 1)
-		{
-			parse_error(curr->value, EAMBIGUO);
-			return (1);
-		}
+			return (parse_error(curr->value, EAMBIGUO), 1);
 		if (curr->token_type == REDIRECTION && (*token)->next)
 			(*token) = (*token)->next;
 	}
