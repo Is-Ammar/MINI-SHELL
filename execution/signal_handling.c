@@ -6,12 +6,17 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:40:44 by iammar            #+#    #+#             */
-/*   Updated: 2025/05/09 17:13:56 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:16:23 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../smash.h"
 
+void new_line_handler(int sig)
+{
+    (void)sig;
+    write(1,"\n",1);
+}
 void sigint_handler(int sig)
 {
     (void)sig;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/12 08:41:03 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:07:09 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,17 @@ int						check_valid_cmd(t_shell *shell, char *cmd);
 //----------------------signals---------------------//
 void 					setup_signal_handlers(void);
 void 					reset_signal_handlers(void);
+void 					new_line_handler(int sig);
 
-void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore);
+void					save_restore_fds(int *saved_stdout, int *saved_stdin, int restore);
 
-void	add_arg_to_list(t_dll **tail, t_dll *new_arg);
-void	copy_token_properties(t_dll *src, t_dll *dst);
+void					add_arg_to_list(t_dll **tail, t_dll *new_arg);
+void					copy_token_properties(t_dll *src, t_dll *dst);
 
+//--------------------------pipe------------------//
+void 					handle_child1(t_shell *shell, int pipefd[2], t_ast *original_ast);
+void 					handle_child2(t_shell *shell, int pipefd[2], t_ast *original_ast);
+//----------------redirections-------------------------//
+int 					redirection(t_shell *shell , t_ast *redir);
+void					execute_redirections(t_shell *shell, t_ast *original_ast);
 #endif

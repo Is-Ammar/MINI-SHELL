@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/09 15:37:23 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:39:24 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,11 @@ void execute_builtin_cd(t_shell *shell)
     {
         ft_putstr_fd("Minishell: cd: ", 2);
         perror(dir);
-        free(dir);
         free(cwd);
         shell->exit_code = 1;
         return;
     }
     update_pwd_vars(shell, cwd);
     free(cwd);
-    free(dir);
     shell->exit_code = 0;
 }
