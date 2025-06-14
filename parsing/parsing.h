@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/11 14:56:29 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 09:59:27 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,24 +177,24 @@ char	*double_quote(t_shell *shell, char *val, int *i);
 char	*single_quote(t_shell *shell, char *value, int *i);
 char	*dollar_sign(t_shell *shell, char *value, int *i, int is_dquote);
 int		expansion(t_shell *shell, t_dll **tokens, t_dll **token);
-int		expanding(t_shell *shell, t_dll **tokens, t_dll *curr, char *value);
+int		expanding(t_shell *shell, t_dll **tokens, t_dll *curr);
 t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val);
+char	*get_mask_str(t_shell *shell, char *value);
 t_dll	*split_tok(t_shell *shell, t_dll **tokens, t_dll *curr, t_expand *exp);
 void	remove_additonal_chars(t_shell *shell, t_dll *token, t_dll *last_token);
 /* ///////////////// helpers \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 int		ft_strlen_char127(const char *s);
+char	*set_val(t_shell *shell, char *val, char c);
 char	*remove_char127(t_shell *shell, char *token);
 char	*ft_strdup_expand(t_shell *shell, char *value);
 char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n, int is_env);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
-int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr);
+int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr, char *old_val);
 int		hidden_files(char *val, char *name);
-int		search_for_match(char *val, char *d_name);
-int		prefix(char *name, char *val, int *start);
-int		infix(char *val, char *name, int i);
-int		last_infix_check(char *val, char *name, int i, int j);
-int		suffix(char *name, char *val);
+int		search_for_match(t_shell *shell, char *pattern, char *str, char *old_val);
+int		pattern_evaluator(char *str, char *pattern, int **matrix, char *mask);
+char	*get_mask_stars(t_shell *shell, char *pattern);
 /* ///////////////// heredoc \\\\\\\\\\\\\\\\\\\\\ */
 void	heredoc(t_shell *shell, t_dll **tokens);
 void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name);

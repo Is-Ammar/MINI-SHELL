@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:06:55 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/12 11:50:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 10:02:35 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ int	splited_tokens(t_dll *token, t_dll *last_token)
 	return (count);
 }
 
-int	expanding(t_shell *shell, t_dll **tokens, t_dll *curr, char *value)
+int	expanding(t_shell *shell, t_dll **tokens, t_dll *curr)
 {
 	t_expand	*expand;
 	t_dll		*last_token;
 
 	expand = ft_malloc(shell, sizeof(t_expand), 0);
-	expand->str = expand_env_str(shell, value);
-	expand->mask = get_mask_str(shell, value);
+	expand->str = expand_env_str(shell, curr->value);
+	expand->mask = get_mask_str(shell, curr->value);
 	last_token = split_tok(shell, tokens, curr, expand);
 	remove_additonal_chars(shell, curr, last_token);
 	if (curr->token_type == REDIRECTION

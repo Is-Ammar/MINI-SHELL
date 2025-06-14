@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 13:34:26 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:49:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 	else if (pid == 0)
 	{
 		reset_signal_handlers();
-		if (cmd && !*cmd)
-			shell->exit_code = exec_error(shell, cmd, ECOMMAND);
-		else if (cmd && ft_strchr(cmd, '/') && !path)
+		if (cmd && ft_strchr(cmd, '/') && !path)
 			execve(cmd, args, env);
 		else if (path)
 			execve(path, args, env);

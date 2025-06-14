@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/13 22:38:06 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:47:53 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static char	*handle_absolute_path(t_shell *shell, char *cmd)
 
 static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 {
+	struct stat	st;
 	int		i;
 	char	*full_path;
 	char	*temp;
@@ -35,8 +36,11 @@ static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 	{
 		temp = ft_strjoin(shell, "/", cmd);
 		full_path = ft_strjoin(shell, paths[i], temp);
-		if (full_path && access(full_path, X_OK) == 0 && !opendir(full_path))
-			return (full_path);
+		if (stat(full_path, &st) == 0)
+		{
+			if (full_path && access(full_path, X_OK) == 0 && !S_ISDIR(st.st_mode))
+				return (full_path);
+		}
 		i++;
 	}
 	return (NULL);

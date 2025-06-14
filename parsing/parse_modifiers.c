@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/11 14:23:21 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:03:34 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,24 +107,24 @@ void	remove_spaces(t_dll **tokens)
 
 int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 {
-	int		ambiguous;
-	t_dll	*curr;
+	t_dll		*curr;
+	int			ambiguous;
+	char		*value;
 
 	if (!tokens || !*tokens)
 		return (0);
-	ambiguous = 0;
 	curr = *token;
-	if (curr->expandable == TRUE)
+	value = ft_strdup(shell, curr->value);
+	if (curr && curr->expandable)
 	{
-		if (expanding(shell, tokens, curr, curr->value))
+		if (expanding(shell, tokens, curr))
 			return (1);
-		(*token) = (*token)->next;
-		expansion(shell, tokens, token);
+		*token = (*token)->next;
 	}
-	if (curr->wildcard == TRUE)
+	if (*token && (*token)->wildcard == TRUE)
 	{
-		ambiguous = wildcard(shell, tokens, curr);
-		curr->wildcard = FALSE;
+		ambiguous = wildcard(shell, tokens, *token, value);
+		(*token)->wildcard = FALSE;
 		if (curr->token_type == REDIRECTION && ambiguous > 1)
 			return (parse_error(curr->value, EAMBIGUO), 1);
 		if (curr->token_type == REDIRECTION && (*token)->next)

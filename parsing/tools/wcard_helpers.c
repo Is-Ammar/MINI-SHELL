@@ -6,95 +6,103 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/08 16:14:45 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:42:51 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing.h"
 
-int	suffix(char *name, char *val)
+void	first_case(int **matrix, char *pattern, int plen, char *mask)
 {
-	int	i;
-	int	j;
+	int		i;
 
-	i = ft_strlen(val) - 1;
-	j = ft_strlen(name) - 1;
-	if (val[i] == '*')
-		return (0);
-	while (val[i] && name[j] && val[i] != '*')
+	i = 1;
+	while (i <= plen)
 	{
-		if (val[i] != name[j])
-			return (1);
-		i--;
-		j--;
-	}
-	return (0);
-}
-
-int	last_infix_check(char *val, char *name, int i, int j)
-{
-	while (val[i] && val[i] == '*')
+		if (pattern[i - 1] == '*' && mask[i - 1] == '1')
+			matrix[0][i] = matrix[0][i - 1];
 		i++;
-	if (val[i] && name[j] == '\0')
-		return (1);
-	return (0);
+	}
+	return ;
 }
 
-int	infix(char *val, char *name, int i)
+int pattern_evaluator(char *str, char *pattern, int **matrix, char *mask)
 {
-	int	is_patern;
-	int	pos;
-	int	j;
+	int		i;
+	int		j;
+	int		str_len;
+	int		pattern_len;
 
-	j = i;
-	is_patern = TRUE;
-	while (val[i] && name[j])
+	str_len = ft_strlen(str);
+	pattern_len = ft_strlen(pattern);
+	matrix[0][0] = 1;
+	first_case(matrix, pattern, pattern_len, mask);
+	i = 1;
+    while (i <= str_len)
 	{
-		while (name[j] && val[i] && val[i] == '*')
-			i++;
-		pos = i;
-		while (name[j] && val[i] && val[i] != '*')
+		j = 1;
+		while (j <= pattern_len)
 		{
-			if (val[i] == name[j] && (val[i + 1] == '\0' || val[i + 1] == '*'))
-				is_patern = TRUE;
-			if (val[i] != name[j])
-				(1) && (i = pos, j++, is_patern = FALSE);
-			else
-				(1) && (i++, j++);
+			if (pattern[j - 1] == '*' && mask[j - 1] == '1')
+				matrix[i][j] = (matrix[i][j - 1] || matrix[i - 1][j]);
+			else if (str[i - 1] == pattern[j - 1])
+				matrix[i][j] = matrix[i - 1][j - 1];
+			j++;
 		}
-		if (is_patern == FALSE)
-			return (1);
-	}
-	return (last_infix_check(val, name, i, j));
-}
-
-int	prefix(char *name, char *val, int *start)
-{
-	int	i;
-
-	i = 0;
-	if (name[0] == '*')
-		return (0);
-	while (val[i] && name[i] && val[i] != '*')
-	{
-		if (val[i] != name[i])
-			return (1);
 		i++;
 	}
-	*start = i;
-	return (0);
+	return (matrix[str_len][pattern_len]);
 }
 
-int	search_for_match(char *val, char *d_name)
+char	*get_mask_stars(t_shell *shell, char *pattern)
 {
-	int	i;
+	char	*mask;
+	int		i;
+	int		j;
 
 	i = 0;
-	if (prefix(d_name, val, &i))
-		return (1);
-	if (infix(val, d_name, i))
-		return (1);
-	if (suffix(d_name, val))
+	mask = ft_strdup(shell, "");
+	while (pattern[i])
+	{
+		j = i;
+		while (pattern[i] && !ft_strchr("\"$'", pattern[i]))
+			i++;
+		if (j != i)
+			mask = ft_strjoin(shell, mask \
+			, set_val(shell, ft_strduplen(shell, &pattern[j], i - j), '1'));
+		if (pattern[i] == '\'')
+			mask = ft_strjoin(shell, mask \
+			, set_val(shell, single_quote(shell, pattern, &i), '0'));
+		else if (pattern[i] == '"')
+			mask = ft_strjoin(shell, mask \
+			, set_val(shell, double_quote(shell, pattern, &i), '0'));
+		else if (pattern[i] == '$')
+			mask = ft_strjoin(shell, mask, set_val(shell \
+			, dollar_sign(shell, pattern, &i, FALSE), '1'));
+	}
+	return (mask);
+}
+
+int	search_for_match(t_shell *shell, char *pattern, char *str, char *old_val)
+{
+	int		i;
+	int		str_len;
+	int		pattern_len;
+	int		**matrix;
+	char	*mask_stars;
+
+	i = 0;
+	str_len = ft_strlen(str);
+	pattern_len = ft_strlen(pattern);
+	mask_stars = get_mask_stars(shell, old_val);
+	matrix = ft_malloc(shell, sizeof(int *) * (str_len + 1), 0);
+	while (i <= str_len)
+	{
+		matrix[i] = ft_malloc(shell, sizeof(int) * (pattern_len + 1), 0);
+		memset(matrix[i], 0, sizeof(int) * (pattern_len + 1));
+		i++;
+	}
+	if (pattern_evaluator(str, pattern, matrix, mask_stars))
 		return (1);
 	return (0);
 }

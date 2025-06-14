@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/14 15:49:38 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:56:18 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,21 @@ int parsing(t_shell *shell, char *input)
 	redirect(&shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
 	// printf("token : %s | type: %d\n",shell->tokens->value, shell->tokens->token_type);
-	// t_dll *curr = shell->ast->token;
-	// expansion(shell, &shell->ast->token, &shell->ast->token);
+	/* t_dll *curr = shell->tokens;
+	t_dll	*nxt; */
+	// expansion(shell, &shell->tokens, &shell->tokens);
 	// printf("token : %s | type: %d\n",curr->value,curr->token_type);
-	// curr = shell->ast->arguments;
-	// while(curr)
-	// {
-	// 	expansion(shell, &shell->ast->arguments, &shell->ast->arguments);
-	// 	curr = curr->next;
-	// }
 	// curr = shell->ast->arguments;
 	// while (curr)
 	// {
-	// 	printf("arg : %s | type: %d\n",curr->value,curr->token_type);
+	// 	nxt = curr->next;
+	// 	expansion(shell, &shell->tokens, &curr);
+	// 	curr = nxt;
+	// }
+	// curr = shell->tokens;
+	// while (curr)
+	// {
+	// 	printf("value : %s | type: %d\n",curr->value,curr->token_type);
 	// 	curr = curr->next;
 	// }
 	// exit(0);

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/11 14:57:01 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:22:50 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,27 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 int	handle_expansions(t_shell *shell)
 {
 	t_dll	*curr;
+	t_dll	*nxt;
 
 	curr = shell->ast->token;
 	if (shell->ast->token)
 	{
-		if (expansion(shell, &shell->ast->token, &curr))
-			return (1);
+		while (curr)
+		{
+			nxt = curr->next;
+			if (expansion(shell, &shell->ast->token, &curr))
+				return (1);
+			curr = nxt;
+		}
 	}
 	curr = shell->ast->arguments;
 	while (curr)
 	{
 		if (shell->ast->token == curr)
 			;
-		else
-		{
-			if (expansion(shell, &shell->ast->arguments, &curr))
-				return (1);
-		}
-		if (curr)
-			curr = curr->next;
+		else if (expansion(shell, &shell->ast->arguments, &curr))
+			return (1);
+		curr = curr->next;
 	}
 	return (0);
 }
