@@ -12,30 +12,28 @@
 
 #include "../../smash.h"
 
-void execute_builtin_unset(t_shell *shell)
+void	execute_builtin_unset(t_shell *shell)
 {
-    t_dll *current;
-    
-    if (!shell->ast->arguments)
-    {
-        shell->exit_code = 0;
-        return;
-    }
-    
-    current = shell->ast->arguments;
-    while (current)
-    {
-        if (is_valid_identifier(current->value))
-            unset_env_var(shell, current);
-        else
-        {
-            ft_putstr_fd("unset: '", 2);
-            ft_putstr_fd(current->value, 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            shell->exit_code = 1;
-        }
-        current = current->next;
-    }
-    
-    shell->exit_code = 0;
+	t_dll	*current;
+
+	if (!shell->ast->arguments)
+	{
+		shell->exit_code = 0;
+		return ;
+	}
+	current = shell->ast->arguments;
+	while (current)
+	{
+		if (is_valid_identifier(current->value))
+			unset_env_var(shell, current);
+		else
+		{
+			ft_putstr_fd("unset: '", 2);
+			ft_putstr_fd(current->value, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			shell->exit_code = 1;
+		}
+		current = current->next;
+	}
+	shell->exit_code = 0;
 }

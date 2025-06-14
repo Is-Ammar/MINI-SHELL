@@ -52,7 +52,6 @@ double	ft_atoi(char *str)
 	return (sign * result);
 }
 
-
 int	is_valid_identifier(const char *str)
 {
 	int	i;

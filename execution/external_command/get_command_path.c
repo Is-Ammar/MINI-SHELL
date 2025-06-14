@@ -27,9 +27,9 @@ static char	*handle_absolute_path(t_shell *shell, char *cmd)
 static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 {
 	struct stat	st;
-	int		i;
-	char	*full_path;
-	char	*temp;
+	int			i;
+	char		*full_path;
+	char		*temp;
 
 	i = 0;
 	while (paths && paths[i])
@@ -38,7 +38,8 @@ static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 		full_path = ft_strjoin(shell, paths[i], temp);
 		if (stat(full_path, &st) == 0)
 		{
-			if (full_path && access(full_path, X_OK) == 0 && !S_ISDIR(st.st_mode))
+			if (full_path && access(full_path, X_OK) == 0
+				&& !S_ISDIR(st.st_mode))
 				return (full_path);
 		}
 		i++;
@@ -59,14 +60,14 @@ int	check_valid_cmd(t_shell *shell, char *cmd)
 		}
 		if (S_ISDIR(stats.st_mode))
 		{
-			ft_printf(B_WHITE"minishell: %s Is a directory\n"RESET, cmd);
-			return (shell->exit_code = 126, 1);	
+			ft_printf(B_WHITE "minishell: %s Is a directory\n" RESET, cmd);
+			return (shell->exit_code = 126, 1);
 		}
 	}
 	if (cmd[0] == '.' && cmd[1] && cmd[1] == '/')
 	{
-		if (stat(cmd, &stats) == 0 && S_ISREG(stats.st_mode)
-			&& access(cmd, X_OK) != 0)
+		if (stat(cmd, &stats) == 0 && S_ISREG(stats.st_mode) && access(cmd,
+				X_OK) != 0)
 		{
 			exec_error(shell, cmd, EPERMISS);
 			return (shell->exit_code = 126, 1);

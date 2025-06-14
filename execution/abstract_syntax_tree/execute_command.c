@@ -118,7 +118,6 @@ void	execute_command(t_shell *shell)
 
 void	execute_simple_command(t_shell *shell)
 {
-
 	if (!(shell->ast->token && (shell->ast->token->token_type == WORD)))
 		return ;
 	execute_command(shell);

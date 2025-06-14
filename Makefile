@@ -28,7 +28,7 @@ EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/abstract_syntax_tree/execute_ast.c execution/external_command/external_command.c \
 			execution/utils2.c execution/execute_pipe/execute_pipe.c execution/execute_pipe/helpers.c execution/abstract_syntax_tree/execute_command.c \
 			execution/external_command/get_command_path.c execution/abstract_syntax_tree/helpers.c execution/signal_handling.c \
-			execution/abstract_syntax_tree/execute_redirections.c
+			execution/abstract_syntax_tree/execute_redirections.c execution/abstract_syntax_tree/execute_subshell.c
 
 # -------------------------------------------------------------------------- #
 PARS_OBJ = ${PARS_SRC:%.c=%.o}

@@ -66,7 +66,8 @@ static int	count_args(t_dll *args_list)
 	return (ac);
 }
 
-static char	**prepare_command_args(t_shell *shell, char *cmd, t_dll *args_list, int ac)
+static char	**prepare_command_args(t_shell *shell, char *cmd, t_dll *args_list,
+		int ac)
 {
 	char	**args;
 	t_dll	*tmp;

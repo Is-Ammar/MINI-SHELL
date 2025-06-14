@@ -12,34 +12,34 @@
 
 #include "../../smash.h"
 
-static t_ast *handle_bracket_content(t_dll **tokens, t_shell *shell)
+static t_ast	*handle_bracket_content(t_dll **tokens, t_shell *shell)
 {
-    t_ast   *bracket_content;
-    t_dll   *current;
-    int     bracket_level;
-	
+	t_ast	*bracket_content;
+	t_dll	*current;
+	int		bracket_level;
+
 	bracket_level = 1;
-    *tokens = (*tokens)->next;
-    current = *tokens;
-    while (current && bracket_level > 0)
-    {
-        current->inside_parentheses = TRUE;
-        if (current->bracket && current->value)
-        {
-            if (!ft_strcmp(current->value, "("))
-                bracket_level++;
-            else if (!ft_strcmp(current->value, ")"))
-                bracket_level--;
-        }
-        if (bracket_level)
-            current = current->next;
-        else
-            break;
-    }
-    bracket_content = parse_logical_operators(tokens, shell);
-    if (*tokens && (*tokens)->bracket)
-        *tokens = (*tokens)->next;
-    return (bracket_content);
+	*tokens = (*tokens)->next;
+	current = *tokens;
+	while (current && bracket_level > 0)
+	{
+		current->inside_parentheses = TRUE;
+		if (current->bracket && current->value)
+		{
+			if (!ft_strcmp(current->value, "("))
+				bracket_level++;
+			else if (!ft_strcmp(current->value, ")"))
+				bracket_level--;
+		}
+		if (bracket_level)
+			current = current->next;
+		else
+			break ;
+	}
+	bracket_content = parse_logical_operators(tokens, shell);
+	if (*tokens && (*tokens)->bracket)
+		*tokens = (*tokens)->next;
+	return (bracket_content);
 }
 
 void	copy_token_properties(t_dll *src, t_dll *dst)
@@ -56,7 +56,7 @@ void	copy_token_properties(t_dll *src, t_dll *dst)
 	dst->bracket = src->bracket;
 	dst->heredoc = src->heredoc;
 	dst->wildcard = src->wildcard;
-	dst->operator = src->operator;
+	dst->operator= src->operator;
 	dst->prev = NULL;
 	dst->next = NULL;
 }
@@ -69,13 +69,15 @@ void	add_arg_to_list(t_dll **tail, t_dll *new_arg)
 	*tail = new_arg;
 }
 
-static void process_command_arguments(t_shell *shell, t_dll **tokens, t_ast *cmd_node, t_dll **tail)
+static void	process_command_arguments(t_shell *shell, t_dll **tokens,
+		t_ast *cmd_node, t_dll **tail)
 {
 	t_dll	*curr;
 	t_dll	*new_arg;
 
 	curr = *tokens;
-	while (curr && (curr->token_type == WORD || curr->token_type == REDIRECTION))
+	while (curr && (curr->token_type == WORD
+			|| curr->token_type == REDIRECTION))
 	{
 		if (curr->token_type == REDIRECTION)
 		{
