@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/12 21:39:24 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/14 14:11:17 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
         dir = get_env_var(shell, shell->env_list, "HOME");
         if (!dir)
         {
-            ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+            ft_printf("Minishell: cd: HOME not set\n");
             return (NULL);
         }
         return (dir);
@@ -35,8 +35,7 @@ char *get_directory(t_shell *shell, char *dir_type, char *cwd)
                 return (NULL);
             return (ft_strdup(shell, cwd));
         }
-        ft_putstr_fd(dir, 1);
-        ft_putstr_fd("\n", 1);
+        printf("%s\n", dir);
         return (dir);
     }
     return (NULL);
@@ -53,11 +52,10 @@ char *resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
         {
             if (cwd)
             {
-                ft_putstr_fd(cwd, 1);
-                ft_putstr_fd("\n", 1);
+                printf("%s\n", cwd);
                 return (ft_strdup(shell, cwd));
             }
-            ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
+            ft_printf("Minishell: cd: OLDPWD not set\n");
             return (NULL);
         }
         return (get_directory(shell, "OLDPWD", cwd));
@@ -72,7 +70,7 @@ int parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
         return (1);
     if (arg_token && arg_token->next && arg_token->next)
     {
-        ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+        ft_printf("Minishell: cd: too many arguments\n");
         free(*dir);
         *dir = NULL;
         return (1);
@@ -132,7 +130,7 @@ void execute_builtin_cd(t_shell *shell)
     }
     if (chdir(dir) != 0)
     {
-        ft_putstr_fd("Minishell: cd: ", 2);
+        ft_printf("Minishell: cd: ");
         perror(dir);
         free(cwd);
         shell->exit_code = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/11 14:55:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:14:13 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 	cmd_node->arguments = NULL;
 	cmd_node->left = NULL;
 	cmd_node->right = NULL;
+	cmd_node->forked = FALSE;
 	tail = &cmd_node->arguments;
 	start_tokens = *tokens;
 	process_command_arguments(shell, tokens, cmd_node, tail);

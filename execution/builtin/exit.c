@@ -3,61 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/04 16:01:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:18:01 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
+
+int is_valid(char *arg)
+{
+    int i = 0;
+    
+    if (*arg == '\0')
+       return(0);
+    if (arg[i] == '+' || arg[i] == '-')
+            i++;
+    while (arg[i] != '\0')
+    {
+         if (arg[i] < '0' || arg[i] > '9')
+            {
+                return (0);
+            }
+        i++;
+    }
+    return (1);
+}
 
 void execute_builtin_exit(t_shell *shell)
 {
     int status;
     long long_status;
     char *arg;
-    char *ptr;
     int valid;
     t_dll *arg_token;
     
-    printf("exit\n");
+    if(!shell->ast->forked)
+        printf("exit\n");
     status = shell->exit_code;
     if (shell->ast && shell->ast->token && shell->ast->arguments)
     {
         arg_token = shell->ast->arguments;
         arg = arg_token->value;
-
-        if (*arg == '\0')
-        {
-            ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
-            clean_exit(shell, 2);
-        }
-        ptr = arg;
-        if (*ptr == '+' || *ptr == '-')
-            ptr++;
-        valid = 1;
-        while (*ptr != '\0')
-        {
-            if (*ptr < '0' || *ptr > '9')
-            {
-                valid = 0;
-                break;
-            }
-            ptr++;
-        }
-        
+        valid = is_valid(arg);
         if (!valid)
         {
-            ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
+            ft_printf("minishell: exit: numeric argument required\n");
             clean_exit(shell, 2);
         }
- 
         long_status = ft_atoi(arg);
 
         if (arg_token->next && arg_token->next->value)
         {
-            ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+            ft_printf("minishell: exit: too many arguments\n");
             shell->exit_code = 1;
             return;
         }

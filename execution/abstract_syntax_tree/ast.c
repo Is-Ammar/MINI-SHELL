@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/06 08:24:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:13:58 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_ast *parse_logical_operators(t_dll **tokens, t_shell *shell)
             return NULL;
         logical_node->token = *tokens;
         logical_node->left = result;
+        logical_node->forked = FALSE;
         *tokens = (*tokens)->next;
         logical_node->right = parse_pipe(tokens, shell);
         if (!logical_node->right)
@@ -61,6 +62,7 @@ t_ast *parse_pipe(t_dll **tokens, t_shell *shell)
         pipe_node = ft_malloc(shell, sizeof(t_ast), 0);
         pipe_node->token = *tokens;
         pipe_node->left = result;
+        pipe_node->forked = FALSE;
         *tokens = (*tokens)->next;
         pipe_node->right = parse_redirections(tokens, shell);
         if (!pipe_node->right)
@@ -86,6 +88,7 @@ t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
         redir_node->left = NULL;
         redir_node->right = NULL;
         redir_node->arguments = NULL;
+        redir_node->forked = FALSE;
         
         if (!first_redir)
             first_redir = redir_node;
@@ -117,6 +120,7 @@ t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
         redir_node->left = command_node;
         redir_node->right = NULL;
         redir_node->arguments = NULL;
+        redir_node->forked = FALSE;
         
         if (last_redir)
             last_redir->right = redir_node;

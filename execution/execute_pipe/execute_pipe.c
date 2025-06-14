@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/13 17:57:53 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/13 23:40:54 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static int wait_and_get_exit_code(pid_t pid1, pid_t pid2)
     int status;
     int exit_code;
 
-    waitpid(pid1, NULL, 0);
-    waitpid(pid2, &status, 0);
+    waitpid(pid1, NULL, 2);
+    waitpid(pid2, &status, 2);
     signal(SIGINT, new_line_handler);
     if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
         write(STDERR_FILENO, "Quit (core dumped)\n", 19);
@@ -84,7 +84,7 @@ int execute_pipe(t_shell *shell)
         return 1;
     if (fork_second_child(shell, pipefd, &pid2, original_ast) == 1)
     {
-        waitpid(pid1, NULL, 0);
+        waitpid(pid1, NULL, 2);
         return 1;
     }
     close(pipefd[0]);

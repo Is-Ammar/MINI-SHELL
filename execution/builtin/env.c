@@ -6,56 +6,46 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/04/29 22:05:55 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/14 14:03:47 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-void execute_builtin_env(t_shell *shell)
+void check_argument(t_shell *shell)
 {
-    t_env *tmp;
-    struct stat file_stat;
     char *arg;
-
-    if (!shell->tokens || !shell->env_list)
-        return;
-
+    struct stat file_stat;
+    
     if (shell->ast->token && shell->ast->arguments)
     {
         arg = shell->ast->arguments->value;
-
         if (stat(arg, &file_stat) == 0)
         {
-            if (opendir(arg))
+            if (opendir(arg) || (access(arg, X_OK) == -1))
             {
-                ft_putstr_fd("env: ", 2);
-                ft_putstr_fd(arg, 2);
-                ft_putstr_fd(": Permission denied\n", 2);
-                shell->exit_code = 126;
-                return;
-            }
-            if (access(arg, X_OK) == -1)
-            {
-                ft_putstr_fd("env: ", 2);
-                ft_putstr_fd(arg, 2);
-                ft_putstr_fd(": Permission denied\n", 2);
+                ft_printf("env: %s: Permission denied\n", arg);
                 shell->exit_code = 126;
                 return;
             }
         }
         else
         {
-            ft_putstr_fd("env: ", 2);
-            ft_putstr_fd(arg, 2);
-            ft_putstr_fd(": No such file or directory\n", 2);
+            ft_printf("env: %s: No such file or directory\n", arg);
             shell->exit_code = 127;
             return;
         }
         shell->exit_code = 1;
         return;
     }
+}
 
+void execute_builtin_env(t_shell *shell)
+{
+    t_env *tmp;
+
+    if (!shell->tokens || !shell->env_list)
+        return;
     tmp = shell->env_list;
     while (tmp)
     {

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/13 18:07:09 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:11:21 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef	struct s_ast
 	t_dll			*arguments;
 	struct s_ast	*left;
 	struct s_ast	*right;
+	int 			forked;
 }	t_ast;
 
 //------------------------------Execution--------------------//

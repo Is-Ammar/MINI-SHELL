@@ -19,6 +19,16 @@
 }
 
 {
+   readline_funmap_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   fun:readline_internal_setup
+   ...
+}
+
+{
    readline_definite_leak
    Memcheck:Leak
    match-leak-kinds: definite

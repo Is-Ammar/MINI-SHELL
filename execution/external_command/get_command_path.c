@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/12 09:44:47 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/13 22:38:06 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*search_in_path(t_shell *shell, char *cmd, char **paths)
 	{
 		temp = ft_strjoin(shell, "/", cmd);
 		full_path = ft_strjoin(shell, paths[i], temp);
-		if (full_path && access(full_path, X_OK) == 0)
+		if (full_path && access(full_path, X_OK) == 0 && !opendir(full_path))
 			return (full_path);
 		i++;
 	}
