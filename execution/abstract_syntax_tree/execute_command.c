@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 15:22:50 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/15 01:24:11 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,31 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 	}
 }
 
-int	handle_expansions(t_shell *shell)
+int handle_expansions(t_shell *shell)
 {
-	t_dll	*curr;
-	t_dll	*nxt;
+    t_dll *curr;
+    t_dll *nxt;
 
-	curr = shell->ast->token;
-	if (shell->ast->token)
-	{
-		while (curr)
-		{
-			nxt = curr->next;
-			if (expansion(shell, &shell->ast->token, &curr))
-				return (1);
-			curr = nxt;
-		}
-	}
-	curr = shell->ast->arguments;
-	while (curr)
-	{
-		if (shell->ast->token == curr)
-			;
-		else if (expansion(shell, &shell->ast->arguments, &curr))
-			return (1);
-		curr = curr->next;
-	}
-	return (0);
+    curr = shell->ast->token;
+    while (curr)
+    {
+        nxt = curr->next;
+        if (expansion(shell, &shell->ast->token, &curr))
+            return 1;
+        curr = nxt;
+    }
+    curr = shell->ast->arguments;
+    while (curr)
+    {
+        nxt = curr->next;
+        if (shell->ast->token != curr)
+        {
+            if (expansion(shell, &shell->ast->arguments, &curr))
+                return 1;
+        }
+        curr = nxt;
+    }
+    return 0;
 }
 
 t_dll	*add(t_shell *shell, t_dll **head, char *val)
