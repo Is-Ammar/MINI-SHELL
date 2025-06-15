@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/15 01:24:11 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/15 19:49:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,31 @@ void	save_restore_fds(int *saved_stdout, int *saved_stdin, int restore)
 	}
 }
 
-int handle_expansions(t_shell *shell)
+int	handle_expansions(t_shell *shell)
 {
-    t_dll *curr;
-    t_dll *nxt;
+	t_dll	*curr;
+	t_dll	*nxt;
 
-    curr = shell->ast->token;
-    while (curr)
-    {
-        nxt = curr->next;
-        if (expansion(shell, &shell->ast->token, &curr))
-            return 1;
-        curr = nxt;
-    }
-    curr = shell->ast->arguments;
-    while (curr)
-    {
-        nxt = curr->next;
-        if (shell->ast->token != curr)
-        {
-            if (expansion(shell, &shell->ast->arguments, &curr))
-                return 1;
-        }
-        curr = nxt;
-    }
-    return 0;
+	curr = shell->ast->token;
+	while (curr)
+	{
+		nxt = curr->next;
+		if (expansion(shell, &shell->ast->token, &curr))
+			return (1);
+		curr = nxt;
+	}
+	curr = shell->ast->arguments;
+	while (curr)
+	{
+		nxt = curr->next;
+		if (shell->ast->token != curr)
+		{
+			if (expansion(shell, &shell->ast->arguments, &curr))
+				return (1);
+		}
+		curr = nxt;
+	}
+	return (0);
 }
 
 t_dll	*add(t_shell *shell, t_dll **head, char *val)
@@ -81,9 +81,27 @@ t_dll	*add(t_shell *shell, t_dll **head, char *val)
 
 void	execute_command(t_shell *shell)
 {
+	if (shell->ast->token && shell->ast->token->token_type == WORD
+		&& shell->ast->token->fake_cmd == FALSE)
+	{
+		if (is_builtin(shell))
+		{
+			set_last_cmd_env(shell);
+			execute_builtin(shell);
+		}
+		else
+			execute_external(shell);
+	}
+}
+
+void	execute_simple_command(t_shell *shell)
+{
 	t_dll	*curr;
 	t_dll	*tmp;
-
+	
+	if (!(shell->ast->token && (shell->ast->token->token_type == WORD)))
+		return ;
+	
 	if (!shell->ast->token && !shell->ast->arguments)
 		return ;
 	if (handle_expansions(shell))
@@ -102,22 +120,5 @@ void	execute_command(t_shell *shell)
 			expansion(shell, &shell->ast->arguments, &tmp);
 		}
 	}
-	if (shell->ast->token && shell->ast->token->token_type == WORD
-		&& shell->ast->token->fake_cmd == FALSE)
-	{
-		if (is_builtin(shell))
-		{
-			set_last_cmd_env(shell);
-			execute_builtin(shell);
-		}
-		else
-			execute_external(shell);
-	}
-}
-
-void	execute_simple_command(t_shell *shell)
-{
-	if (!(shell->ast->token && (shell->ast->token->token_type == WORD)))
-		return ;
 	execute_command(shell);
 }

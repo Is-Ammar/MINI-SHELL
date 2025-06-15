@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 19:08:29 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/15 14:20:02 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int						check_valid_cmd(t_shell *shell, char *cmd);
 //----------------------signals---------------------//
 void					setup_signal_handlers(void);
 void					reset_signal_handlers(void);
-void					new_line_handler(int sig);
 
 void					save_restore_fds(int *saved_stdout, int *saved_stdin,
 							int restore);

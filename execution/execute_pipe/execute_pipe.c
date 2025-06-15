@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 16:28:27 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/15 14:18:41 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	wait_and_get_exit_code(pid_t pid1, pid_t pid2)
 
 	waitpid(pid1, NULL, 2);
 	waitpid(pid2, &status, 2);
-	signal(SIGINT, new_line_handler);
+	signal(SIGINT, SIG_IGN);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 		write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 	if (WIFSIGNALED(status))
@@ -79,7 +79,7 @@ int	execute_pipe(t_shell *shell)
 	t_ast	*original_ast;
 
 	original_ast = shell->ast;
-	signal(SIGINT, new_line_handler);
+	signal(SIGINT, SIG_IGN);
 	if (setup_pipe(pipefd) == 1)
 		return (1);
 	if (fork_first_child(shell, pipefd, &pid1, original_ast) == 1)

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:05:33 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/13 18:06:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/15 16:57:11 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	redirection(t_shell *shell, t_ast *redir)
 
 void	execute_redirections(t_shell *shell, t_ast *original_ast)
 {
-	int saved_stdout;
-	int saved_stdin;
-	int redirect_result = 0;
-	t_ast *redir;
-	t_ast *command;
+	int		saved_stdout;
+	int		saved_stdin;
+	int		redirect_result;
+	t_ast	*redir;
+	t_ast	*command;
 
+	redirect_result = 0;
 	save_restore_fds(&saved_stdout, &saved_stdin, 0);
 	redir = shell->ast;
 	command = redir->left;

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 15:14:13 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/15 16:58:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	copy_token_properties(t_dll *src, t_dll *dst)
 	dst->bracket = src->bracket;
 	dst->heredoc = src->heredoc;
 	dst->wildcard = src->wildcard;
-	dst->operator= src->operator;
+	dst->operator = src->operator;
 	dst->prev = NULL;
 	dst->next = NULL;
 }
