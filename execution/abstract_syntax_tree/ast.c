@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/15 16:55:09 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/16 15:27:40 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,75 +67,62 @@ t_ast	*parse_pipe(t_dll **tokens, t_shell *shell)
 	return (result);
 }
 
-t_ast	*parse_first_redirection(t_dll **tokens, t_shell *shell,
-		t_ast *last_redir, t_ast *redir_node)
+t_ast *parse_redirections(t_dll **tokens, t_shell *shell)
 {
-	t_ast	*first_redir;
-
-	first_redir = NULL;
-	while (*tokens && (*tokens)->token_type == REDIRECTION)
-	{
-		redir_node = ft_malloc(shell, sizeof(t_ast), 0);
-		redir_node->token = *tokens;
-		redir_node->left = NULL;
-		redir_node->right = NULL;
-		redir_node->arguments = NULL;
-		redir_node->forked = FALSE;
-		if (!first_redir)
-			first_redir = redir_node;
-		if (last_redir)
-			last_redir->right = redir_node;
-		last_redir = redir_node;
-		*tokens = (*tokens)->next;
-	}
-	return (first_redir);
-}
-
-t_ast	*parse_redirections(t_dll **tokens, t_shell *shell)
-{
-	t_ast	*result;
-	t_ast	*command_node;
-	t_ast	*first_redir;
-	t_ast	*last_redir;
-	t_ast	*redir_node;
-	t_ast	*curr_redir;
-
-	result = NULL;
-	command_node = NULL;
-	first_redir = NULL;
-	last_redir = NULL;
-	redir_node = NULL;
-	first_redir = parse_first_redirection(tokens, shell, last_redir,
-			redir_node);
-	command_node = parse_simple_command(tokens, shell);
-	if (first_redir)
-	{
-		curr_redir = first_redir;
-		while (curr_redir)
-		{
-			curr_redir->left = command_node;
-			curr_redir = curr_redir->right;
-		}
-		result = first_redir;
-	}
-	else
-	{
-		result = command_node;
-	}
-	while (*tokens && (*tokens)->token_type == REDIRECTION)
-	{
-		redir_node = ft_malloc(shell, sizeof(t_ast), 0);
-		redir_node->token = *tokens;
-		redir_node->left = command_node;
-		redir_node->right = NULL;
-		redir_node->arguments = NULL;
-		redir_node->forked = FALSE;
-		if (last_redir)
-			last_redir->right = redir_node;
-		else
-			result = redir_node;
-		last_redir = redir_node;
-		*tokens = (*tokens)->next;
-	}
-	return (result);
+    t_ast *result = NULL;
+    t_ast *command_node = NULL;
+    t_ast *first_redir = NULL;
+    t_ast *last_redir = NULL;
+    t_ast *redir_node;
+    t_ast *curr_redir;
+    
+    while (*tokens && (*tokens)->token_type == REDIRECTION)
+    {
+        redir_node = ft_malloc(shell, sizeof(t_ast), 0);
+        redir_node->token = *tokens;
+        redir_node->left = NULL;
+        redir_node->right = NULL;
+        redir_node->arguments = NULL;
+        
+        if (!first_redir)
+            first_redir = redir_node;
+        if (last_redir)
+            last_redir->right = redir_node;
+        last_redir = redir_node;
+        
+        *tokens = (*tokens)->next;
+    }
+    command_node = parse_simple_command(tokens, shell);
+    if (first_redir)
+    {
+        curr_redir = first_redir;
+        while (curr_redir)
+        {
+            curr_redir->left = command_node;
+            curr_redir = curr_redir->right;
+        }
+        result = first_redir;
+    }
+    else
+    {
+        result = command_node;
+    }
+    while (*tokens && (*tokens)->token_type == REDIRECTION)
+    {
+        redir_node = ft_malloc(shell, sizeof(t_ast), 0);
+        redir_node->token = *tokens;
+        redir_node->left = command_node;
+        redir_node->right = NULL;
+        redir_node->arguments = NULL;
+        
+        if (last_redir)
+            last_redir->right = redir_node;
+        else
+            result = redir_node;
+        last_redir = redir_node;
+        
+        *tokens = (*tokens)->next;
+    }
+    
+    return result;
 }
