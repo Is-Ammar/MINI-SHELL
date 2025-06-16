@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/14 15:42:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:29:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	first_case(int **matrix, char *pattern, int plen, char *mask)
 	return ;
 }
 
-int pattern_evaluator(char *str, char *pattern, int **matrix, char *mask)
+int	pattern_evaluator(char *str, char *pattern, int **matrix, char *mask)
 {
 	int		i;
 	int		j;
@@ -38,7 +38,7 @@ int pattern_evaluator(char *str, char *pattern, int **matrix, char *mask)
 	matrix[0][0] = 1;
 	first_case(matrix, pattern, pattern_len, mask);
 	i = 1;
-    while (i <= str_len)
+	while (i <= str_len)
 	{
 		j = 1;
 		while (j <= pattern_len)
@@ -83,7 +83,7 @@ char	*get_mask_stars(t_shell *shell, char *pattern)
 	return (mask);
 }
 
-int	search_for_match(t_shell *shell, char *pattern, char *str, char *old_val)
+int	search_match(t_shell *shell, char *pattern, char *str, char *old_val)
 {
 	int		i;
 	int		str_len;

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/08 14:41:06 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:03:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_dll	*add_to_tokens(t_shell *shell, t_dll **head, t_dll *token, char *val)
 	new_token = create_token_list(shell);
 	new_token->value = ft_strdup(shell, val);
 	new_token->token_type = WORD;
-	if (check_depth_to_expand(new_token->value))
+	if (ft_strchr(val, '*'))
 		new_token->wildcard = TRUE;
 	if (!*head)
 	{

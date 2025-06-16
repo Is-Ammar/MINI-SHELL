@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/14 09:59:27 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:31:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "../smash.h"
 # include "../execution/execution.h"
+# include "../smash.h"
 
 # define RESET	 "\001\033[0m\002"
 # define RED	 "\001\033[0;31m\002"
@@ -191,8 +191,7 @@ char	*ft_strjoin(t_shell *shell, char *s1, char *s2);
 char	*ft_itoa(t_shell *shell, int n, int is_env);
 /* ///////////////// wildcards \\\\\\\\\\\\\\\\\\\\\ */
 int		wildcard(t_shell *shell, t_dll **tokens, t_dll *curr, char *old_val);
-int		hidden_files(char *val, char *name);
-int		search_for_match(t_shell *shell, char *pattern, char *str, char *old_val);
+int		search_match(t_shell *shell, char *pattern, char *str, char *old_val);
 int		pattern_evaluator(char *str, char *pattern, int **matrix, char *mask);
 char	*get_mask_stars(t_shell *shell, char *pattern);
 /* ///////////////// heredoc \\\\\\\\\\\\\\\\\\\\\ */
@@ -204,7 +203,6 @@ void	expand_heredoc(t_shell *shell, char *old_name);
 char	*get_next_line(t_shell *shell, int fd);
 char	*expand_in_heredoc(t_shell *shell, char *value);
 char	*ft_strnstr(const char *big, const char *little, int len);
-void	last_check_doc(t_dll **tokens);
 char	*expand_delim(t_shell *shell, char *value);
 char	*delim_dquote(t_shell *shell, char *val, int *i);
 char	*delim_dollar(t_shell *shell, char *value, int *i, int is_dquote);

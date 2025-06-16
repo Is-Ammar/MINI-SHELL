@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/07 11:26:06 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:23:15 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,40 @@ char	*ft_strnstr(const char *big, const char *little, int len)
 int	get_name_number(t_shell *shell, int count)
 {
 	int		fd;
-	int		num;
-	char	*name;
+	long	num;
+	char	*name_fd;
+	char	*name_tty;
 
 	fd = open("/proc/self/stat", O_RDONLY);
-	if (fd < 0)
-	{
-		name = ttyname(STDIN_FILENO);
-		num = ft_atoi(&name[9]);
-		return (num + shell->lines + count);
-	}
-	name = ft_malloc(shell, 8, 0);
-	name[7] = '\0';
-	read(fd, name, 7);
+	name_fd = ft_malloc(shell, 8, 0);
+	name_fd[7] = '\0';
+	read(fd, name_fd, 7);
 	close(fd);
-	num = ft_atoi(name);
-	return (num);
+	name_tty = ttyname(STDIN_FILENO);
+	num = ft_atoi(ft_strjoin(shell, name_fd, &name_tty[9]));
+	return (num + count);
+}
+
+static char	*doc_dollar(t_shell *shell, char *value, int *i)
+{
+	int		len;
+	int		start;
+	int		e_code;
+	char	*p;
+
+	p = NULL;
+	e_code = shell->exit_code;
+	start = *i + 1;
+	len = start;
+	if (value[len] == '?')
+		return (*i = len + 1, ft_itoa(shell, e_code, 0));
+	if (!ft_isalnum(value[len]) && value[len] != '_')
+		return (*i = len, ft_strdup(shell, "$"));
+	while (value[len] && (ft_isalnum(value[len]) || value[len] == '_'))
+		len++;
+	*i = len;
+	p = ft_strduplen(shell, &value[start], len - start);
+	return (ft_strdup_expand(shell, p));
 }
 
 char	*expand_in_heredoc(t_shell *shell, char *value)
@@ -72,32 +90,7 @@ char	*expand_in_heredoc(t_shell *shell, char *value)
 			new_val = ft_strjoin(shell, new_val, ft_strduplen(shell, &value[j] \
 			, i - j));
 		else if (value[i] == '$')
-			new_val = ft_strjoin(shell, new_val, dollar_sign(shell, value, &i \
-			, FALSE));
+			new_val = ft_strjoin(shell, new_val, doc_dollar(shell, value, &i));
 	}
 	return (new_val);
-}
-
-void	last_check_doc(t_dll **tokens)
-{
-	t_dll	*curr;
-	t_dll	*nxt;
-
-	if (!tokens || !*tokens)
-		return ;
-	curr = *tokens;
-	while (curr && curr->next)
-	{
-		nxt = curr->next;
-		if (ft_strnstr(curr->value, "/tmp/.heredoc_", 14)
-			&& ft_strnstr(nxt->value, "/tmp/.heredoc_", 14))
-		{
-			if (!ft_strcmp(curr->value, nxt->value))
-			{
-				remove_token(tokens, nxt);
-				continue ;
-			}
-		}
-		curr = nxt;
-	}
 }

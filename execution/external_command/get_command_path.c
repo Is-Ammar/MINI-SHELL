@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 16:47:53 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:57:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static char	*handle_absolute_path(t_shell *shell, char *cmd)
 
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
+		if (!ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
+			return (NULL);
 		if (stat(cmd, &sb) == 0 && access(cmd, X_OK) == 0)
 			return (ft_strdup(shell, cmd));
 	}

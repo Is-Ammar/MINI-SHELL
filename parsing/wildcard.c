@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/14 15:34:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:14:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,54 +46,48 @@ int	check_depth_to_expand(char *val)
 	return (0);
 }
 
-int	hidden_files(char *val, char *name)
+t_dll	*add_matched(t_shell *shell, t_dll **head, t_dll *token, char *val)
 {
-	int	i;
-	int	j;
-	int	point_count;
+	t_dll	*nxt;
+	t_dll	*new_token;
 
-	(1) && (i = 0, j = 0, point_count = 0);
-	if (!ft_strcmp(".", name) || !ft_strcmp("..", name))
-		return (1);
-	if (name[0] == '.' && !ft_strchr(val, '.'))
-		return (1);
-	while (val[i] && val[i] == '*')
-		i++;
-	if (val[i] == '\0' && name[0] == '.')
-		return (1);
-	if (i != 0 && val[i] && val[i] == '.')
+	new_token = create_token_list(shell);
+	new_token->value = ft_strdup(shell, val);
+	new_token->token_type = WORD;
+	if (!*head)
 	{
-		while (name[j])
-		{
-			if (name[j] && name[j] == '.')
-				point_count++;
-			j++;
-		}
-		if (name[0] == '.' && point_count == 1)
-			return (1);
+		*head = new_token;
+		return (new_token);
 	}
-	return (0);
+	if (!token)
+		return (*head);
+	nxt = token->next;
+	token->next = new_token;
+	new_token->prev = token;
+	new_token->next = nxt;
+	if (nxt)
+		nxt->prev = new_token;
+	return (new_token);
 }
 
 int	wildcard(t_shell *shell, t_dll **tokens, t_dll *curr, char *old_val)
 {
 	DIR				*dir;
 	struct dirent	*dentry;
+	t_dll			*token;
 	int				match_number;
 
+	token = curr;
 	match_number = 0;
-	(void)old_val;
 	dir = opendir(".");
-	if (!dir)
-		return (perror("minishell: "), 1);
 	dentry = readdir(dir);
 	while (dentry != NULL)
 	{
-		if (hidden_files(curr->value, ft_strdup(shell, dentry->d_name)))
+		if (dentry->d_name[0] == '.' && curr->value[0] != '.')
 			;
-		else if (search_for_match(shell, curr->value, dentry->d_name, old_val))
+		else if (search_match(shell, curr->value, dentry->d_name, old_val))
 		{
-			add_mid_token(shell, tokens, curr, dentry->d_name);
+			token = add_matched(shell, tokens, token, dentry->d_name);
 			match_number++;
 		}
 		dentry = readdir(dir);

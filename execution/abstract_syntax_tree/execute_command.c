@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/15 19:49:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/16 13:01:11 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_dll	*add(t_shell *shell, t_dll **head, char *val)
 	token = create_token_list(shell);
 	token->value = ft_strdup(shell, val);
 	token->token_type = WORD;
-	if (check_depth_to_expand(token->value))
+	if (ft_strchr(val, '*'))
 		token->wildcard = TRUE;
 	if (!*head)
 	{
@@ -98,10 +98,9 @@ void	execute_simple_command(t_shell *shell)
 {
 	t_dll	*curr;
 	t_dll	*tmp;
-	
+
 	if (!(shell->ast->token && (shell->ast->token->token_type == WORD)))
 		return ;
-	
 	if (!shell->ast->token && !shell->ast->arguments)
 		return ;
 	if (handle_expansions(shell))

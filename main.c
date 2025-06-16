@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/15 20:41:41 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/16 13:10:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int parsing(t_shell *shell, char *input)
 	heredoc(shell, &shell->tokens);
 	if (g_received == SIGINT)
 		return (1);
-	last_check_doc(&shell->tokens);
 	redirect(&shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
 	// printf("token : %s | type: %d\n",shell->tokens->value, shell->tokens->token_type);
@@ -212,15 +211,13 @@ void	read_eval_print_loop(t_shell *shell)
 			rl_clear_history();
 			clean_exit(shell, 0);
 		}
-		if (check_input(shell, input))
+		else if (check_input(shell, input))
 			continue ;
 		add_history(input);
 		execution(shell);
-		clear_non_env(shell);
+		// clear_non_env(shell);
 		free(input);
 	}
-	printf("exit\n");
-	clean_exit(shell, shell->exit_code);
 }
 
 void	non_interactive_mode(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/07 12:09:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:05:05 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,7 @@ void	heredoc(t_shell *shell, t_dll **tokens)
 	(1) && (curr = *tokens, count = 0, name = ft_strdup(shell, ""));
 	while (curr && curr->next)
 	{
-		if (curr->token_type == OPERATOR)
-			count++;
+		count++;
 		if (curr->heredoc == TRUE)
 		{
 			name = ft_strjoin(shell, ft_strdup(shell, "/tmp/.heredoc_") \
