@@ -6,13 +6,13 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/16 15:06:40 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:38:51 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-int	execute(t_shell *shell, char *cmd, char *path, char **args)
+int	execute(t_shell *shell, char *path, char **args)
 {
 	pid_t	pid;
 	char	**env;
@@ -29,10 +29,7 @@ int	execute(t_shell *shell, char *cmd, char *path, char **args)
 	else if (pid == 0)
 	{
 		reset_signal_handlers();
-		if (cmd && ft_strchr(cmd, '/') && !path)
-			execve(cmd, args, env);
-		else if (path)
-			execve(path, args, env);
+		execve(path, args, env);
 		clean_exit(shell, shell->exit_code);
 	}
 	else
@@ -102,11 +99,12 @@ void	execute_external(t_shell *shell)
 		shell->exit_code = 1;
 		return ;
 	}
-	if (!check_valid_cmd(shell, cmd))
-		path = get_command_path(shell, cmd, shell->env_list);
-	if (path || cmd)
+	if (check_valid_cmd(shell, cmd))
+		return ;
+	path = get_command_path(shell, cmd, shell->env_list);
+	if (path)
 	{
-		shell->exit_code = execute(shell, cmd, path, args);
+		shell->exit_code = execute(shell, path, args);
 		if (shell->exit_code == 0 && !ac)
 			set_env_var(shell, &shell->env_list, "_", path);
 		else

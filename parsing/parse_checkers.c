@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/16 13:17:49 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:09:13 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,6 @@ int	check_brackets(t_dll *tokens)
 	return (0);
 }
 
-int	additional_check_logic(t_dll *curr)
-{
-	if (curr->token_type == REDIRECTION)
-		return (parse_error("newline", ESYNTAX), 1);
-	if (curr->token_type != SYMBOL && curr->token_type != WORD)
-		return (parse_error(curr->value, ESYNTAX), 1);
-	return (0);
-}
-
 int	check_logic(t_dll *tokens)
 {
 	t_dll	*curr;
@@ -109,7 +100,6 @@ int	parse_input(t_shell *shell, t_dll **tokens)
 {
 	if (!tokens || !*tokens)
 		return (0);
-
 	operators_merge(shell, tokens);
 	if (check_quotes(*tokens))
 		return (1);
@@ -125,5 +115,18 @@ int	parse_input(t_shell *shell, t_dll **tokens)
 		if (check_subshell(*tokens) || subshell_last(*tokens))
 			return (1);
 	}
+	return (0);
+}
+
+int	parsing(t_shell *shell, char *input)
+{
+	shell->tokens = tokenize_input(shell, input);
+	if (parse_input(shell, &shell->tokens))
+		return (1);
+	heredoc(shell, &shell->tokens);
+	if (g_received == SIGINT)
+		return (1);
+	redirect(&shell->tokens);
+	shell->ast = abstract_segment_tree(shell);
 	return (0);
 }

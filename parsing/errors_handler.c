@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/12 08:45:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 08:22:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ int	exec_error(t_shell *shell, char *val, t_error_type error)
 		ft_printf(B_RED"minishell: %s: permission denied\n"RESET, val);
 		return (1);
 	}
+	else if (error == EISDIR)
+		ft_printf(B_BLUE"minishell: %s: Is a directory\n"RESET, val);
+	else if (error == ENOTDIR)
+		ft_printf(B_BLUE"minishell: %s: Not a directory\n"RESET, val);
 	return (0);
 }
 

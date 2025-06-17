@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/16 08:31:24 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:03:31 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_container(t_shell *shell, char *contain, char *buff, int fd)
 	ssize_t	reader;
 
 	reader = read(fd, buff, BUFFER_SIZE);
-	if (reader < 0 || !buff)
+	if (reader <= 0 || !buff)
 		return (NULL);
 	while (reader > 0)
 	{

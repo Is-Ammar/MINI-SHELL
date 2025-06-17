@@ -6,11 +6,20 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/05/30 08:46:01 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:12:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	additional_check_logic(t_dll *curr)
+{
+	if (curr->token_type == REDIRECTION)
+		return (parse_error("newline", ESYNTAX), 1);
+	if (curr->token_type != SYMBOL && curr->token_type != WORD)
+		return (parse_error(curr->value, ESYNTAX), 1);
+	return (0);
+}
 
 int	check_subshell(t_dll *tokens)
 {

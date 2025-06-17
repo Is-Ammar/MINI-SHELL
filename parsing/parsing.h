@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/16 10:31:47 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:22:29 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ int		exec_error(t_shell *shell, char *val, t_error_type error);
 
 // -------------------- Everything about Parsing -------------------- //
 
-/* ///////////////// main parsing function \\\\\\\\\\\\\\\\\\\\\\\\\ */
+/* ///////////////// main parsing functions \\\\\\\\\\\\\\\\\\\\\\\\\ */
+int		parsing(t_shell *shell, char *input);
 int		parse_input(t_shell *shell, t_dll **tokens);
 /* ////////////////// checkers \\\\\\\\\\\\\\\\\\\\\ */
 int		check_quotes(t_dll *tokens);
@@ -165,6 +166,7 @@ int		check_brackets(t_dll *tokens);
 int		check_subshell(t_dll *tokens);
 int		subshell_last(t_dll *tokens);
 int		check_logic(t_dll *tokens);
+int		additional_check_logic(t_dll *curr);
 /* ///////////////// modifiers \\\\\\\\\\\\\\\\\\\\\ */
 void	operators_merge(t_shell *shell, t_dll **tokens);
 void	merge_quotes(t_shell *shell, t_dll **tokens);

@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/06 09:54:08 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:53:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	clear_non_env(t_shell *shell)
 		if (curr->is_env == FALSE)
 		{
 			free_node(&shell->g_collect, curr);
+			curr = NULL;
 		}
 		curr = nxt;
 	}

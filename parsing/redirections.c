@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 02:45:23 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/17 12:09:44 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,23 @@
 
 int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 {
-	struct stat st;
 	int	out_fd;
 
-	out_fd = 1;
 	if (expansion(shell, tokens, &token))
 		return (1);
-	if (access(token->value, F_OK) == 0)
-	{
-		if (access(token->value, W_OK) == -1)
-		{
-			exec_error(shell, token->value, EPERMISS);
-			return (1);
-		}
-	}
-	if (!stat(token->value, &st) && S_ISDIR(st.st_mode))
-	{
-		ft_printf(B_WHITE "minishell: %s Is a directory\n" RESET, \
-		token->value);
-		return (1);
-	}
 	out_fd = open(token->value, O_CREAT | O_WRONLY | O_FLAG, 0644);
 	if (out_fd == -1)
 	{
-		exec_error(shell, token->value, EDIRFILE);
-		return (1);
+		if (errno == ENOENT)
+			return (exec_error(shell, token->value, EDIRFILE), 1);
+		if (errno == EACCES)
+			return (exec_error(shell, token->value, EPERMISS), 1);
+		if (errno == EISDIR)
+			return (exec_error(shell, token->value, EISDIR), 1);
+		if (errno == ENOTDIR)
+			return (exec_error(shell, token->value, ENOTDIR), 1);
+		else
+			return (perror("minishell: "), 1);
 	}
 	dup2(out_fd, 1);
 	close(out_fd);
@@ -49,26 +41,23 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 {
 	int	in_fd;
 
-	in_fd = 0;
 	if (token && token->expandoc)
 		expand_heredoc(shell, token->value);
 	if (expansion(shell, tokens, &token))
 		return (1);
-	if (access(token->value, F_OK) == -1)
-	{
-		exec_error(shell, token->value, EDIRFILE);
-		return (1);
-	}
-	if (access(token->value, R_OK) == -1)
-	{
-		exec_error(shell, token->value, EPERMISS);
-		return (1);
-	}
 	in_fd = open(token->value, O_RDONLY);
 	if (in_fd == -1)
 	{
-		exec_error(shell, token->value, EDIRFILE);
-		return (1);
+		if (errno == ENOENT)
+			return (exec_error(shell, token->value, EDIRFILE), 1);
+		if (errno == EACCES)
+			return (exec_error(shell, token->value, EPERMISS), 1);
+		if (errno == EISDIR)
+			return (exec_error(shell, token->value, EISDIR), 1);
+		if (errno == ENOTDIR)
+			return (exec_error(shell, token->value, ENOTDIR), 1);
+		else
+			return (perror("minishell: "), 1);
 	}
 	dup2(in_fd, 0);
 	close(in_fd);
@@ -77,33 +66,23 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 	return (0);
 }
 
-int	redirections(t_shell *shell, t_dll **tokens)
+void	identify_redirections(t_dll **tokens)
 {
 	t_dll	*curr;
 
 	if (!tokens || !*tokens)
-		return (0);
+		return ;
 	curr = *tokens;
-	while (curr && curr->token_type != OPERATOR && curr->token_type != PIPE)
+	while (curr)
 	{
-		if (curr->redir_type == READ)
+		if (ft_strnstr(curr->value, "/tmp/.heredoc_", 14))
 		{
-			if (in_fd(shell, tokens, curr))
-				return (1);
-		}
-		else if (curr->redir_type == WRITE)
-		{
-			if (out_fd(shell, tokens, curr, O_TRUNC))
-				return (1);
-		}
-		else if (curr->redir_type == APPEND)
-		{
-			if (out_fd(shell, tokens, curr, O_APPEND))
-				return (1);
+			curr->token_type = REDIRECTION;
+			curr->heredoc = TRUE;
+			curr->redir_type = READ;
 		}
 		curr = curr->next;
 	}
-	return (0);
 }
 
 int	handle_redirect(char *value, t_dll *nxt)
