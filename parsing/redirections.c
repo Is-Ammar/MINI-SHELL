@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/16 14:36:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 02:45:23 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG)
 		return (1);
 	}
 	out_fd = open(token->value, O_CREAT | O_WRONLY | O_FLAG, 0644);
+	if (out_fd == -1)
+	{
+		exec_error(shell, token->value, EDIRFILE);
+		return (1);
+	}
 	dup2(out_fd, 1);
 	close(out_fd);
 	return (0);
@@ -60,6 +65,11 @@ int	in_fd(t_shell *shell, t_dll **tokens, t_dll *token)
 		return (1);
 	}
 	in_fd = open(token->value, O_RDONLY);
+	if (in_fd == -1)
+	{
+		exec_error(shell, token->value, EDIRFILE);
+		return (1);
+	}
 	dup2(in_fd, 0);
 	close(in_fd);
 	if (token->heredoc)
