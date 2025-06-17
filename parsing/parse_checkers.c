@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 12:09:13 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:51:34 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	parsing(t_shell *shell, char *input)
 	if (g_received == SIGINT)
 		return (1);
 	redirect(&shell->tokens);
+	subshell_level(shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
 	return (0);
 }

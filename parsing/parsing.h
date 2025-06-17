@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 11:22:29 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:52:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_dll
 	int				wildcard;
 	int				operator;
 	int				fake_cmd;
+	int				level;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }	t_dll;
@@ -164,6 +165,7 @@ int		parse_input(t_shell *shell, t_dll **tokens);
 int		check_quotes(t_dll *tokens);
 int		check_brackets(t_dll *tokens);
 int		check_subshell(t_dll *tokens);
+void	subshell_level(t_dll *tokens);
 int		subshell_last(t_dll *tokens);
 int		check_logic(t_dll *tokens);
 int		additional_check_logic(t_dll *curr);
@@ -211,7 +213,6 @@ char	*delim_dollar(t_shell *shell, char *value, int *i, int is_dquote);
 /* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
 void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *nxt);
-int		redirections(t_shell *shell, t_dll **tokens);
 void	identify_redirections(t_dll **tokens);
 int		in_fd(t_shell *shell, t_dll **tokens, t_dll *token);
 int		out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG);
