@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 14:39:45 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:50:24 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ typedef struct s_shell
 	t_dll	*tokens;
 	t_ast	*ast;
 	t_gc	*g_collect;
-	int		subshell;
 	int		exit_code;
 	int		lines;
 	int		interactive;
 }	t_shell;
+
+void printtt(t_ast *root);
 
 #endif

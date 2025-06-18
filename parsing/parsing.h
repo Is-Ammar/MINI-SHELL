@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 13:52:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:50:48 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef enum e_token_type
 	REDIRECTION,
 	OPERATOR,
 	SYMBOL,
+	SUBSHELL,
 	WHITESPACE,
 }	t_token_type;
 
@@ -96,7 +97,6 @@ typedef struct s_dll
 	t_token_type	token_type;
 	t_quote_type	quote_type;
 	t_redirect		redir_type;
-	int				inside_parentheses;
 	int				expandable;
 	int				is_splited;
 	int				direction;
@@ -106,7 +106,6 @@ typedef struct s_dll
 	int				wildcard;
 	int				operator;
 	int				fake_cmd;
-	int				level;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }	t_dll;

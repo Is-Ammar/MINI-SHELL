@@ -6,24 +6,46 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/15 16:58:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:14:40 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
+static t_ast	*create_subshell_node(t_ast *content, t_shell *shell)
+{
+	t_ast	*subshell_node;
+	t_dll	*subshell_token;
+
+	subshell_node = ft_malloc(shell, sizeof(t_ast), 0);
+	memset(subshell_node, 0 , sizeof(t_ast));
+	subshell_token = ft_malloc(shell, sizeof(t_dll), 0);
+	memset(subshell_node, 0 , sizeof(t_dll));
+	subshell_token->value = ft_strdup(shell,"(subshell)");
+	subshell_token->token_type = SUBSHELL;
+	subshell_token->next = NULL;
+	subshell_token->prev = NULL;
+	subshell_node->token = subshell_token;
+	subshell_node->left = content;
+	subshell_node->right = NULL;
+	subshell_node->arguments = NULL;
+	subshell_node->forked = FALSE;
+	return (subshell_node);
+}
+
 static t_ast	*handle_bracket_content(t_dll **tokens, t_shell *shell)
 {
 	t_ast	*bracket_content;
+	t_ast	*subshell_node;
 	t_dll	*current;
 	int		bracket_level;
 
 	bracket_level = 1;
 	*tokens = (*tokens)->next;
 	current = *tokens;
+
 	while (current && bracket_level > 0)
 	{
-		current->inside_parentheses = TRUE;
 		if (current->bracket && current->value)
 		{
 			if (!ft_strcmp(current->value, "("))
@@ -31,24 +53,25 @@ static t_ast	*handle_bracket_content(t_dll **tokens, t_shell *shell)
 			else if (!ft_strcmp(current->value, ")"))
 				bracket_level--;
 		}
-		if (bracket_level)
+		if (bracket_level > 0)
 			current = current->next;
 		else
-			break ;
+			break;
 	}
 	bracket_content = parse_logical_operators(tokens, shell);
 	if (*tokens && (*tokens)->bracket)
 		*tokens = (*tokens)->next;
-	return (bracket_content);
+	subshell_node = create_subshell_node(bracket_content, shell);
+	
+	return (subshell_node);
 }
 
-void	copy_token_properties(t_dll *src, t_dll *dst)
+void	copy_token_properties(t_shell *shell, t_dll *src, t_dll *dst)
 {
-	dst->value = src->value;
+	dst->value = ft_strdup(shell, src->value);
 	dst->token_type = src->token_type;
 	dst->quote_type = src->quote_type;
 	dst->redir_type = src->redir_type;
-	dst->inside_parentheses = src->inside_parentheses;
 	dst->expandable = src->expandable;
 	dst->expandoc = src->expandoc;
 	dst->is_splited = src->is_splited;
@@ -90,7 +113,7 @@ static void	process_command_arguments(t_shell *shell, t_dll **tokens,
 		else
 		{
 			new_arg = ft_malloc(shell, sizeof(t_dll), 0);
-			copy_token_properties(curr, new_arg);
+			copy_token_properties(shell, curr, new_arg);
 			add_arg_to_list(tail, new_arg);
 			remove_token(tokens, curr);
 			tail = &new_arg->next;
@@ -112,7 +135,7 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 	if (!*tokens || !(*tokens)->value)
 		return (NULL);
 	if ((*tokens)->bracket)
-		return (handle_bracket_content(tokens, shell));
+		return (handle_bracket_content(tokens, shell));	
 	cmd_node = ft_malloc(shell, sizeof(t_ast), 0);
 	cmd_node->token = find_command(shell, *tokens);
 	cmd_node->arguments = NULL;

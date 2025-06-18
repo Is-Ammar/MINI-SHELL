@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   basic_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 13:37:05 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:33:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_dll	*create_token_list(t_shell *shell)
 	head->value = NULL;
 	head->token_type = WHITESPACE;
 	head->quote_type = NONE;
-	head->inside_parentheses = 0;
 	head->redir_type = 0;
 	head->expandable = 0;
 	head->is_splited = 0;
@@ -31,7 +30,6 @@ t_dll	*create_token_list(t_shell *shell)
 	head->wildcard = 0;
 	head->operator = 0;
 	head->fake_cmd = 0;
-	head->level = 0;
 	head->prev = NULL;
 	head->next = NULL;
 	return (head);

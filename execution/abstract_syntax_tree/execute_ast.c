@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/15 16:56:15 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:10:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,13 @@ static void	handle_operator(t_shell *shell, t_ast *original_ast)
 	else if (shell->ast->token->token_type == PIPE)
 		shell->exit_code = execute_pipe(shell);
 }
-
 void	execute_ast(t_shell *shell)
 {
 	t_ast	*original_ast;
 
-	if (!shell->ast)
-		return ;
-	if (shell->ast->token && shell->ast->token->inside_parentheses == TRUE
-		&& !shell->subshell)
+	if (shell->ast->token && shell->ast->token->token_type == SUBSHELL)
 	{
-		shell->subshell++;
 		execute_subshell(shell);
-		shell->subshell--;
 		return ;
 	}
 	if (shell->ast->token && shell->ast->token->redir_type != 0)

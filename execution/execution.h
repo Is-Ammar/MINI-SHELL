@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/17 09:39:54 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:21:37 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ double					ft_atoi(char *str);
 int						ft_isalpha(int c);
 int						ft_isalnum(int c);
 int						is_valid_identifier(const char *str);
-char					*get_current_dir_safe(t_shell *shell);
 char					*ft_strcat(char *dest, const char *src);
 char					**ft_split(t_shell *shell, char const *s, char c);
 void					ft_putchar_fd(char c, int fd);
@@ -94,7 +93,6 @@ t_ast					*parse_redirections(t_dll **tokens, t_shell *shell);
 t_ast					*parse_logical_operators(t_dll **tokens,
 							t_shell *shell);
 t_ast					*parse_pipe(t_dll **tokens, t_shell *shell);
-t_ast					*parse_command_sequence(t_dll **tokens, t_shell *shell);
 t_ast					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void					execute_simple_command(t_shell *shell);
 int						execute(t_shell *shell, char *path, char **args);
@@ -104,12 +102,12 @@ int						check_valid_cmd(t_shell *shell, char *cmd);
 //----------------------signals---------------------//
 void					setup_signal_handlers(void);
 void					reset_signal_handlers(void);
-
+int 					get_exit_code(int status);
 void					save_restore_fds(int *saved_stdout, int *saved_stdin,
 							int restore);
 
 void					add_arg_to_list(t_dll **tail, t_dll *new_arg);
-void					copy_token_properties(t_dll *src, t_dll *dst);
+void					copy_token_properties(t_shell *shell, t_dll *src, t_dll *dst);
 
 //--------------------------pipe------------------//
 void					handle_child1(t_shell *shell, int pipefd[2],

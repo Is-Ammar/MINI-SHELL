@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/10 11:52:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:20:07 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	execute_builtin_pwd(t_shell *shell)
 	char		*cwd;
 	struct stat	pwd_stat;
 	struct stat	dot_stat;
+	char		*tmp;
 
 	cwd = get_env_var(shell, shell->env_list, "PWD");
 	if (cwd)
@@ -32,15 +33,19 @@ void	execute_builtin_pwd(t_shell *shell)
 			}
 		}
 	}
-	cwd = get_current_dir_safe(shell);
-	if (!cwd)
+	cwd = getcwd(NULL, 0);
+	tmp = ft_strdup(shell, cwd);
+	free(cwd);
+	if (!tmp)
+		if (errno == ENOENT)
+			tmp = get_env_var(shell, shell->env_list, "PWD");
+	if (!tmp)
 	{
 		printf("pwd: error retrieving current directory: %s\n",
 			strerror(errno));
 		shell->exit_code = 1;
 		return ;
 	}
-	printf("%s\n", cwd);
-	free(cwd);
+	printf("%s\n", tmp);
 	shell->exit_code = 0;
 }

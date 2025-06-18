@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 11:31:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:28:25 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	copy_new_content(t_shell *shell, char *new_name, char *old_name)
 		write(fd1, line, ft_strlen(line));
 		line = get_next_line(shell, fd0);
 	}
+	get_next_line(shell, fd0);
 	close(fd0);
 	close(fd1);
 	unlink(new_name);
@@ -49,6 +50,7 @@ void	expand_heredoc(t_shell *shell, char *old_name)
 		write(fd1, line, ft_strlen(line));
 		line = get_next_line(shell, fd0);
 	}
+	get_next_line(shell, fd0);
 	close(fd0);
 	close(fd1);
 	copy_new_content(shell, name, old_name);
@@ -99,7 +101,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 		clean_exit(shell, 0);
 	}
 	else
-		waitpid(pid, &state, 2);
+		waitpid(pid, &state, 0);
 	if (WIFEXITED(state) && WEXITSTATUS(state) == 130)
 	{
 		shell->exit_code = 130;

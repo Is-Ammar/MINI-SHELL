@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/17 09:38:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:23:26 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	execute(t_shell *shell, char *path, char **args)
 	char	**env;
 	int		status;
 	int		exit_code;
+	int 	wait;
 
 	env = convert_env_to_array(shell, shell->env_list);
 	signal(SIGINT, SIG_IGN);
@@ -34,16 +35,11 @@ int	execute(t_shell *shell, char *path, char **args)
 	}
 	else
 	{
-		waitpid(pid, &status, 2);
-		signal(SIGINT, SIG_IGN);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		{
-			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-		}
-		if (WIFSIGNALED(status))
-			exit_code = 128 + WTERMSIG(status);
-		else
-			exit_code = WEXITSTATUS(status);
+		wait = waitpid(pid, &status, 0);
+		if(wait == -1 && errno == ECHILD)
+			exit_code = 127;
+		else 
+			exit_code = get_exit_code(status);
 	}
 	return (exit_code);
 }

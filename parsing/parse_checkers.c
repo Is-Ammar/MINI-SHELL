@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_checkers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 13:51:34 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:59:33 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,10 @@ int	parsing(t_shell *shell, char *input)
 	if (g_received == SIGINT)
 		return (1);
 	redirect(&shell->tokens);
-	subshell_level(shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
+	#ifdef DEBUG
+	printtt(shell->ast);
+	exit(0);
+	#endif
 	return (0);
 }

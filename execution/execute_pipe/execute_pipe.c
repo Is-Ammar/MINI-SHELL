@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/16 13:05:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:25:20 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,13 @@ static int	wait_and_get_exit_code(pid_t pid1, pid_t pid2)
 {
 	int	status;
 	int	exit_code;
+	int wait;
 
-	waitpid(pid1, NULL, 2);
-	waitpid(pid2, &status, 2);
-	signal(SIGINT, SIG_IGN);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-	if (WIFSIGNALED(status))
-		exit_code = 128 + WTERMSIG(status);
-	else
-		exit_code = WEXITSTATUS(status);
+	waitpid(pid1, NULL, 0);
+	wait = waitpid(pid2, &status, 0);
+	if(wait == -1 && errno == ECHILD)
+		exit_code = 127;
+	exit_code = get_exit_code(status);
 	return (exit_code);
 }
 
@@ -86,7 +83,7 @@ int	execute_pipe(t_shell *shell)
 		return (1);
 	if (fork_second_child(shell, pipefd, &pid2, original_ast) == 1)
 	{
-		waitpid(pid1, NULL, 2);
+		waitpid(pid1, NULL, 0);
 		return (1);
 	}
 	close(pipefd[0]);

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 20:33:50 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:18:15 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,13 @@ void	create_env(t_shell *shell, t_env **env, char **environ)
 		else if (shlvl_value >= 999)
 		{
 			ft_printf("minishell: warning: shell level (%d)", ++shlvl_value),
-				ft_printf(" too high, resetting to 1\n");
+			ft_printf(" too high, resetting to 1\n");
 			shlvl_value = 0;
 		}
 		shlvl_value++;
 		new_shlvl = ft_itoa(shell, shlvl_value, 1);
 		if (new_shlvl)
-		{
 			set_env_var(shell, env, env_strdup(shell, "SHLVL"), new_shlvl);
-		}
 	}
 }
 
@@ -107,25 +105,6 @@ void	unset_env_var(t_shell *shell, t_dll *token)
 		prev = env;
 		env = env->next;
 	}
-}
-
-char	*get_current_dir_safe(t_shell *shell)
-{
-	char	*cwd;
-	char	*pwd;
-
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		if (errno == ENOENT)
-		{
-			pwd = get_env_var(shell, shell->env_list, "PWD");
-			if (pwd)
-				return (ft_strdup(shell, pwd));
-		}
-		return (NULL);
-	}
-	return (cwd);
 }
 
 char	**convert_env_to_array(t_shell *shell, t_env *env_list)

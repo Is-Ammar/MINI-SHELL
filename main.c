@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 12:07:39 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:55:57 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix)
 	if (node->token) 
 	{
 		if (node->token->operator == AND)
-			printf("AND\n");
+			printf("AND:\n");
 		else if (node->token->operator == OR)
-			printf("OR\n");
+			printf("OR:\n");
 		else if (node->token->token_type == PIPE)
-			printf("PIPE\n");
+			printf("PIPE:\n");
+		else if (node->token->token_type == SUBSHELL)
+			printf(" %s\n",node->token->value);
 		else if (node->token->redir_type != 0)
 		{
 			if (node->token->redir_type == READ)
@@ -68,21 +70,13 @@ void printtt(t_ast *root)
 	printf("AST Visualization:\n");	print_ast_tree(root, 0, 1, "");
 }
 
-char	*get_prompt(t_shell *shell)
+char	*join_prompt(t_shell *shell, char *cwd, char *username)
 {
-	char	cwd[1024];
 	char	*line1;
 	char	*line2;
-	char	*username;
 	char	*tmp;
 
-	username = getenv("USER");
-	if (!username)
-		username = "user";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		ft_strlcpy(cwd, "~",ft_strlen(cwd));
-	line1 = ft_strdup(shell, B_GREEN);
-	tmp = ft_strjoin(shell, line1, username);
+	tmp = ft_strjoin(shell, B_GREEN, username);
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, RESET B_WHITE"@"B_GRAY"minishell"B_WHITE" ❯ ");
 	line1 = tmp;
@@ -90,13 +84,29 @@ char	*get_prompt(t_shell *shell)
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, cwd);
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, RESET B_BLUE "┃" RESET);
-	line1 = tmp;
+	tmp = ft_strjoin(shell, line1, RESET B_BLUE "┃\n" RESET);
 	line2 = ft_strdup(shell, B_YELLOW "\001➔\002 \x7f" RESET);
-	tmp = ft_strjoin(shell, line1, "\n");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, line2);
-	return (tmp);
+	return(tmp);
+}
+
+char	*get_prompt(t_shell *shell)
+{
+	char	*cwd;
+	char	*username;
+	char	*tmp;
+
+	username = getenv("USER");
+	if (!username)
+		username = "user";
+	cwd = getcwd(NULL, 0);
+	tmp = ft_strdup(shell, cwd);
+	if(cwd)
+		free(cwd);
+	if (!tmp)
+		tmp = ft_strdup(shell, "~");
+	return (join_prompt(shell, tmp, username));
 }
 
 int	check_input(t_shell *shell, char *input)

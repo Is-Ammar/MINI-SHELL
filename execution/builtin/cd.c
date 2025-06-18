@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 14:11:17 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 15:43:28 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
 	if (arg_token && arg_token->next && arg_token->next)
 	{
 		ft_printf("Minishell: cd: too many arguments\n");
-		free(*dir);
 		*dir = NULL;
 		return (1);
 	}
@@ -109,19 +108,28 @@ void	execute_builtin_cd(t_shell *shell)
 	char	*dir;
 	t_dll	*arg_token;
 	char	*cwd;
+	char *tmp;
 
 	dir = NULL;
-	cwd = get_current_dir_safe(shell);
-	if (!cwd)
+	cwd = getcwd(NULL, 0);
+	tmp = ft_strdup(shell, cwd);
+	free(cwd);
+	if (!tmp)
+	{
+		if (errno == ENOENT)
+		{
+			tmp = get_env_var(shell, shell->env_list, "PWD");
+		}
+	}
+	if (!tmp)
 	{
 		perror("Minishell: cd: ");
 		shell->exit_code = 1;
 		return ;
 	}
 	arg_token = shell->ast->arguments;
-	if (parse_cd_args(arg_token, shell, &dir, &cwd))
+	if (parse_cd_args(arg_token, shell, &dir, &tmp))
 	{
-		free(cwd);
 		shell->exit_code = 1;
 		return ;
 	}
@@ -129,11 +137,9 @@ void	execute_builtin_cd(t_shell *shell)
 	{
 		ft_printf("Minishell: cd: ");
 		perror(dir);
-		free(cwd);
 		shell->exit_code = 1;
 		return ;
 	}
-	update_pwd_vars(shell, cwd);
-	free(cwd);
+	update_pwd_vars(shell, tmp);
 	shell->exit_code = 0;
 }

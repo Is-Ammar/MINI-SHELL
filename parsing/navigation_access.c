@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   navigation_access.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 13:53:18 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:54:19 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,29 +92,3 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 	return (head);
 }
 
-void	subshell_level(t_dll *tokens)
-{
-	t_dll	*curr;
-	int		level;
-
-	curr = tokens;
-	level = 0;
-	if (find_token(tokens, SYMBOL) == NULL)
-		return ;
-	while (curr)
-	{
-		if (curr->value[0] == '(')
-		{
-			level++;
-			curr->level = level;
-		}
-		else if (curr->value[0] == ')')
-		{
-			curr->level = level;
-			level--;
-		}
-		else
-			curr->level = level;
-		curr = curr->next;
-	}
-}
