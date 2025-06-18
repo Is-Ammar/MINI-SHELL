@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 16:55:57 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:44:26 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int g_received = 0;
 
-
-void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
+/* void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix) 
 {
 	if (!node) return;
 
@@ -63,12 +62,12 @@ void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix)
 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
 	print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
 	print_ast_tree(node->right, depth + 1, 1, new_prefix);
-}
+} */
 
-void printtt(t_ast *root)
+/* void printtt(t_ast *root)
 {
 	printf("AST Visualization:\n");	print_ast_tree(root, 0, 1, "");
-}
+} */
 
 char	*join_prompt(t_shell *shell, char *cwd, char *username)
 {
@@ -123,7 +122,7 @@ int	check_input(t_shell *shell, char *input)
 	}
 	if (parsing(shell, input))
 	{
-		if(g_received == SIGINT)
+		if (g_received == SIGINT)
 		{
 			shell->exit_code = 130;
 			g_received = 0;
@@ -139,7 +138,7 @@ int	check_input(t_shell *shell, char *input)
 void	read_eval_print_loop(t_shell *shell)
 {
 	char	*input;
-	
+
 	input = NULL;
 	while (1337)
 	{
@@ -184,10 +183,10 @@ void	non_interactive_mode(t_shell *shell)
 
 int	main(int ac, char **av, char **env)
 {
-	t_shell shell;
+	t_shell	shell;
+
 	(void)av;
 	(void)ac;
-
 	memset(&shell, 0, sizeof(shell));
 	create_env(&shell, &shell.env_list, env);
 	shell.interactive = isatty(STDIN_FILENO);

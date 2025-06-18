@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 16:14:40 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 18:33:42 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ static t_ast	*create_subshell_node(t_ast *content, t_shell *shell)
 	t_dll	*subshell_token;
 
 	subshell_node = ft_malloc(shell, sizeof(t_ast), 0);
-	memset(subshell_node, 0 , sizeof(t_ast));
 	subshell_token = ft_malloc(shell, sizeof(t_dll), 0);
-	memset(subshell_node, 0 , sizeof(t_dll));
 	subshell_token->value = ft_strdup(shell,"(subshell)");
 	subshell_token->token_type = SUBSHELL;
 	subshell_token->next = NULL;

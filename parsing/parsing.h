@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 15:50:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:48:11 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@
 # include <readline/readline.h>
 # include "../execution/execution.h"
 # include "../smash.h"
-
-# define RESET	 "\001\033[0m\002"
-# define RED	 "\001\033[0;31m\002"
-# define PURPLE  "\001\033[0;35m\002"
-# define CYAN	 "\001\033[0;36m\002"
-
-# define B_RED		"\001\033[1;31m\002"
-# define B_GREEN	"\001\033[1;32m\002"
-# define B_YELLOW	"\001\033[1;33m\002"
-# define B_BLUE		"\001\033[1;34m\002"
-# define B_PURPLE	"\001\033[1;35m\002"
-# define B_CYAN		"\001\033[1;36m\002"
-# define B_WHITE	"\001\033[1;37m\002"
-# define B_GRAY		"\001\033[1;90m\002"
 
 # define FALSE			0
 # define TRUE			1
@@ -164,7 +150,6 @@ int		parse_input(t_shell *shell, t_dll **tokens);
 int		check_quotes(t_dll *tokens);
 int		check_brackets(t_dll *tokens);
 int		check_subshell(t_dll *tokens);
-void	subshell_level(t_dll *tokens);
 int		subshell_last(t_dll *tokens);
 int		check_logic(t_dll *tokens);
 int		additional_check_logic(t_dll *curr);

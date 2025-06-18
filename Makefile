@@ -30,6 +30,7 @@ EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/abstract_syntax_tree/execute_redirections.c execution/abstract_syntax_tree/execute_subshell.c execution/abstract_syntax_tree/parse_redirections.c
 
 # -------------------------------------------------------------------------- #
+
 PARS_OBJ = ${PARS_SRC:%.c=%.o}
 
 EXEC_OBJ = ${EXEC_SRC:%.c=%.o}

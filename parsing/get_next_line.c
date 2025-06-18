@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 16:27:49 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:09:26 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ char	*get_container(t_shell *shell, char *contain, char *buff, int fd)
 			return (contain);
 		reader = read(fd, buff, BUFFER_SIZE);
 	}
-	if (contain)
-		return (contain);
-	return (NULL);
+	return (contain);
 }
 
 char	*get_next_line(t_shell *shell, int fd)
@@ -86,7 +84,7 @@ char	*get_next_line(t_shell *shell, int fd)
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || !shell)
-		return (contain = NULL, NULL);
+		return (contain = NULL, contain);
 	buff = ft_malloc(shell, BUFFER_SIZE + 1, 0);
 	contain = get_container(shell, contain, buff, fd);
 	if (!contain || !ft_strlen(contain))

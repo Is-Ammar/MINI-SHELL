@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 16:23:26 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:11:44 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-int	execute(t_shell *shell, char *path, char **args)
+int	execute(t_shell *shell, char *path, char *cmd, char **args)
 {
 	pid_t	pid;
 	char	**env;
@@ -31,6 +31,7 @@ int	execute(t_shell *shell, char *path, char **args)
 	{
 		reset_signal_handlers();
 		execve(path, args, env);
+		shell->exit_code = exec_error(shell, cmd, ECOMMAND);
 		clean_exit(shell, shell->exit_code);
 	}
 	else
@@ -100,7 +101,7 @@ void	execute_external(t_shell *shell)
 	path = get_command_path(shell, cmd, shell->env_list);
 	if (path)
 	{
-		shell->exit_code = execute(shell, path, args);
+		shell->exit_code = execute(shell, path, cmd, args);
 		if (shell->exit_code == 0 && !ac)
 			set_env_var(shell, &shell->env_list, "_", path);
 		else

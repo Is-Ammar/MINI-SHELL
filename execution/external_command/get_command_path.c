@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/17 10:22:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:25:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	check_absolute_cmd(t_shell *shell, char *cmd)
 		{
 			if (errno == ENOENT)
 			{
-    		    shell->exit_code = exec_error(shell, cmd, EDIRFILE);
+				shell->exit_code = exec_error(shell, cmd, EDIRFILE);
 				return (1);
 			}
-    		if (errno == ENOTDIR)
+			if (errno == ENOTDIR)
 			{
-    		    exec_error(shell, cmd, ENOTDIR);
+				exec_error(shell, cmd, ENOTDIR);
 				return (shell->exit_code = 126, 1);
 			}
 			return (perror("minishell: "), 1);
@@ -94,11 +94,6 @@ static char	*handle_absolute_path(t_shell *shell, char *cmd)
 
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
-		if (!ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
-		{
-			shell->exit_code = exec_error(shell, cmd, ECOMMAND);
-			return (NULL);
-		}
 		if (stat(cmd, &sb) == 0 && access(cmd, F_OK) == 0)
 		{
 			if (access(cmd, X_OK) == -1)
