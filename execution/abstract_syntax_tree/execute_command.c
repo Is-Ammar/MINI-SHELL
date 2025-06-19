@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/16 13:01:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:46:38 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	handle_expansions(t_shell *shell)
 	{
 		nxt = curr->next;
 		if (expansion(shell, &shell->ast->token, &curr))
-			return (1);
+		return (1);
 		curr = nxt;
 	}
 	curr = shell->ast->arguments;

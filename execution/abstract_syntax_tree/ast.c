@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:00:22 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/17 02:34:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:09:41 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_ast	*parse_logical_operators(t_dll **tokens, t_shell *shell)
 		logical_node = ft_malloc(shell, sizeof(t_ast), 0);
 		logical_node->token = *tokens;
 		logical_node->left = result;
-		logical_node->forked = FALSE;
 		*tokens = (*tokens)->next;
 		logical_node->right = parse_pipe(tokens, shell);
 		if (!logical_node->right)
@@ -57,7 +56,6 @@ t_ast	*parse_pipe(t_dll **tokens, t_shell *shell)
 		pipe_node = ft_malloc(shell, sizeof(t_ast), 0);
 		pipe_node->token = *tokens;
 		pipe_node->left = result;
-		pipe_node->forked = FALSE;
 		*tokens = (*tokens)->next;
 		pipe_node->right = parse_redirections(tokens, shell);
 		if (!pipe_node->right)

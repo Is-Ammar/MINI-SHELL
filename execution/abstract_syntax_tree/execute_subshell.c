@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:07:47 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 15:35:18 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:01:22 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	execute_subshell(t_shell *shell)
 	if (pid == 0)
 	{
 		reset_signal_handlers();
-		shell->ast->forked = TRUE;
 		shell->ast = shell->ast->left;
 		execute_ast(shell);
 		clean_exit(shell, shell->exit_code);

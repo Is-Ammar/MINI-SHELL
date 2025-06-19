@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/14 15:18:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:56:17 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_builtin_exit(t_shell *shell)
 	int		valid;
 	t_dll	*arg_token;
 
-	if (!shell->ast->forked)
+	if (!shell->ast->token->fork)
 		printf("exit\n");
 	status = shell->exit_code;
 	if (shell->ast && shell->ast->token && shell->ast->arguments)

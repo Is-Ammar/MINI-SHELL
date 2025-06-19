@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 17:48:11 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:59:18 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_dll
 	int				wildcard;
 	int				operator;
 	int				fake_cmd;
+	int				fork;
 	struct s_dll	*prev;
 	struct s_dll	*next;
 }	t_dll;
@@ -150,6 +151,7 @@ int		parse_input(t_shell *shell, t_dll **tokens);
 int		check_quotes(t_dll *tokens);
 int		check_brackets(t_dll *tokens);
 int		check_subshell(t_dll *tokens);
+void	forked_cmd(t_dll *tokens);
 int		subshell_last(t_dll *tokens);
 int		check_logic(t_dll *tokens);
 int		additional_check_logic(t_dll *curr);

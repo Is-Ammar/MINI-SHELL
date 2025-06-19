@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   navigation_access.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 17:19:15 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:59:30 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,31 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 	}
 	head->fake_cmd = TRUE;
 	return (head);
+}
+
+void	forked_cmd(t_dll *tokens)
+{
+	t_dll	*curr;
+	int		fork;
+
+	curr = tokens;
+	fork = 0;
+	if (find_token(tokens, SYMBOL) == NULL)
+		return ;
+	while (curr)
+	{
+		if (curr->value[0] == '(')
+		{
+			fork++;
+			curr->fork = fork;
+		}
+		else if (curr->value[0] == ')')
+		{
+			curr->fork = fork;
+			fork--;
+		}
+		else
+			curr->fork = fork;
+		curr = curr->next;
+	}
 }

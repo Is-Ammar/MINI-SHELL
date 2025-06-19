@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 11:59:33 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:58:50 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	parsing(t_shell *shell, char *input)
 	if (g_received == SIGINT)
 		return (1);
 	redirect(&shell->tokens);
+	forked_cmd(shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
 	#ifdef DEBUG
 	printtt(shell->ast);

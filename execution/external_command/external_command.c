@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 17:11:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:19:58 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ void	execute_external(t_shell *shell)
 	path = get_command_path(shell, cmd, shell->env_list);
 	if (path)
 	{
-		shell->exit_code = execute(shell, path, cmd, args);
 		if (shell->exit_code == 0 && !ac)
 			set_env_var(shell, &shell->env_list, "_", path);
 		else
 			set_env_var(shell, &shell->env_list, "_", args[ac]);
+		shell->exit_code = execute(shell, path, cmd, args);
 	}
 }

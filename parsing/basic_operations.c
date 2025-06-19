@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 16:33:14 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:06:33 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_dll	*create_token_list(t_shell *shell)
 	head->wildcard = 0;
 	head->operator = 0;
 	head->fake_cmd = 0;
+	head->fork = 0;
 	head->prev = NULL;
 	head->next = NULL;
 	return (head);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 18:33:42 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:10:30 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static t_ast	*create_subshell_node(t_ast *content, t_shell *shell)
 	subshell_node->left = content;
 	subshell_node->right = NULL;
 	subshell_node->arguments = NULL;
-	subshell_node->forked = FALSE;
 	return (subshell_node);
 }
 
@@ -78,6 +77,7 @@ void	copy_token_properties(t_shell *shell, t_dll *src, t_dll *dst)
 	dst->heredoc = src->heredoc;
 	dst->wildcard = src->wildcard;
 	dst->operator = src->operator;
+	dst->fork = src->fork;
 	dst->prev = NULL;
 	dst->next = NULL;
 }
@@ -139,7 +139,6 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 	cmd_node->arguments = NULL;
 	cmd_node->left = NULL;
 	cmd_node->right = NULL;
-	cmd_node->forked = FALSE;
 	tail = &cmd_node->arguments;
 	start_tokens = *tokens;
 	process_command_arguments(shell, tokens, cmd_node, tail);
