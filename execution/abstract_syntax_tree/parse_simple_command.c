@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/19 13:10:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 17:01:14 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,13 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 	t_dll	*start_tokens;
 
 	first_token = *tokens;
+
 	if (!*tokens || !(*tokens)->value)
 		return (NULL);
 	if ((*tokens)->bracket)
-		return (handle_bracket_content(tokens, shell));	
+		return (handle_bracket_content(tokens, shell));
+	if (first_token-> token_type != WORD)
+		return (NULL);
 	cmd_node = ft_malloc(shell, sizeof(t_ast), 0);
 	cmd_node->token = find_command(shell, *tokens);
 	cmd_node->arguments = NULL;
