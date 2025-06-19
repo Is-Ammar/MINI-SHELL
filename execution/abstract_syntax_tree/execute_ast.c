@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:39:11 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/19 13:55:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/19 14:58:36 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,23 @@ void	execute_ast(t_shell *shell)
 {
 	t_ast	*original_ast;
 
-	if (shell->ast->token && shell->ast->token->token_type == SUBSHELL)
+	if (shell->ast && shell->ast->token && shell->ast->token->token_type == SUBSHELL)
 	{
 		execute_subshell(shell);
 		return ;
 	}
-	if (shell->ast->token && shell->ast->token->redir_type != 0)
+	if (shell->ast && shell->ast->token && shell->ast->token->redir_type != 0)
 	{
 		original_ast = shell->ast;
 		execute_redirections(shell, original_ast);
 		return ;
 	}
-	if (!shell->ast->left && !shell->ast->right)
+	if (shell->ast && !shell->ast->left && !shell->ast->right)
 	{
 		execute_simple_command(shell);
 		return ;
 	}
-	if (shell->ast->token)
+	if (shell->ast && shell->ast->token)
 	{
 		original_ast = shell->ast;
 		handle_operator(shell, original_ast);
