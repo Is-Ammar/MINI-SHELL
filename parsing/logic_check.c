@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 11:12:04 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:52:30 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	subshell_last(t_dll *tokens)
 	while (curr && curr->next)
 	{
 		nxt = curr->next;
+		if (curr->bracket == LEFT && nxt->bracket == RIGHT)
+			return (parse_error(nxt->value, ESYNTAX), 1);
 		if (curr->bracket == LEFT && nxt->token_type == REDIRECTION)
 			flag = 1;
 		if (flag && nxt->token_type == WORD && nxt->next

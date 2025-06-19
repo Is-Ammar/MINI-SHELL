@@ -7,7 +7,7 @@ ifeq ($(d),1)
 endif
 # -------------------------------- habdella -------------------------------- #
 
-PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/tokenizer.c \
+PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/tokenizer.c parsing/flaged_tokens.c \
 			parsing/tools/token_helpers.c parsing/parse_checkers.c parsing/parse_modifiers.c \
 			parsing/tools/parse_helpers.c parsing/logic_check.c parsing/expand_string.c  \
 			parsing/tools/expan_helpers.c parsing/expand_mask.c parsing/heredoc.c \

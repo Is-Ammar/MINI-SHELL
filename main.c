@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 17:44:26 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:13:20 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ char	*join_prompt(t_shell *shell, char *cwd, char *username)
 
 	tmp = ft_strjoin(shell, B_GREEN, username);
 	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, RESET B_WHITE"@"B_GRAY"minishell"B_WHITE" ❯ ");
+	tmp = ft_strjoin(shell, line1, \
+		RESET B_WHITE"@"B_GRAY"minishell"B_WHITE" ❯ ");
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, B_BLUE "┃" B_CYAN BG_BLACK);
 	line1 = tmp;
@@ -87,7 +88,7 @@ char	*join_prompt(t_shell *shell, char *cwd, char *username)
 	line2 = ft_strdup(shell, B_YELLOW "\001➔\002 \x7f" RESET);
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, line2);
-	return(tmp);
+	return (tmp);
 }
 
 char	*get_prompt(t_shell *shell)
@@ -101,7 +102,7 @@ char	*get_prompt(t_shell *shell)
 		username = "user";
 	cwd = getcwd(NULL, 0);
 	tmp = ft_strdup(shell, cwd);
-	if(cwd)
+	if (cwd)
 		free(cwd);
 	if (!tmp)
 		tmp = ft_strdup(shell, "~");
