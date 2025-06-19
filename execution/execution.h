@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/19 13:07:56 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 00:31:01 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../parsing/parsing.h"
 # include <errno.h>
+# include <limits.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -41,6 +42,12 @@ typedef struct s_ast
 	struct s_ast		*left;
 	struct s_ast		*right;
 }						t_ast;
+
+typedef struct s_redir_context
+{
+	t_ast				*command_node;
+	t_ast				**last_redir;
+}						t_redir_context;
 
 //------------------------------Execution--------------------//
 int						is_builtin(t_shell *shell);
@@ -83,6 +90,7 @@ void					add_env_var(t_shell *shell, t_env **env_list,
 void					unset_env_var(t_shell *shell, t_dll *token);
 char					**convert_env_to_array(t_shell *shell, t_env *env_list);
 void					set_last_cmd_env(t_shell *shell);
+void					update_shlvl(t_shell *shell, t_env **env);
 
 //-------------------Create-new-env--------------------------//
 void					create_env(t_shell *shell, t_env **env, char **environ);
@@ -94,7 +102,7 @@ t_ast					*parse_logical_operators(t_dll **tokens,
 t_ast					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void					execute_simple_command(t_shell *shell);
-int						execute(t_shell *shell, char *path, char *cmd, \
+int						execute(t_shell *shell, char *path, char *cmd,
 							char **args);
 char					*get_command_path(t_shell *shell, char *cmd,
 							t_env *env_list);
@@ -102,12 +110,14 @@ int						check_valid_cmd(t_shell *shell, char *cmd);
 //----------------------signals---------------------//
 void					setup_signal_handlers(void);
 void					reset_signal_handlers(void);
-int 					get_exit_code(int status);
+int						get_exit_code(int status);
 void					save_restore_fds(int *saved_stdout, int *saved_stdin,
 							int restore);
 
 void					add_arg_to_list(t_dll **tail, t_dll *new_arg);
-void					copy_token_properties(t_shell *shell, t_dll *src, t_dll *dst);
+void					copy_token_properties(t_shell *shell, t_dll *src,
+							t_dll *dst);
+t_ast					*handle_bracket_content(t_dll **tokens, t_shell *shell);
 
 //--------------------------pipe------------------//
 void					handle_child1(t_shell *shell, int pipefd[2],
@@ -118,4 +128,12 @@ void					handle_child2(t_shell *shell, int pipefd[2],
 int						redirection(t_shell *shell, t_ast *redir);
 void					execute_redirections(t_shell *shell,
 							t_ast *original_ast);
+//--------------------cd--------------//
+char					*get_directory(t_shell *shell, char *dir_type,
+							char *cwd);
+char					*resolve_directory(t_dll *arg_token, t_shell *shell,
+							char *cwd);
+int						parse_cd_args(t_dll *arg_token, t_shell *shell,
+							char **dir, char **cwd);
+void					update_pwd_vars(t_shell *shell, char *old_cwd);
 #endif

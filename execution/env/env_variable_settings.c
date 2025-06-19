@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/06 08:15:22 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 00:51:44 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,37 @@ void	add_env_var(t_shell *shell, t_env **env_list, char *name, char *value)
 		current = current->next;
 	current->next = new_var;
 	return ;
+}
+
+void	update_shlvl(t_shell *shell, t_env **env)
+{
+	char	*shlvl_entry;
+	int		shlvl_value;
+	char	*new_shlvl;
+
+	shlvl_entry = NULL;
+	shlvl_value = 0;
+	new_shlvl = NULL;
+	shlvl_entry = get_env_var(shell, *env, "SHLVL");
+	if (!shlvl_entry)
+	{
+		set_env_var(shell, env, env_strdup(shell, "SHLVL"), env_strdup(shell,
+				"1"));
+	}
+	else
+	{
+		shlvl_value = ft_atoi(shlvl_entry);
+		if (shlvl_value < 0)
+			shlvl_value = 0;
+		else if (shlvl_value >= 999)
+		{
+			ft_printf("minishell: warning: shell level (%d)", ++shlvl_value),
+			ft_printf(" too high, resetting to 1\n");
+			shlvl_value = 0;
+		}
+		shlvl_value++;
+		new_shlvl = ft_itoa(shell, shlvl_value, 1);
+		if (new_shlvl)
+			set_env_var(shell, env, env_strdup(shell, "SHLVL"), new_shlvl);
+	}
 }

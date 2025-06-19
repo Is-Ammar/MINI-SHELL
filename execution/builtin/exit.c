@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/19 14:11:21 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 00:20:01 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,57 @@ int	is_valid(char *arg)
 	return (1);
 }
 
+int	check_overflow(char *str, long result)
+{
+	int		i;
+	int		sign;
+	long	check;
+
+	i = 0;
+	sign = 1;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	check = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (check > (LONG_MAX - (str[i] - '0')) / 10)
+			return (1);
+		check = check * 10 + (str[i] - '0');
+		i++;
+	}
+	if (sign == -1 && check > LONG_MAX)
+		return (1);
+	return (result != check * sign);
+}
+
+static int	validate_and_convert_arg(char *arg, int *status)
+{
+	long	result;
+
+	if (!arg || !is_valid(arg))
+	{
+		ft_printf("minishell: exit: numeric argument required\n");
+		*status = 2;
+		return (0);
+	}
+	result = ft_atoi(arg);
+	if (check_overflow(arg, result))
+	{
+		ft_printf("minishell: exit: numeric argument required\n");
+		*status = 2;
+		return (0);
+	}
+	*status = (unsigned char)result;
+	return (1);
+}
+
 void	execute_builtin_exit(t_shell *shell)
 {
 	int		status;
-	long	long_status;
-	char	*arg;
-	int		valid;
 	t_dll	*arg_token;
 
 	if (!shell->ast->token->fork)
@@ -46,23 +91,16 @@ void	execute_builtin_exit(t_shell *shell)
 	if (shell->ast && shell->ast->token && shell->ast->arguments)
 	{
 		arg_token = shell->ast->arguments;
-		arg = arg_token->value;
-		valid = is_valid(arg);
-		if (!valid)
+		if (!validate_and_convert_arg(arg_token->value, &status))
 		{
-			ft_printf("minishell: exit: numeric argument required\n");
-			clean_exit(shell, 2);
+			clean_exit(shell, status);
+			return ;
 		}
-		long_status = ft_atoi(arg);
 		if (arg_token->next && arg_token->next->value)
 		{
 			ft_printf("minishell: exit: too many arguments\n");
 			shell->exit_code = 1;
 			return ;
-		}
-		else
-		{
-			status = (int)long_status;
 		}
 	}
 	clean_exit(shell, status);

@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 15:43:28 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 00:04:30 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,45 +101,4 @@ void	update_pwd_vars(t_shell *shell, char *old_cwd)
 	}
 	set_env_var(shell, &shell->env_list, "PWD", new_cwd);
 	free(new_cwd);
-}
-
-void	execute_builtin_cd(t_shell *shell)
-{
-	char	*dir;
-	t_dll	*arg_token;
-	char	*cwd;
-	char *tmp;
-
-	dir = NULL;
-	cwd = getcwd(NULL, 0);
-	tmp = ft_strdup(shell, cwd);
-	free(cwd);
-	if (!tmp)
-	{
-		if (errno == ENOENT)
-		{
-			tmp = get_env_var(shell, shell->env_list, "PWD");
-		}
-	}
-	if (!tmp)
-	{
-		perror("Minishell: cd: ");
-		shell->exit_code = 1;
-		return ;
-	}
-	arg_token = shell->ast->arguments;
-	if (parse_cd_args(arg_token, shell, &dir, &tmp))
-	{
-		shell->exit_code = 1;
-		return ;
-	}
-	if (chdir(dir) != 0)
-	{
-		ft_printf("Minishell: cd: ");
-		perror(dir);
-		shell->exit_code = 1;
-		return ;
-	}
-	update_pwd_vars(shell, tmp);
-	shell->exit_code = 0;
 }

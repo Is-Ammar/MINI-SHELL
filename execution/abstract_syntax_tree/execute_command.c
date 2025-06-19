@@ -38,7 +38,7 @@ int	handle_expansions(t_shell *shell)
 	{
 		nxt = curr->next;
 		if (expansion(shell, &shell->ast->token, &curr))
-		return (1);
+			return (1);
 		curr = nxt;
 	}
 	curr = shell->ast->arguments;
