@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 10:50:22 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:58:54 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_ast					*parse_logical_operators(t_dll **tokens,
 t_ast					*parse_pipe(t_dll **tokens, t_shell *shell);
 t_ast					*parse_simple_command(t_dll **tokens, t_shell *shell);
 void					execute_simple_command(t_shell *shell);
+void					additional_wildcard(t_shell *shell);
 int						execute(t_shell *shell, char *path, char *cmd,
 							char **args);
 char					*get_command_path(t_shell *shell, char *cmd,

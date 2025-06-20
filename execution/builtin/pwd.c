@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:47:33 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 14:58:05 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ void	execute_builtin_pwd(t_shell *shell)
 		tmp = ft_strdup(shell, cwd);
 		free(cwd);
 		if (!tmp)
-			if (errno == ENOENT)
-				tmp = get_env_var(shell, shell->env_list, "PWD");
-		if (!tmp)
 		{
-			printf("pwd: error retrieving current directory: %s\n",
+			ft_printf("pwd: error retrieving current directory: %s\n",
 				strerror(errno));
 			shell->exit_code = 1;
 			return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/20 08:13:37 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:46:04 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	non_interactive_mode(t_shell *shell)
 	input = NULL;
 	while (1337)
 	{
+		setup_signal_handlers();
 		input = my_readline(shell);
 		shell->lines++;
 		if (!input)
