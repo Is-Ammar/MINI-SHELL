@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:20:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 09:21:14 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	is_valid(char *arg)
 	return (1);
 }
 
-int	check_overflow(char *str, long result)
+void	check_overflow(char *str, int *overflow)
 {
-	int		i;
-	int		sign;
-	long	check;
+	int				i;
+	int				sign;
+	unsigned long	check;
 
 	i = 0;
 	sign = 1;
@@ -49,19 +49,37 @@ int	check_overflow(char *str, long result)
 	check = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (check > (LONG_MAX - (str[i] - '0')) / 10)
-			return (1);
 		check = check * 10 + (str[i] - '0');
+		if (sign == 1 && check > LONG_MAX)
+			*overflow = 1;
+		if (sign == -1 && check - 1 > LONG_MAX)
+			*overflow = 1;
 		i++;
 	}
-	if (sign == -1 && check > LONG_MAX)
-		return (1);
-	return (result != check * sign);
+}
+
+int	ft_atol(char *s)
+{
+	long	num;
+	int		sign;
+
+	num = 0;
+	sign = 1;
+	if (*s == '-' || *s == '+')
+		if (*s++ == '-')
+			sign *= -1;
+	while (*s >= '0' && *s <= '9')
+	{
+		num = (*s - '0') + (num * 10);
+		s++;
+	}
+	return ((long)(num * sign));
 }
 
 static int	validate_and_convert_arg(char *arg, int *status)
 {
 	long	result;
+	int		overflow;
 
 	if (!arg || !is_valid(arg))
 	{
@@ -69,8 +87,10 @@ static int	validate_and_convert_arg(char *arg, int *status)
 		*status = 2;
 		return (0);
 	}
-	result = ft_atoi(arg);
-	if (check_overflow(arg, result))
+	overflow = 0;
+	result = ft_atol(arg);
+	check_overflow(arg, &overflow);
+	if (overflow)
 	{
 		ft_printf("minishell: exit: numeric argument required\n");
 		*status = 2;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:31:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:50:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,8 @@ char					*resolve_directory(t_dll *arg_token, t_shell *shell,
 int						parse_cd_args(t_dll *arg_token, t_shell *shell,
 							char **dir, char **cwd);
 void					update_pwd_vars(t_shell *shell, char *old_cwd);
+//-------------------path cmd checkers-------------------------//
+int						check_absolute_cmd(t_shell *shell, char *cmd);
+int						check_valid_cmd(t_shell *shell, char *cmd);
+int						check_valid_path(char *full_path);
 #endif

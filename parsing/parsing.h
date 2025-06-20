@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/19 14:29:31 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 08:25:31 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ typedef struct s_shell	t_shell;
 typedef struct s_env	t_env;
 typedef struct s_ast	t_ast;
 
-// -------------------- Everything about tokens -------------------- //
 /* ///////////////// Basic token operation \\\\\\\\\\\\\\\\\\\\\ */
 t_dll	*create_token_list(t_shell *shell);
 void	add_token(t_shell *shell, t_dll **head, char *val, t_token_type t_type);
@@ -140,9 +139,12 @@ int		ft_printf(const char *format, ...);
 char	*my_readline(t_shell *shell);
 int		parse_error(char *val, t_error_type error);
 int		exec_error(t_shell *shell, char *val, t_error_type error);
-// ----------------------------------------------------------------- //
+/* //////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
-// -------------------- Everything about Parsing -------------------- //
+/* ////////////////// prompt functions \\\\\\\\\\\\\\\\\\\\\ */
+char	*get_prompt(t_shell *shell);
+char	*join_prompt(t_shell *shell, char *cwd, char *username);
+/* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
 /* ///////////////// main parsing functions \\\\\\\\\\\\\\\\\\\\\\\\\ */
 int		parsing(t_shell *shell, char *input);
@@ -198,13 +200,14 @@ char	*ft_strnstr(const char *big, const char *little, int len);
 char	*expand_delim(t_shell *shell, char *value);
 char	*delim_dquote(t_shell *shell, char *val, int *i);
 char	*delim_dollar(t_shell *shell, char *value, int *i, int is_dquote);
-/* ///////////////// redirections \\\\\\\\\\\\\\\\\\\\\ */
+/* /////////////////// redirections \\\\\\\\\\\\\\\\\\\\\\\ */
 void	redirect(t_dll **tokens);
 int		handle_redirect(char *value, t_dll *nxt);
 void	identify_redirections(t_dll **tokens);
 int		in_fd(t_shell *shell, t_dll **tokens, t_dll *token);
 int		out_fd(t_shell *shell, t_dll **tokens, t_dll *token, int O_FLAG);
-// ------------------------------------------------------------------ //
+/* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+
 /* ///////////////// address flushers \\\\\\\\\\\\\\\\\\\\\ */
 void	*ft_malloc(t_shell *shell, size_t size, int is_env);
 void	add_to_garbage(t_shell *shell, void *ptr, int is_env);

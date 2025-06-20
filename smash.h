@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   smash.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/19 16:34:51 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:23:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,5 @@ typedef struct s_shell
 	int					lines;
 	int					interactive;
 }						t_shell;
-
-void					printtt(t_ast *root);
 
 #endif

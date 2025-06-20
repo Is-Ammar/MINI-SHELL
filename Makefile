@@ -2,9 +2,6 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-ifeq ($(d),1)
-    CFLAGS += -DDEBUG
-endif
 # -------------------------------- habdella -------------------------------- #
 
 PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/tokenizer.c parsing/flaged_tokens.c \
@@ -13,7 +10,7 @@ PARS_SRC = 	parsing/basic_operations.c parsing/navigation_access.c parsing/token
 			parsing/tools/expan_helpers.c parsing/expand_mask.c parsing/heredoc.c \
 			parsing/tools/wcard_helpers.c parsing/wildcard.c parsing/garbage_collector.c \
 			parsing/tools/hered_helpers.c parsing/expand_heredoc.c parsing/get_next_line.c \
-			parsing/redirections.c parsing/errors_handler.c parsing/print_error.c \
+			parsing/redirections.c parsing/errors_handler.c parsing/print_error.c parsing/get_prompt.c \
 
 # -------------------------------------------------------------------------- #
 
@@ -28,7 +25,7 @@ EXEC_SRC = 	execution/execution.c execution/utils.c execution/builtin/cd.c \
 			execution/utils2.c execution/execute_pipe/execute_pipe.c execution/execute_pipe/helpers.c execution/abstract_syntax_tree/execute_command.c \
 			execution/external_command/get_command_path.c execution/abstract_syntax_tree/helpers.c execution/signal_handling.c \
 			execution/abstract_syntax_tree/execute_redirections.c execution/abstract_syntax_tree/execute_subshell.c execution/abstract_syntax_tree/parse_redirections.c \
-			execution/abstract_syntax_tree/parse_subshell.c execution/builtin/cd_helpers.c
+			execution/abstract_syntax_tree/parse_subshell.c execution/builtin/cd_helpers.c execution/external_command/cmd_path_checkers.c \
 
 # -------------------------------------------------------------------------- #
 

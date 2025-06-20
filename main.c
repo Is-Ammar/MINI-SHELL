@@ -3,112 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/19 23:55:38 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:13:37 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smash.h"
 
 int		g_received = 0;
-
-// void print_ast_tree(t_ast *node, int depth, int is_last, const char *prefix)
-// {
-// 	if (!node) return ;
-
-// 	printf("%s", prefix);
-// 	printf(is_last ? "└── " : "├── ");
-
-// 	if (node->token)
-// 	{
-// 		if (node->token->operator == AND)
-// 			printf("AND:\n");
-// 		else if (node->token->operator == OR)
-// 			printf("OR:\n");
-// 		else if (node->token->token_type == PIPE)
-// 			printf("PIPE:\n");
-// 		else if (node->token->token_type == SUBSHELL)
-// 			printf(" %s\n",node->token->value);
-// 		else if (node->token->redir_type != 0)
-// 		{
-// 			if (node->token->redir_type == READ)
-// 				printf("REDIR: < (input from %s)\n", node->token->value);
-// 			else if (node->token->redir_type == WRITE)
-// 				printf("REDIR: > (output to %s)\n", node->token->value);
-// 			else if (node->token->redir_type == APPEND)
-// 				printf("REDIR: >> (append to %s)\n", node->token->value);
-// 			else
-// 				printf("REDIR: unknown type (%s)\n", node->token->value);
-// 		}
-// 		else if (node->token->token_type == WORD)
-// 		{
-// 			printf("CMD: %s", node->token->value);
-// 			t_dll *arg = node->arguments;
-// 			while (arg)
-// 			{
-// 				printf(" arg: %s ", arg->value);
-// 				arg = arg->next;
-// 			}
-// 			printf("\n");
-// 		}
-// 	}
-// 	else
-// 	{
-// 		printf("EMPTY NODE\n");
-// 	}
-// 	char new_prefix[256];
-// 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix,
-// is_last ? "    " : "│   ");
-// 	print_ast_tree(node->left, depth + 1, node->right == NULL, new_prefix);
-// 	print_ast_tree(node->right, depth + 1, 1, new_prefix);
-// }
-
-// void printtt(t_ast *root)
-// {
-// 	printf("AST Visualization:\n");	print_ast_tree(root, 0, 1, "");
-// }
-
-char	*join_prompt(t_shell *shell, char *cwd, char *username)
-{
-	char	*line1;
-	char	*line2;
-	char	*tmp;
-
-	tmp = ft_strjoin(shell, B_GREEN, username);
-	line1 = tmp;
-	tmp = ft_strjoin(shell, line1,
-			RESET B_WHITE "@" B_GRAY "minishell" B_WHITE " ❯ ");
-	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, B_BLUE "┃" B_CYAN BG_BLACK);
-	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, cwd);
-	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, RESET B_BLUE "┃\n" RESET);
-	line2 = ft_strdup(shell, B_YELLOW "\001➔\002 \x7f" RESET);
-	line1 = tmp;
-	tmp = ft_strjoin(shell, line1, line2);
-	return (tmp);
-}
-
-char	*get_prompt(t_shell *shell)
-{
-	char	*cwd;
-	char	*username;
-	char	*tmp;
-
-	username = getenv("USER");
-	if (!username)
-		username = "user";
-	cwd = getcwd(NULL, 0);
-	tmp = ft_strdup(shell, cwd);
-	if (cwd)
-		free(cwd);
-	if (!tmp)
-		tmp = ft_strdup(shell, "~");
-	return (join_prompt(shell, tmp, username));
-}
 
 int	check_input(t_shell *shell, char *input)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/18 16:25:20 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 11:44:40 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static int	wait_and_get_exit_code(pid_t pid1, pid_t pid2)
 {
 	int	status;
 	int	exit_code;
-	int wait;
+	int	wait;
 
 	waitpid(pid1, NULL, 0);
 	wait = waitpid(pid2, &status, 0);
-	if(wait == -1 && errno == ECHILD)
+	if (wait == -1 && errno == ECHILD)
 		exit_code = 127;
 	exit_code = get_exit_code(status);
 	return (exit_code);

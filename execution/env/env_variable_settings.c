@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:51:44 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:11:22 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,11 @@ void	update_shlvl(t_shell *shell, t_env **env)
 	int		shlvl_value;
 	char	*new_shlvl;
 
-	shlvl_entry = NULL;
-	shlvl_value = 0;
-	new_shlvl = NULL;
+	(1) && (shlvl_entry = NULL, new_shlvl = NULL, shlvl_value = 0);
 	shlvl_entry = get_env_var(shell, *env, "SHLVL");
 	if (!shlvl_entry)
-	{
-		set_env_var(shell, env, env_strdup(shell, "SHLVL"), env_strdup(shell,
-				"1"));
-	}
+		set_env_var(shell, env, env_strdup(shell, "SHLVL"), \
+		env_strdup(shell, "1"));
 	else
 	{
 		shlvl_value = ft_atoi(shlvl_entry);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_settings1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:30:31 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:09:39 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ void	create_env(t_shell *shell, t_env **env, char **environ)
 	char	*value;
 	int		name_len;
 
+	(1) && (equals_sign = NULL, name = NULL, value = NULL);
 	i = 0;
-	equals_sign = NULL;
-	name = NULL;
-	value = NULL;
 	name_len = 0;
-	i = 0;
 	*env = NULL;
 	while (environ[i])
 	{
@@ -79,9 +76,10 @@ void	unset_env_var(t_shell *shell, t_dll *token)
 		env = env->next;
 	}
 }
+
 int	get_len(t_env *current)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (current)

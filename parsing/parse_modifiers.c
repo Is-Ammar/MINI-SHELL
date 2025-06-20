@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_modifiers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/19 13:50:06 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 08:00:53 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	expansion(t_shell *shell, t_dll **tokens, t_dll **token)
 	if (curr && curr->expandable)
 	{
 		if (expanding(shell, tokens, curr))
-		return (1);
+			return (1);
 		*token = (*token)->next;
 	}
 	if (*token && (*token)->wildcard == TRUE)
