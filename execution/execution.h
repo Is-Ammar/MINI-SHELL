@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 17:07:40 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 22:25:49 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,11 @@ int						redirection(t_shell *shell, t_ast *redir);
 void					execute_redirections(t_shell *shell,
 							t_ast *original_ast);
 //--------------------cd--------------//
-char					*get_directory(t_shell *shell, char *dir_type,
-							char *cwd);
-char					*resolve_directory(t_dll *arg_token, t_shell *shell,
-							char *cwd);
+char					*get_home(t_shell *shell);
+int						process_cd_change(t_shell *shell, char *dir);
 int						parse_cd_args(t_dll *arg_token, t_shell *shell,
-							char **dir, char **cwd);
-void					update_pwd_vars(t_shell *shell, char *old_cwd);
+							char **dir);
+void					update_pwd_vars(t_shell *shell, char *dir);
 //-------------------path cmd checkers-------------------------//
 int						check_absolute_cmd(t_shell *shell, char *cmd);
 int						check_valid_cmd(t_shell *shell, char *cmd);

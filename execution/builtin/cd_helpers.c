@@ -5,58 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/20 00:04:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 17:06:17 by iammar           ###   ########.fr       */
+/*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
+/*   Updated: 2025/06/21 22:48:22 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-char	*get_current_dir(t_shell *shell)
+void	update_pwd_vars(t_shell *shell, char *dir)
 {
-	char	*cwd;
+	if(!ft_strcmp(dir, "..") || !ft_strcmp(dir, "."))
+	{
+		shell->pwd = ft_strjoin(shell, shell->pwd, "/");
+		shell->pwd = ft_strjoin(shell, shell->pwd, dir);
+	}
+	set_env_var(shell, &shell->env_list, "PWD", shell->pwd);
+}
+
+int	process_cd_change(t_shell *shell, char *dir)
+{
 	char	*tmp;
-
-	cwd = getcwd(NULL, 0);
-	tmp = ft_strdup(shell, cwd);
-	free(cwd);
-	if (!tmp && errno == ENOENT)
-		tmp = get_env_var(shell, shell->env_list, "PWD");
-	return (tmp);
-}
-
-int	handle_cd_error(char *dir)
-{
-	ft_putstr_fd("Minishell: cd: ", 2);
-	perror(dir);
-	return (1);
-}
-
-int	process_cd_change(t_shell *shell, char *dir, char *tmp)
-{
+	
 	if (chdir(dir) != 0)
-		return (handle_cd_error(dir));
-	update_pwd_vars(shell, tmp);
-	return (0);
-}
-
-void	execute_builtin_cd(t_shell *shell)
-{
-	char	*dir;
-	char	*tmp;
-
-	dir = NULL;
-	tmp = get_current_dir(shell);
+	{
+		update_pwd_vars(shell, dir);
+		ft_putstr_fd("Minishell: cd: ", 2);
+		perror(dir);
+		return (1);
+	}
+	tmp = getcwd(NULL, 0);
 	if (!tmp)
-	{
-		perror("Minishell: cd: ");
-		shell->exit_code = 1;
-		return ;
-	}
-	if (parse_cd_args(shell->ast->arguments, shell, &dir, &tmp))
-	{
-		shell->exit_code = 1;
-		return ;
-	}
-	shell->exit_code = process_cd_change(shell, dir, tmp);
+		;
+	else
+		shell->pwd = tmp;
+	set_env_var(shell, &shell->env_list, "PWD", shell->pwd);
+	return (0);
 }

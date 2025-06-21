@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 08:13:13 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/20 08:15:34 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:06:00 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*get_prompt(t_shell *shell)
 		username = "user";
 	cwd = getcwd(NULL, 0);
 	tmp = ft_strdup(shell, cwd);
+	if(!shell->pwd)
+		shell->pwd = ft_strdup(shell, tmp);
 	if (cwd)
 		free(cwd);
 	if (!tmp)

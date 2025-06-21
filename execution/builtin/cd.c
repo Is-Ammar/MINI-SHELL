@@ -3,71 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 15:13:36 by habdella         ###   ########.fr       */
+/*   Created: 2025/06/20 00:04:01 by iammar            #+#    #+#             */
+/*   Updated: 2025/06/21 23:14:00 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../smash.h"
 
-char	*get_directory(t_shell *shell, char *dir_type, char *cwd)
+char	*get_home(t_shell *shell)
 {
 	char	*dir;
 
-	if (ft_strcmp(dir_type, "HOME") == 0)
+	dir = get_env_var(shell, shell->env_list, "HOME");
+	if (!dir)
 	{
-		dir = get_env_var(shell, shell->env_list, "HOME");
-		if (!dir)
-		{
-			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
-			return (NULL);
-		}
-		return (dir);
+		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+		return (NULL);
 	}
-	else if (ft_strcmp(dir_type, "OLDPWD") == 0)
-	{
-		dir = get_env_var(shell, shell->env_list, "OLDPWD");
-		if (!dir)
-		{
-			if (!cwd)
-				return (NULL);
-			return (ft_strdup(shell, cwd));
-		}
-		printf("%s\n", dir);
-		return (dir);
-	}
-	return (NULL);
+	return (dir);
 }
 
-char	*resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
+char	*resolve_directory(t_dll *arg_token, t_shell *shell)
 {
-	if (!arg_token || !arg_token->value || ft_strcmp(arg_token->value, "") == 0)
-		return (get_directory(shell, "HOME", NULL));
-	if (ft_strcmp(arg_token->value, "-") == 0)
-	{
-		if (!get_env_var(shell, shell->env_list, "OLDPWD"))
-		{
-			if (cwd)
-			{
-				printf("%s\n", cwd);
-				return (ft_strdup(shell, cwd));
-			}
-			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
-			return (NULL);
-		}
-		return (get_directory(shell, "OLDPWD", cwd));
-	}
+	if (!arg_token || !arg_token->value)
+		return (get_home(shell));
 	return (ft_strdup(shell, arg_token->value));
 }
 
-int	parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
+int	parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir)
 {
-	*dir = resolve_directory(arg_token, shell, *cwd);
+	*dir = resolve_directory(arg_token, shell);
 	if (!*dir)
 		return (1);
-	if (arg_token && arg_token->next && arg_token->next)
+	if (arg_token && arg_token->next)
 	{
 		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
 		*dir = NULL;
@@ -76,29 +46,43 @@ int	parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
 	return (0);
 }
 
-void	update_pwd_vars(t_shell *shell, char *old_cwd)
+char	*get_current_dir(t_shell *shell)
 {
-	char	*new_cwd;
-	char	*pwd;
+	char	*cwd;
+	char	*tmp;
+	char 	*temp;
 
-	if (old_cwd)
-		set_env_var(shell, &shell->env_list, "OLDPWD", old_cwd);
-	new_cwd = getcwd(NULL, 0);
-	if (!new_cwd)
+	cwd = getcwd(NULL, 0);
+	tmp = ft_strdup(shell, cwd);
+	free(cwd);
+	if (!tmp)
 	{
-		if (errno == ENOENT)
-		{
-			pwd = get_env_var(shell, shell->env_list, "PWD");
-			if (pwd)
-				set_env_var(shell, &shell->env_list, "PWD", pwd);
-		}
-		else
-		{
-			perror("Minishell: cd: ");
-			shell->exit_code = 1;
-		}
+		temp = ft_strjoin(shell, \
+		"cd: error retrieving current directory: ", strerror(errno));
+		ft_putstr_fd(ft_strjoin(shell, temp, "\n"), 2);
+	}
+	else
+		shell->pwd = tmp;
+	return (tmp);
+}
+
+void	execute_builtin_cd(t_shell *shell)
+{
+	char	*dir;
+	char	*tmp;
+
+	dir = NULL;
+	set_env_var(shell, &shell->env_list, "OLDPWD", shell->pwd);
+	tmp = get_current_dir(shell);
+	if (!tmp)
+	{
+		set_env_var(shell, &shell->env_list, "PWD", shell->pwd);
+		shell->exit_code = 1;
+	}
+	if (parse_cd_args(shell->ast->arguments, shell, &dir))
+	{
+		shell->exit_code = 1;
 		return ;
 	}
-	set_env_var(shell, &shell->env_list, "PWD", new_cwd);
-	free(new_cwd);
+	shell->exit_code = process_cd_change(shell, dir);
 }

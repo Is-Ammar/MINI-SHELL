@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/21 17:03:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 23:07:10 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	save_shell(&shell);
 	memset(&shell, 0, sizeof(shell));
+	shell.pwd = NULL;
 	create_env(&shell, &shell.env_list, env);
 	shell.interactive = isatty(STDIN_FILENO);
 	if (shell.interactive)

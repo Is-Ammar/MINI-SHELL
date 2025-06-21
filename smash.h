@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 17:03:33 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 20:50:01 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ typedef struct s_shell
 	t_ast				*ast;
 	t_gc				*g_collect;
 	t_file				heredoc;
+	char 				*pwd;
 	int					exit_code;
 	int					lines;
 	int					interactive;
+	int 				savedin;
+	int 				savedout;
 }						t_shell;
 
 #endif

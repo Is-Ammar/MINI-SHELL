@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:05:33 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 18:09:38 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:22:03 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ int	redirection(t_shell *shell, t_ast *redir)
 
 void	execute_redirections(t_shell *shell, t_ast *original_ast)
 {
-	int		saved_stdout;
-	int		saved_stdin;
 	int		redirect_result;
 	t_ast	*redir;
 	t_ast	*command;
 
 	redirect_result = 0;
-	save_restore_fds(&saved_stdout, &saved_stdin, 0);
+	save_restore_fds(&shell->savedout, &shell->savedin, 0);
 	redir = shell->ast;
 	command = redir->left;
 	redirect_result = redirection(shell, redir);
@@ -55,6 +53,6 @@ void	execute_redirections(t_shell *shell, t_ast *original_ast)
 		shell->ast = command;
 		execute_ast(shell);
 	}
-	save_restore_fds(&saved_stdout, &saved_stdin, 1);
+	save_restore_fds(&shell->savedout, &shell->savedin, 1);
 	shell->ast = original_ast;
 }

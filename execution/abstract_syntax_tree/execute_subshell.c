@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:07:47 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 17:09:48 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 19:19:44 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	execute_subshell(t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
+		save_restore_fds(&shell->savedout, &shell->savedin, 1);
 		reset_signal_handlers();
 		shell->ast = shell->ast->left;
 		execute_ast(shell);
