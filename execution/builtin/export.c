@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/08 09:58:00 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:30:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	execute_builtin_export(t_shell *shell)
 {
 	t_dll	*curr;
 	int		e_code;
+	char	*tmp;
 
 	e_code = 0;
 	curr = shell->ast->arguments;
@@ -58,7 +59,9 @@ void	execute_builtin_export(t_shell *shell)
 	{
 		if (var_check(curr->value, shell))
 		{
-			ft_printf("export: `%s': not a valid identifier\n", curr->value);
+			tmp = ft_strjoin(shell, "export: `", curr->value);
+			ft_putstr_fd(ft_strjoin(shell, tmp, \
+				"': not a valid identifier\n"), 2);
 			e_code = 1;
 		}
 		curr = curr->next;

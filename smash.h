@@ -6,15 +6,15 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 08:23:39 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:53:27 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SMASH_H
 # define SMASH_H
 
-# include "execution/execution.h"
 # include "parsing/parsing.h"
+# include "execution/execution.h"
 
 # define RESET "\001\033[0m\002"
 # define BG_BLACK "\001\033[40m\002"
@@ -35,12 +35,19 @@ typedef struct s_gc		t_gc;
 
 extern int				g_received;
 
+typedef struct s_file
+{
+	char	*name;
+	int		fd;
+}	t_file;
+
 typedef struct s_shell
 {
 	t_env				*env_list;
 	t_dll				*tokens;
 	t_ast				*ast;
 	t_gc				*g_collect;
+	t_file				heredoc;
 	int					exit_code;
 	int					lines;
 	int					interactive;

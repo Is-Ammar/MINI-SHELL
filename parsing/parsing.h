@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/20 08:25:31 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:48:50 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_gc
 }	t_gc;
 
 typedef struct s_shell	t_shell;
+typedef struct s_file	t_file;
 typedef struct s_env	t_env;
 typedef struct s_ast	t_ast;
 
@@ -214,6 +215,7 @@ void	add_to_garbage(t_shell *shell, void *ptr, int is_env);
 void	burn_garbage(t_shell *shell);
 void	clear_non_env(t_shell *shell);
 void	clean_exit(t_shell *shell, int exit_code);
+t_shell	*save_shell(t_shell *shell);
 /* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
 #endif

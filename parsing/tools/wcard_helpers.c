@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wcard_helpers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/20 15:54:37 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 14:49:25 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	search_match(t_shell *shell, char *pattern, char *str, char *old_val)
 	i = 0;
 	str_len = ft_strlen(str);
 	pattern_len = ft_strlen(pattern);
-	mask_stars = get_mask_stars(shell, old_val);
+	if (!ft_strcmp(pattern, old_val))
+		mask_stars = set_val(shell, pattern, '1');
+	else
+		mask_stars = get_mask_stars(shell, old_val);
 	matrix = ft_malloc(shell, sizeof(int *) * (str_len + 1), 0);
 	while (i <= str_len)
 	{

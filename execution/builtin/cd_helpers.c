@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helpers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 00:04:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:04:51 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:14:09 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_current_dir(t_shell *shell)
 
 int	handle_cd_error(char *dir)
 {
-	ft_printf("Minishell: cd: ");
+	ft_putstr_fd("Minishell: cd: ", 2);
 	perror(dir);
 	return (1);
 }

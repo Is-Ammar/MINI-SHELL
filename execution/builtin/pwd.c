@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 14:58:05 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 16:08:30 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	execute_builtin_pwd(t_shell *shell)
 {
 	char	*cwd;
 	char	*tmp;
+	char	*temp;
 
 	if (!get_and_check_env(shell))
 		return ;
@@ -51,8 +52,9 @@ void	execute_builtin_pwd(t_shell *shell)
 		free(cwd);
 		if (!tmp)
 		{
-			ft_printf("pwd: error retrieving current directory: %s\n",
-				strerror(errno));
+			temp = ft_strjoin(shell, \
+				"pwd: error retrieving current directory:", strerror(errno));
+			ft_putstr_fd(ft_strjoin(shell, temp, "\n"), 2);
 			shell->exit_code = 1;
 			return ;
 		}

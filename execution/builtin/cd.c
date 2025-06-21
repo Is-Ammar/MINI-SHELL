@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:04:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:13:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_directory(t_shell *shell, char *dir_type, char *cwd)
 		dir = get_env_var(shell, shell->env_list, "HOME");
 		if (!dir)
 		{
-			ft_printf("Minishell: cd: HOME not set\n");
+			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 			return (NULL);
 		}
 		return (dir);
@@ -54,7 +54,7 @@ char	*resolve_directory(t_dll *arg_token, t_shell *shell, char *cwd)
 				printf("%s\n", cwd);
 				return (ft_strdup(shell, cwd));
 			}
-			ft_printf("Minishell: cd: OLDPWD not set\n");
+			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
 			return (NULL);
 		}
 		return (get_directory(shell, "OLDPWD", cwd));
@@ -69,7 +69,7 @@ int	parse_cd_args(t_dll *arg_token, t_shell *shell, char **dir, char **cwd)
 		return (1);
 	if (arg_token && arg_token->next && arg_token->next)
 	{
-		ft_printf("Minishell: cd: too many arguments\n");
+		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
 		*dir = NULL;
 		return (1);
 	}

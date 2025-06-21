@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 09:21:14 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:33:04 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	validate_and_convert_arg(char *arg, int *status)
 
 	if (!arg || !is_valid(arg))
 	{
-		ft_printf("minishell: exit: numeric argument required\n");
+		ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
 		*status = 2;
 		return (0);
 	}
@@ -92,7 +92,7 @@ static int	validate_and_convert_arg(char *arg, int *status)
 	check_overflow(arg, &overflow);
 	if (overflow)
 	{
-		ft_printf("minishell: exit: numeric argument required\n");
+		ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
 		*status = 2;
 		return (0);
 	}
@@ -118,7 +118,7 @@ void	execute_builtin_exit(t_shell *shell)
 		}
 		if (arg_token->next && arg_token->next->value)
 		{
-			ft_printf("minishell: exit: too many arguments\n");
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			shell->exit_code = 1;
 			return ;
 		}

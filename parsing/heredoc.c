@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/18 17:08:35 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:33:58 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	open_heredoc(t_shell *shell, char *delim, char *name)
 
 	line = NULL;
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	shell->heredoc.fd = fd;
+	shell->heredoc.name = name;
 	while (1)
 	{
 		line = readline(B_PURPLE"heredoc> "RESET);
@@ -73,8 +75,6 @@ void	open_heredoc(t_shell *shell, char *delim, char *name)
 			ft_printf(" delimited by end-of-file (wanted `%s')\n", delim);
 			break ;
 		}
-		else
-			shell->lines++;
 		if (!ft_strcmp(line, delim))
 			break ;
 		write(fd, line, ft_strlen(line));
@@ -96,7 +96,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, heredoc_handler);
 		open_heredoc(shell, nxt->value, name);
 		clean_exit(shell, 0);
 	}

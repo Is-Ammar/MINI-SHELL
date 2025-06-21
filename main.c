@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/20 12:46:04 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 16:07:26 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	(void)ac;
+	save_shell(&shell);
 	memset(&shell, 0, sizeof(shell));
 	create_env(&shell, &shell.env_list, env);
 	shell.interactive = isatty(STDIN_FILENO);

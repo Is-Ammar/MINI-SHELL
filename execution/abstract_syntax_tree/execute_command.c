@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:35:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 16:01:55 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/20 16:13:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,6 @@ void	execute_simple_command(t_shell *shell)
 			expansion(shell, &shell->ast->arguments, &tmp);
 		}
 	}
-	curr = shell->ast->arguments;
-	while (curr)
-	{
-		if (curr->wildcard)
-			wildcard(shell, &shell->ast->arguments, curr, curr->value);
-		curr = curr->next;
-	}
+	additional_wildcard(shell);
 	execute_command(shell);
 }
