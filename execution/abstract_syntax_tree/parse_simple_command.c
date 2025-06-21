@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:03:27 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 13:38:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 09:42:58 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 	t_ast	*cmd_node;
 	t_dll	**tail;
 	t_dll	*first_token;
-	t_dll	*start_tokens;
 
 	first_token = *tokens;
 	if (!*tokens || !(*tokens)->value)
@@ -97,12 +96,8 @@ t_ast	*parse_simple_command(t_dll **tokens, t_shell *shell)
 		return (NULL);
 	cmd_node = fill_command(shell, tokens);
 	tail = &cmd_node->arguments;
-	start_tokens = *tokens;
 	process_command_arguments(shell, tokens, cmd_node, tail);
 	if (cmd_node && cmd_node->token)
 		cmd_node->token->next = NULL;
-	if (cmd_node && !cmd_node->token && start_tokens
-		&& (start_tokens->token_type == REDIRECTION))
-		cmd_node->token = first_token;
 	return (cmd_node);
 }

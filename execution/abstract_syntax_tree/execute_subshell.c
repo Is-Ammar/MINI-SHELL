@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:07:47 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 00:00:15 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:09:48 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	get_exit_code(int status)
 	}
 	if (WIFSIGNALED(status))
 		code = 128 + WTERMSIG(status);
+	if (WIFSTOPPED(status))
+		code = 128 + WSTOPSIG(status);
 	else
 		code = WEXITSTATUS(status);
 	return (code);
@@ -32,8 +34,8 @@ void	execute_subshell(t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
-	pid_t	wait;
 
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -44,10 +46,7 @@ void	execute_subshell(t_shell *shell)
 	}
 	else
 	{
-		wait = waitpid(pid, &status, 0);
-		if (wait == -1 && errno == ECHILD)
-			shell->exit_code = 127;
-		else
-			shell->exit_code = get_exit_code(status);
+		waitpid(pid, &status, 0);
+		shell->exit_code = get_exit_code(status);
 	}
 }

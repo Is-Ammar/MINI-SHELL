@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 08:07:41 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:08:32 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 int	child_exit_code(pid_t pid, int status, int exit_code)
 {
-	int	wait;
-
-	wait = waitpid(pid, &status, 0);
-	if (wait == -1 && errno == ECHILD)
-		exit_code = 127;
-	else
-		exit_code = get_exit_code(status);
+	waitpid(pid, &status, 0);
+	exit_code = get_exit_code(status);
 	return (exit_code);
 }
 
