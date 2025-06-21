@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/21 17:21:18 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:59:36 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,48 @@ int	check_subshell(t_dll *tokens)
 	return (0);
 }
 
+int	subshell_redirection(t_dll *tokens)
+{
+	t_dll	*curr;
+	t_dll	*nxt;
+
+	curr = tokens;
+	while (curr && curr->next)
+	{
+		nxt = curr->next;
+		if (curr->bracket == LEFT && nxt->token_type == REDIRECTION)
+		{
+			curr = nxt;
+			if (curr->next && curr->next->next)
+			{
+				curr = curr->next;
+				nxt = curr->next;
+				if (curr->token_type == WORD && nxt->token_type == WORD)
+					return (parse_error(nxt->value, ESYNTAX), 1);
+			}
+		}
+		if (curr)
+			curr = nxt;
+	}
+	return (0);
+}
+
 int	subshell_last(t_dll *tokens)
 {
 	t_dll	*curr;
 	t_dll	*nxt;
-	int		flag;
 
 	if (!tokens)
 		return (0);
 	curr = tokens;
-	flag = 0;
 	while (curr && curr->next)
 	{
 		nxt = curr->next;
 		if (curr->bracket == LEFT && nxt->bracket == RIGHT)
 			return (parse_error(nxt->value, ESYNTAX), 1);
-		if (curr->bracket == LEFT && nxt->token_type == REDIRECTION)
-			flag = 1;
-		if (flag && nxt->token_type == WORD && nxt->next
-			&& nxt->next->token_type == WORD)
-			return (parse_error(nxt->next->value, ESYNTAX), 1);
-		if (curr->bracket == RIGHT)
-			flag = 0;
 		if (curr->token_type == WORD && nxt->bracket == RIGHT)
 			return (parse_error(nxt->next->value, ESYNTAX), 1);
 		curr = nxt;
 	}
-	return (0);
+	return (subshell_redirection(tokens));
 }
