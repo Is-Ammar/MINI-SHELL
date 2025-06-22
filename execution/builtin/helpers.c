@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:18:17 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 09:16:55 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:08:45 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,4 @@ int	is_valid_identifier(const char *str)
 		i++;
 	}
 	return (i);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
 }

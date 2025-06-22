@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_checkers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/21 09:58:01 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 07:59:41 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,5 @@ int	parsing(t_shell *shell, char *input)
 	redirect(&shell->tokens);
 	flaged_tokens(shell->tokens);
 	shell->ast = abstract_segment_tree(shell);
-	// printtt(shell->ast);
-	// exit(0);
 	return (0);
 }

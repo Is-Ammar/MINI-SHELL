@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_subshell.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:07:47 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 19:19:44 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 11:45:06 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	get_exit_code(int status)
 
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 	{
-		write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+		writing(STDERR_FILENO, "Quit (core dumped)\n", 19);
 		code = 128 + WTERMSIG(status);
 	}
 	if (WIFSIGNALED(status))
@@ -39,7 +39,7 @@ void	execute_subshell(t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		save_restore_fds(&shell->savedout, &shell->savedin, 1);
+		// save_restore_fds(&shell->savedout, &shell->savedin, 1);
 		reset_signal_handlers();
 		shell->ast = shell->ast->left;
 		execute_ast(shell);

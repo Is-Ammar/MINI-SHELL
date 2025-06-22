@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 00:04:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/22 01:33:38 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 11:26:47 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,13 @@ void	execute_builtin_cd(t_shell *shell)
 	old_pwd = NULL;
 	dir = NULL;
 	if (shell->pwd)
+	{
 		old_pwd = ft_strdup(shell, shell->pwd);
+	}
 	if (parse_cd_args(shell->ast->arguments, shell, &dir))
 	{
 		shell->exit_code = 1;
-		return;
+		return ;
 	}
 	shell->exit_code = process_cd_change(shell, dir);
 	if (shell->exit_code == 0 && old_pwd)

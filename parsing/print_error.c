@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/19 21:32:02 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 10:05:31 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	putlchar(char c)
 {
-	write(2, &c, 1);
+	writing(2, &c, 1);
 	return (1);
 }
 
@@ -30,7 +30,7 @@ int	putlstr(char *s)
 	{
 		i++;
 	}
-	write (2, s, i);
+	writing(2, s, i);
 	return (i);
 }
 

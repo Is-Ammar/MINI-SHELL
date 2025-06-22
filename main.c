@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/22 01:25:30 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 10:30:07 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,14 @@ void	non_interactive_mode(t_shell *shell)
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
-	char	*cwd;
 
 	(void)av;
 	(void)ac;
 	save_shell(&shell);
 	memset(&shell, 0, sizeof(shell));
-	shell.pwd = NULL;
 	create_env(&shell, &shell.env_list, env);
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		shell.pwd = env_strdup(&shell, cwd);
-		free(cwd);
-	}
+	init_shell_pwd(&shell);
+	rl_outstream = stderr;
 	shell.interactive = isatty(STDIN_FILENO);
 	if (shell.interactive)
 		read_eval_print_loop(&shell);

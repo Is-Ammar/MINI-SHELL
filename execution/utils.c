@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/19 21:23:13 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 10:10:19 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_strdup(t_shell *shell, const char *s)
 	return (p);
 }
 
-void	ft_putstr_fd(char const *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
@@ -56,10 +56,8 @@ void	ft_putstr_fd(char const *s, int fd)
 		return ;
 	i = 0;
 	while (s[i])
-	{
 		i++;
-	}
-	write(fd, s, i);
+	writing(fd, s, i);
 }
 
 size_t	ft_strlcpy(char *dst, char *src, size_t len)

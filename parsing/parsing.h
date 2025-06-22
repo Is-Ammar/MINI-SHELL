@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/21 15:48:50 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:27:44 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,11 +140,13 @@ int		ft_printf(const char *format, ...);
 char	*my_readline(t_shell *shell);
 int		parse_error(char *val, t_error_type error);
 int		exec_error(t_shell *shell, char *val, t_error_type error);
+void	writing(int fd, char *s, size_t n);
 /* //////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
 /* ////////////////// prompt functions \\\\\\\\\\\\\\\\\\\\\ */
 char	*get_prompt(t_shell *shell);
 char	*join_prompt(t_shell *shell, char *cwd, char *username);
+void	init_shell_pwd(t_shell *shell);
 /* ////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
 /* ///////////////// main parsing functions \\\\\\\\\\\\\\\\\\\\\\\\\ */

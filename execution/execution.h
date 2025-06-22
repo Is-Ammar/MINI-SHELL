@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 22:25:49 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 10:10:09 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void					execute_builtin_unset(t_shell *shell);
 
 //-----------------------Utils-------------------------------//
 int						ft_strcmp(char *s1, char *s2);
-void					ft_putstr_fd(char const *s, int fd);
+void					ft_putstr_fd(char *s, int fd);
 char					*ft_strdup(t_shell *shell, const char *str);
 size_t					ft_strlcpy(char *dst, char *src, size_t len);
 double					ft_atoi(char *str);
@@ -79,7 +79,6 @@ int						ft_isalnum(int c);
 int						is_valid_identifier(const char *str);
 char					*ft_strcat(char *dest, const char *src);
 char					**ft_split(t_shell *shell, char const *s, char c);
-void					ft_putchar_fd(char c, int fd);
 //---------------------Env-settings-------------------------//
 char					*get_env_var(t_shell *shell, t_env *env_list,
 							char *name);

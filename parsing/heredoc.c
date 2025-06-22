@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/21 15:33:58 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:07:48 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	copy_new_content(t_shell *shell, char *new_name, char *old_name)
 	line = get_next_line(shell, fd0);
 	while (line != NULL)
 	{
-		write(fd1, line, ft_strlen(line));
+		writing(fd1, line, ft_strlen(line));
 		line = get_next_line(shell, fd0);
 	}
 	get_next_line(NULL, 0);
@@ -47,7 +47,7 @@ void	expand_heredoc(t_shell *shell, char *old_name)
 	{
 		if (ft_strchr(line, '$'))
 			line = expand_in_heredoc(shell, line);
-		write(fd1, line, ft_strlen(line));
+		writing(fd1, line, ft_strlen(line));
 		line = get_next_line(shell, fd0);
 	}
 	get_next_line(NULL, 0);
@@ -77,8 +77,8 @@ void	open_heredoc(t_shell *shell, char *delim, char *name)
 		}
 		if (!ft_strcmp(line, delim))
 			break ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		writing(fd, line, ft_strlen(line));
+		writing(fd, "\n", 1);
 		free(line);
 	}
 	free(line);
@@ -106,7 +106,7 @@ void	handle_herdoc(t_shell *shell, t_dll *nxt, char *name)
 	{
 		shell->exit_code = 130;
 		g_received = SIGINT;
-		write(STDERR_FILENO, "\n", 1);
+		writing(STDERR_FILENO, "\n", 1);
 		return ;
 	}
 }

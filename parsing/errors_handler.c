@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 08:22:08 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:01:08 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,15 @@ int	parse_error(char *val, t_error_type error)
 		return (1);
 	}
 	return (2);
+}
+
+void	writing(int fd, char *s, size_t n)
+{
+	int	ret_val;
+
+	ret_val = write(fd, s, n);
+	if (ret_val == -1)
+	{
+		perror("minishell: write error: Bad file descriptor");
+	}
 }
