@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helpers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/22 11:21:51 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/22 14:56:53 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	process_cd_change(t_shell *shell, char *dir)
 	char	*tmp;
 	char	*tmp2;
 
-	if (chdir(dir) != 0)
+	if (*dir && chdir(dir) != 0)
 	{
 		ft_putstr_fd("Minishell: cd: ", 2);
 		perror(dir);
