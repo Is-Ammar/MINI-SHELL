@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 22:48:22 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 01:24:15 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,47 @@
 
 void	update_pwd_vars(t_shell *shell, char *dir)
 {
-	if(!ft_strcmp(dir, "..") || !ft_strcmp(dir, "."))
+	char	*new_pwd;
+
+	ft_putstr_fd("cd: error retrieving current directory: \
+		No such file or directory\n", 2);
+	if (!ft_strcmp(dir, ".."))
 	{
-		shell->pwd = ft_strjoin(shell, shell->pwd, "/");
-		shell->pwd = ft_strjoin(shell, shell->pwd, dir);
+		new_pwd = ft_strjoin(shell, shell->pwd, "/..");
+		shell->pwd = env_strdup(shell, new_pwd);
 	}
-	set_env_var(shell, &shell->env_list, "PWD", shell->pwd);
+	else if (!ft_strcmp(dir, "."))
+	{
+		new_pwd = ft_strjoin(shell, shell->pwd, "/.");
+		shell->pwd = env_strdup(shell, new_pwd);
+	}
+	else
+	{
+		shell->pwd = env_strdup(shell, dir);
+	}
 }
 
 int	process_cd_change(t_shell *shell, char *dir)
 {
 	char	*tmp;
-	
+	char	*tmp2;
 	if (chdir(dir) != 0)
 	{
-		update_pwd_vars(shell, dir);
 		ft_putstr_fd("Minishell: cd: ", 2);
 		perror(dir);
 		return (1);
 	}
 	tmp = getcwd(NULL, 0);
-	if (!tmp)
-		;
+	tmp2 = ft_strdup(shell, tmp);
+	free(tmp);
+	if (!tmp2)
+	{
+		update_pwd_vars(shell, dir);
+	}
 	else
-		shell->pwd = tmp;
+	{
+		shell->pwd = tmp2;
+	}
 	set_env_var(shell, &shell->env_list, "PWD", shell->pwd);
 	return (0);
 }

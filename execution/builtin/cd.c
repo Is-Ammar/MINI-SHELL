@@ -6,7 +6,7 @@
 /*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 00:04:01 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 23:14:00 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/22 01:33:38 by iammar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,31 @@ char	*get_current_dir(t_shell *shell)
 {
 	char	*cwd;
 	char	*tmp;
-	char 	*temp;
 
 	cwd = getcwd(NULL, 0);
 	tmp = ft_strdup(shell, cwd);
 	free(cwd);
 	if (!tmp)
-	{
-		temp = ft_strjoin(shell, \
-		"cd: error retrieving current directory: ", strerror(errno));
-		ft_putstr_fd(ft_strjoin(shell, temp, "\n"), 2);
-	}
-	else
-		shell->pwd = tmp;
-	return (tmp);
+		return (NULL);
+	shell->pwd = env_strdup(shell, tmp);
+	return (shell->pwd);
 }
 
 void	execute_builtin_cd(t_shell *shell)
 {
 	char	*dir;
-	char	*tmp;
+	char	*old_pwd;
 
+	old_pwd = NULL;
 	dir = NULL;
-	set_env_var(shell, &shell->env_list, "OLDPWD", shell->pwd);
-	tmp = get_current_dir(shell);
-	if (!tmp)
-	{
-		set_env_var(shell, &shell->env_list, "PWD", shell->pwd);
-		shell->exit_code = 1;
-	}
+	if (shell->pwd)
+		old_pwd = ft_strdup(shell, shell->pwd);
 	if (parse_cd_args(shell->ast->arguments, shell, &dir))
 	{
 		shell->exit_code = 1;
-		return ;
+		return;
 	}
 	shell->exit_code = process_cd_change(shell, dir);
+	if (shell->exit_code == 0 && old_pwd)
+		set_env_var(shell, &shell->env_list, "OLDPWD", old_pwd);
 }
