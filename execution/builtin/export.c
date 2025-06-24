@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:17:37 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 15:30:36 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:34:41 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,13 @@ int	var_check(char *val, t_shell *shell)
 	if (val[i] == '=')
 	{
 		name = ft_strduplen(shell, val, i);
-		i += 1;
-		set_env_var(shell, &shell->env_list, name, &val[i]);
+		if (!val[i + 1])
+			set_env_var(shell, &shell->env_list, name, NULL);
+		else
+		{
+			i += 1;
+			set_env_var(shell, &shell->env_list, name, &val[i]);
+		}
 	}
 	return (0);
 }

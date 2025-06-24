@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:05:33 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/22 14:48:06 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/23 13:20:58 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	execute_redirections(t_shell *shell, t_ast *original_ast)
 	int		redirect_result;
 	t_ast	*redir;
 	t_ast	*command;
-	int 	saved_in;
-	int 	saved_out;
+	int		saved_in;
+	int		saved_out;
 
 	redirect_result = 0;
 	save_restore_fds(&saved_out, &saved_in, 0);

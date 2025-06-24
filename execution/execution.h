@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/22 10:10:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:11:48 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <termios.h>
 # include <unistd.h>
 
 typedef struct s_env
@@ -140,4 +139,5 @@ void					update_pwd_vars(t_shell *shell, char *dir);
 int						check_absolute_cmd(t_shell *shell, char *cmd);
 int						check_valid_cmd(t_shell *shell, char *cmd);
 int						check_valid_path(char *full_path);
+void					execve_errors(t_shell *shell, char *cmd);
 #endif

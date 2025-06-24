@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/22 10:27:44 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:40:18 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	free_node(t_gc **head, t_gc *remove);
 /* ///////////////// token navigation \\\\\\\\\\\\\\\\\\\\\ */
 t_dll	*find_token(t_dll *head, t_token_type token_type);
 t_dll	*find_command(t_shell *shell, t_dll *head);
+int		check_spaces(char *str);
 /* ///////////////// token & parsing modification \\\\\\\\\\\\\\\\\\\ */
 char	*ft_merge(t_shell *shell, char *first_val, char *second_val);
 void	merge_tokens(t_shell *shell, t_dll *first_token, t_dll *second_token);

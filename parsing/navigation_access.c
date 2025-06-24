@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/19 14:22:30 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:39:54 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,18 @@ t_dll	*find_token(t_dll *head, t_token_type token_type)
 	return (NULL);
 }
 
+int	check_spaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_strchr(WS, str[i]))
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
+
 t_dll	*find_command(t_shell *shell, t_dll *head)
 {
 	t_dll	*curr;
@@ -78,14 +90,11 @@ t_dll	*find_command(t_shell *shell, t_dll *head)
 		return (NULL);
 	curr = head;
 	tmp = NULL;
-	while (curr)
+	while (curr && curr->token_type == WORD)
 	{
-		if (curr->token_type == WORD)
-		{
-			tmp = expand_env_str(shell, curr->value);
-			if (tmp)
-				return (curr);
-		}
+		tmp = expand_env_str(shell, curr->value);
+		if (tmp && !check_spaces(tmp))
+			return (curr);
 		curr = curr->next;
 	}
 	head->fake_cmd = TRUE;

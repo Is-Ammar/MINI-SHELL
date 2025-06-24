@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:39:54 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/20 10:48:09 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:19:35 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,15 @@ char	*get_command_path(t_shell *shell, char *cmd, t_env *env_list)
 	paths = ft_split(shell, path_value, ':');
 	result = search_in_path(shell, cmd, paths);
 	return (result);
+}
+
+void	execve_errors(t_shell *shell, char *cmd)
+{
+	if (errno == ENOENT)
+		shell->exit_code = exec_error(shell, cmd, ECOMMAND);
+	else
+	{
+		shell->exit_code = 126;
+		perror("minishell: execve: ");
+	}
 }

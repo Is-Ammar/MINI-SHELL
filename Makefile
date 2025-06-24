@@ -1,6 +1,6 @@
-CC = gcc
+CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 # -------------------------------- habdella -------------------------------- #
 
@@ -52,6 +52,8 @@ fclean: clean
 	${RM} ${NAME}
 
 re: fclean all
+
+bonus: all
 
 .PHONY: all clean fclean re
 
