@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 08:13:13 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/22 11:37:16 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:28:23 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ char	*join_prompt(t_shell *shell, char *cwd, char *username)
 	tmp = ft_strjoin(shell, line1, cwd);
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, RESET B_BLUE "┃\n" RESET);
-	line2 = ft_strdup(shell, B_YELLOW "\001➔\002 \x7f" RESET);
+	if (shell->exit_code == 0)
+		line2 = ft_strdup(shell, B_GREEN "\001➔\002 \x7f" RESET);
+	else
+		line2 = ft_strdup(shell, B_RED "\001➔\002 \x7f" RESET);
 	line1 = tmp;
 	tmp = ft_strjoin(shell, line1, line2);
 	return (tmp);
