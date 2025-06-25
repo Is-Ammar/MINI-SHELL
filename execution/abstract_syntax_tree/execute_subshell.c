@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:07:47 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/23 18:04:49 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:36:02 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@ int	get_exit_code(int status)
 {
 	int	code;
 
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+	if (WIFSIGNALED(status))
 	{
-		writing(STDERR_FILENO, "Quit (core dumped)\n", 19);
+		if (WTERMSIG(status) == SIGQUIT)
+			writing(STDERR_FILENO, "Quit (core dumped)\n", 19);
+		else if (WTERMSIG(status) == SIGINT)
+			writing(STDERR_FILENO, "\n", 1);
+		else if (WTERMSIG(status) == SIGSEGV)
+			writing(STDERR_FILENO, "Segmentation fault (core dumped)\n", 33);
+		else if (WTERMSIG(status) == SIGKILL)
+			writing(STDERR_FILENO, "Killed\n", 7);
 		code = 128 + WTERMSIG(status);
 	}
-	else if (WIFSIGNALED(status))
-		code = 128 + WTERMSIG(status);
 	else if (WIFSTOPPED(status))
 		code = 128 + WSTOPSIG(status);
 	else
 		code = WEXITSTATUS(status);
+	// ft_printf("exit code: %d\n\n", code);
 	return (code);
 }
 
