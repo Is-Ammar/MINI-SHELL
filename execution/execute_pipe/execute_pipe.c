@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iammar <iammar@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:19:38 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/21 17:09:20 by iammar           ###   ########.fr       */
+/*   Updated: 2025/06/26 11:17:26 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	execute_pipe(t_shell *shell)
 	t_ast	*original_ast;
 
 	original_ast = shell->ast;
-	signal(SIGINT, SIG_IGN);
+	if (!shell->ast->token->fork)
+		signal(SIGINT, SIG_IGN);
 	if (setup_pipe(pipefd) == 1)
 		return (1);
 	if (fork_first_child(shell, pipefd, &pid1, original_ast) == 1)
