@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 19:07:47 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/25 13:36:02 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/26 08:38:56 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	get_exit_code(int status)
 		code = 128 + WSTOPSIG(status);
 	else
 		code = WEXITSTATUS(status);
-	// ft_printf("exit code: %d\n\n", code);
 	return (code);
 }
 

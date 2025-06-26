@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:00:00 by habdella          #+#    #+#             */
-/*   Updated: 2025/06/17 14:52:46 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/26 08:26:50 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	execute_builtin_echo(t_shell *shell)
 
 	if (!shell->ast || !shell->ast->token || !shell->ast->arguments)
 	{
-		printf("\n");
+		writing(1, "\n", 1);
 		return ;
 	}
 	flag = 0;
@@ -47,12 +47,12 @@ void	execute_builtin_echo(t_shell *shell)
 	too_much_new_lines(&curr, &flag);
 	while (curr)
 	{
-		printf("%s", curr->value);
+		ft_putstr_fd(curr->value, 1);
 		if (curr->next)
-			printf(" ");
+			writing(1, " ", 1);
 		curr = curr->next;
 	}
 	if (!flag)
-		printf("\n");
+		writing(1, "\n", 1);
 	shell->exit_code = 0;
 }

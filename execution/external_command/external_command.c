@@ -6,7 +6,7 @@
 /*   By: habdella <habdella@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:31:58 by iammar            #+#    #+#             */
-/*   Updated: 2025/06/23 13:10:33 by habdella         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:30:00 by habdella         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int	execute(t_shell *shell, char *path, char *cmd, char **args)
 	else if (pid == 0)
 	{
 		reset_signal_handlers();
-		if (!ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
-			shell->exit_code = exec_error(shell, cmd, ECOMMAND);
-		else if (execve(path, args, env) == -1)
+		if (execve(path, args, env) == -1)
 			execve_errors(shell, cmd);
 		clean_exit(shell, shell->exit_code);
 	}
